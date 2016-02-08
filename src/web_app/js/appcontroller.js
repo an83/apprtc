@@ -149,11 +149,16 @@ AppController.prototype.createCall_ = function() {
                               this.loadingParams_.versionInfo);
 
   var roomErrors = this.loadingParams_.errorMessages;
+  var roomWarnings = this.loadingParams_.warningMessages;
   if (roomErrors && roomErrors.length > 0) {
     for (var i = 0; i < roomErrors.length; ++i) {
       this.infoBox_.pushErrorMessage(roomErrors[i]);
     }
     return;
+  } else if (roomWarnings && roomWarnings.length > 0) {
+    for (var j = 0; j < roomWarnings.length; ++j) {
+      this.infoBox_.pushWarningMessage(roomWarnings[j]);
+    }
   }
 
   // TODO(jiayl): replace callbacks with events.
@@ -195,6 +200,7 @@ AppController.prototype.showRoomSelection_ = function() {
 AppController.prototype.finishCallSetup_ = function(roomId) {
   this.call_.start(roomId);
 
+  this.iconEventSetup_();
   document.onkeypress = this.onKeyPress_.bind(this);
   window.onmousemove = this.showIcons_.bind(this);
 
@@ -298,6 +304,12 @@ AppController.prototype.attachLocalStream_ = function() {
   this.displayStatus_('');
   this.activate_(this.localVideo_);
   this.show_(this.icons_);
+  if (this.localStream_.getVideoTracks().length === 0) {
+    this.hide_($(UI_CONSTANTS.muteVideoSvg));
+  }
+  if (this.localStream_.getAudioTracks().length === 0) {
+    this.hide_($(UI_CONSTANTS.muteAudioSvg));
+  }
 };
 
 AppController.prototype.transitionToActive_ = function() {
@@ -454,9 +466,13 @@ AppController.prototype.toggleVideoMute_ = function() {
 AppController.prototype.toggleFullScreen_ = function() {
   if (isFullScreen()) {
     trace('Exiting fullscreen.');
+    document.querySelector('svg#fullscreen title').textContent =
+        'Enter fullscreen';
     document.cancelFullScreen();
   } else {
     trace('Entering fullscreen.');
+    document.querySelector('svg#fullscreen title').textContent =
+        'Exit fullscreen';
     document.body.requestFullScreen();
   }
   this.fullscreenIconSet_.toggle();
@@ -481,10 +497,34 @@ AppController.prototype.deactivate_ = function(element) {
 AppController.prototype.showIcons_ = function() {
   if (!this.icons_.classList.contains('active')) {
     this.activate_(this.icons_);
-    setTimeout(function() {
-      this.deactivate_(this.icons_);
-    }.bind(this), 5000);
+    this.setIconTimeout_();
   }
+};
+
+AppController.prototype.hideIcons_ = function() {
+  if (this.icons_.classList.contains('active')) {
+    this.deactivate_(this.icons_);
+  }
+};
+
+AppController.prototype.setIconTimeout_ = function() {
+  if (this.hideIconsAfterTimeout) {
+    window.clearTimeout.bind(this, this.hideIconsAfterTimeout);
+  }
+  this.hideIconsAfterTimeout =
+    window.setTimeout(function() {
+    this.hideIcons_();
+  }.bind(this), 5000);
+};
+
+AppController.prototype.iconEventSetup_ = function() {
+  this.icons_.onmouseenter = function() {
+    window.clearTimeout(this.hideIconsAfterTimeout);
+  }.bind(this);
+
+  this.icons_.onmouseleave = function() {
+    this.setIconTimeout_();
+  }.bind(this);
 };
 
 AppController.prototype.loadUrlParams_ = function() {
@@ -493,6 +533,7 @@ AppController.prototype.loadUrlParams_ = function() {
   // Suppressing jshint warns about using urlParams['KEY'] instead of
   // urlParams.KEY, since we'd like to use string literals to avoid the Closure
   // compiler renaming the properties.
+  var DEFAULT_VIDEO_CODEC = 'VP9';
   var urlParams = queryStringToDictionary(window.location.search);
   this.loadingParams_.audioSendBitrate = urlParams['asbr'];
   this.loadingParams_.audioSendCodec = urlParams['asc'];
@@ -506,7 +547,7 @@ AppController.prototype.loadUrlParams_ = function() {
   this.loadingParams_.videoSendInitialBitrate = urlParams['vsibr'];
   this.loadingParams_.videoSendCodec = urlParams['vsc'];
   this.loadingParams_.videoRecvBitrate = urlParams['vrbr'];
-  this.loadingParams_.videoRecvCodec = urlParams['vrc'];
+  this.loadingParams_.videoRecvCodec = urlParams['vrc'] || DEFAULT_VIDEO_CODEC;
   /* jshint ignore:end */
   /* jscs: enable */
 };

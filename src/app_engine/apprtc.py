@@ -42,7 +42,11 @@ def get_hd_default(user_agent):
 
 # iceServers will be filled in by the TURN HTTP request.
 def make_pc_config(ice_transports):
-  config = { 'iceServers': [] };
+  config = {
+  'iceServers': [],
+  'bundlePolicy': 'max-bundle',
+  'rtcpMuxPolicy': 'require'
+  };
   if ice_transports:
     config['iceTransports'] = ice_transports
   return config
@@ -97,7 +101,7 @@ def maybe_add_constraint(constraints, param, constraint):
   return constraints
 
 def make_pc_constraints(dtls, dscp, ipv6):
-  constraints = { 'optional': [] }
+  constraints = {'optional': []};
   maybe_add_constraint(constraints, dtls, 'DtlsSrtpKeyAgreement')
   maybe_add_constraint(constraints, dscp, 'googDscp')
   maybe_add_constraint(constraints, ipv6, 'googIPv6')
@@ -157,6 +161,7 @@ def get_version_info():
 # TODO(tkchin): move query parameter parsing to JS code.
 def get_room_parameters(request, room_id, client_id, is_initiator):
   error_messages = []
+  warning_messages = []
   # Get the base url without arguments.
   base_url = request.path_url
   user_agent = request.headers['User-Agent']
@@ -215,18 +220,20 @@ def get_room_parameters(request, room_id, client_id, is_initiator):
   hd = request.get('hd').lower()
   if hd and video:
     message = 'The "hd" parameter has overridden video=' + video
-    logging.error(message)
-    error_messages.append(message)
+    logging.warning(message)
+    # HTML template is UTF-8, make sure the string is UTF-8 as well.
+    warning_messages.append(message.encode('utf-8'))
   if hd == 'true':
     video = 'mandatory:minWidth=1280,mandatory:minHeight=720'
   elif not hd and not video and get_hd_default(user_agent) == 'true':
     video = 'optional:minWidth=1280,optional:minHeight=720'
 
   if request.get('minre') or request.get('maxre'):
-    message = ('The "minre" and "maxre" parameters are no longer supported. '
-              'Use "video" instead.')
-    logging.error(message)
-    error_messages.append(message)
+    message = ('The "minre" and "maxre" parameters are no longer ' +
+        'supported. Use "video" instead.')
+    logging.warning(message)
+    # HTML template is UTF-8, make sure the string is UTF-8 as well.
+    warning_messages.append(message.encode('utf-8'))
 
   # Options for controlling various networking features.
   dtls = request.get('dtls')
@@ -253,7 +260,7 @@ def get_room_parameters(request, room_id, client_id, is_initiator):
 
   pc_config = make_pc_config(ice_transports)
   pc_constraints = make_pc_constraints(dtls, dscp, ipv6)
-  offer_constraints = { 'mandatory': {}, 'optional': [] }
+  offer_options = {};
   media_constraints = make_media_stream_constraints(audio, video,
                                                     firefox_fake_device)
   wss_url, wss_post_url = get_wss_parameters(request)
@@ -263,10 +270,11 @@ def get_room_parameters(request, room_id, client_id, is_initiator):
 
   params = {
     'error_messages': error_messages,
+    'warning_messages': warning_messages,
     'is_loopback' : json.dumps(debug == 'loopback'),
     'pc_config': json.dumps(pc_config),
     'pc_constraints': json.dumps(pc_constraints),
-    'offer_constraints': json.dumps(offer_constraints),
+    'offer_options': json.dumps(offer_options),
     'media_constraints': json.dumps(media_constraints),
     'turn_url': turn_url,
     'turn_transports': turn_transports,
