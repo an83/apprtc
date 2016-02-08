@@ -54,6 +54,27 @@ var PeerConnectionClient = function(params, startTime) {
   this.onremotestreamadded = null;
   this.onsignalingmessage = null;
   this.onsignalingstatechange = null;
+
+  var dataChannel = this.pc_.createDataChannel("myLabel", {
+    ordered: false, // do not guarantee order
+    maxRetransmitTime: 3000, // in milliseconds
+  });
+
+  dataChannel.onerror = function (error) {
+    console.log("Data Channel Error:", error);
+  };
+
+  dataChannel.onmessage = function (event) {
+    console.log("Got Data Channel Message:", event.data);
+  };
+
+  dataChannel.onopen = function () {
+    dataChannel.send("Hello World!");
+  };
+
+  dataChannel.onclose = function () {
+    console.log("The Data Channel is Closed");
+  };
 };
 
 // Set up audio and video regardless of what devices are present.
