@@ -55,10 +55,28 @@ var PeerConnectionClient = function(params, startTime) {
   this.onsignalingmessage = null;
   this.onsignalingstatechange = null;
 
+  this.receiveChannel = null;
+};
+
+// Set up audio and video regardless of what devices are present.
+// Disable comfort noise for maximum audio quality.
+PeerConnectionClient.DEFAULT_SDP_OFFER_OPTIONS_ = {
+  offerToReceiveAudio: 1,
+  offerToReceiveVideo: 1,
+  voiceActivityDetection: false
+};
+
+PeerConnectionClient.prototype.initDataChannel = function(stream) {
+  if (!this.pc_) {
+    return;
+  }
+
   var dataChannel = this.pc_.createDataChannel("myLabel", {
     ordered: false, // do not guarantee order
     maxRetransmitTime: 3000, // in milliseconds
   });
+
+  this.pc_.ondatachannel = this.receiveChannelCallback.bind(this);
 
   dataChannel.onerror = function (error) {
     console.log("Data Channel Error:", error);
@@ -75,14 +93,26 @@ var PeerConnectionClient = function(params, startTime) {
   dataChannel.onclose = function () {
     console.log("The Data Channel is Closed");
   };
+
 };
 
-// Set up audio and video regardless of what devices are present.
-// Disable comfort noise for maximum audio quality.
-PeerConnectionClient.DEFAULT_SDP_OFFER_OPTIONS_ = {
-  offerToReceiveAudio: 1,
-  offerToReceiveVideo: 1,
-  voiceActivityDetection: false
+
+PeerConnectionClient.prototype.receiveChannelCallback = function(event) {
+  trace('Receive Channel Callback');
+  this.receiveChannel = event.channel;
+  this.receiveChannel.onmessage = this.onReceiveMessageCallback.bind(this);
+  this.receiveChannel.onopen = this.onReceiveChannelStateChange.bind(this);
+  this.receiveChannel.onclose = this.onReceiveChannelStateChange.bind(this);
+};
+
+PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
+  trace('Received Message');
+  this.receiveChannel.value = event.data;
+};
+
+PeerConnectionClient.prototype.onReceiveChannelStateChange = function () {
+  var readyState = this.receiveChannel.readyState;
+  trace('Receive channel state is: ' + readyState);
 };
 
 PeerConnectionClient.prototype.addStream = function(stream) {

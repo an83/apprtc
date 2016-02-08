@@ -217,6 +217,10 @@ Call.prototype.hangup = function(async) {
   }
 };
 
+Call.prototype.initDataChannel = function() {
+  this.pcClient_.initDataChannel();
+};
+
 Call.prototype.getLeaveUrl_ = function() {
   return this.roomServer_ + '/leave/' + this.params_.roomId +
       '/' + this.params_.clientId;

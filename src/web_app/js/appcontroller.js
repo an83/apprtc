@@ -29,6 +29,7 @@ var UI_CONSTANTS = {
   infoDiv: '#info-div',
   localVideo: '#local-video',
   miniVideo: '#mini-video',
+  toggleDataChannelSvg: '#toggle-datachannel',
   muteAudioSvg: '#mute-audio',
   muteVideoSvg: '#mute-video',
   newRoomButton: '#new-room-button',
@@ -209,6 +210,8 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
   $(UI_CONSTANTS.fullscreenSvg).onclick = this.toggleFullScreen_.bind(this);
   $(UI_CONSTANTS.hangupSvg).onclick = this.hangup_.bind(this);
 
+  $(UI_CONSTANTS.toggleDataChannelSvg).onclick = this.toggleData_.bind(this);
+
   setUpFullScreen();
 
   if (!isChromeApp()) {
@@ -243,6 +246,11 @@ AppController.prototype.hangup_ = function() {
 
   // Call hangup with async = true.
   this.call_.hangup(true);
+};
+
+AppController.prototype.toggleData_ = function() {
+
+  this.call_.initDataChannel();
 };
 
 AppController.prototype.onRemoteHangup_ = function() {
