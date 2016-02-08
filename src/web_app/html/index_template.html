@@ -126,9 +126,13 @@
     var loadingParams = {
       errorMessages: {{ error_messages }},
       isLoopback: {{ is_loopback }},
+//      roomServer: 'https://apprtc.appspot.com',
+
 {% if room_id %}
+
       roomId: '{{ room_id }}',
       roomLink: '{{ room_link }}',
+
 {% endif %}
 
       mediaConstraints: {{ media_constraints | safe }},
