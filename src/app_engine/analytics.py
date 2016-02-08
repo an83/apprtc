@@ -93,13 +93,13 @@ class Analytics(object):
     obj = {'rows': [{'json': event}]}
 
     logging.info('Event: %s', obj)
-    if self.bigquery is not None:
-      response = self.bigquery.tabledata().insertAll(
-          projectId=app_identity.get_application_id(),
-          datasetId=self.bigquery_dataset,
-          tableId=self.bigquery_table,
-          body=obj).execute()
-      logging.info('BigQuery response: %s', response)
+    #if self.bigquery is not None:
+    #  response = self.bigquery.tabledata().insertAll(
+    #      projectId=app_identity.get_application_id(),
+    #      datasetId=self.bigquery_dataset,
+    #      tableId=self.bigquery_table,
+    #      body=obj).execute()
+    #  logging.info('BigQuery response: %s', response)
 
 
 analytics = None
