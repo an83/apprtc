@@ -376,11 +376,13 @@ Call.prototype.maybeGetTurnServers_ = function() {
   if (shouldRequestTurnServers) {
     var requestUrl = this.params_.turnRequestUrl;
     turnPromise =
-        requestTurnServers(requestUrl, this.params_.turnTransports).then(
+        //requestTurnServers(requestUrl, this.params_.turnTransports).then(
+        requestTurnServersFake(requestUrl, this.params_.turnTransports).then(
         function(turnServers) {
+
           var iceServers = this.params_.peerConnectionConfig.iceServers;
-          this.params_.peerConnectionConfig.iceServers =
-              iceServers.concat(turnServers);
+          this.params_.peerConnectionConfig.iceServers = iceServers.concat(turnServers);
+
         }.bind(this)).catch(function(error) {
           if (this.onstatusmessage) {
             // Error retrieving TURN servers.
@@ -395,6 +397,7 @@ Call.prototype.maybeGetTurnServers_ = function() {
           }
           trace(error.message);
         }.bind(this));
+
   } else {
     turnPromise = Promise.resolve();
   }
