@@ -253,8 +253,11 @@ AppController.prototype.hangup_ = function() {
 
 AppController.prototype.sendData_ = function() {
   trace('sendData_');
-  var text = $('#data-text-input').value;
+  var $input = $('#data-text-input');
+  var text = $input.value;
   this.call_.sendData(text);
+
+  $input.value = '';
 };
 
 AppController.prototype.toggleData_ = function() {

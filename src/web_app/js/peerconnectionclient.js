@@ -117,6 +117,9 @@ PeerConnectionClient.prototype.receiveChannelCallback = function(event) {
 PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
   trace('onReceiveMessageCallback: ' + event.data);
   this.dataChannel.value = event.data;
+
+  var $history = $('#data-text-history');
+  $history.value += '\n' + event.data;
 };
 
 PeerConnectionClient.prototype.onReceiveChannelStateChange = function () {
