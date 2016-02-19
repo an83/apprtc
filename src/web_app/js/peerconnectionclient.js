@@ -36,8 +36,10 @@ var PeerConnectionClient = function(params, startTime) {
   this.pc_.onaddstream = this.onRemoteStreamAdded_.bind(this);
   this.pc_.onremovestream = trace.bind(null, 'Remote stream removed.');
   this.pc_.onsignalingstatechange = this.onSignalingStateChanged_.bind(this);
-  this.pc_.oniceconnectionstatechange =
-      this.onIceConnectionStateChanged_.bind(this);
+  this.pc_.oniceconnectionstatechange = this.onIceConnectionStateChanged_.bind(this);
+
+  this.pc_.ondatachannel = this.receiveChannelCallback.bind(this);
+
 
   this.hasRemoteSdp_ = false;
   this.messageQueue_ = [];
@@ -66,32 +68,34 @@ PeerConnectionClient.DEFAULT_SDP_OFFER_OPTIONS_ = {
   voiceActivityDetection: false
 };
 
-PeerConnectionClient.prototype.initDataChannel = function(stream) {
+PeerConnectionClient.prototype.initDataChannel = function() {
+  trace('initDataChannel');
   if (!this.pc_) {
+    trace('pc_ is not ready,exiting...');
     return;
   }
-
-  var dataChannel = this.pc_.createDataChannel("myLabel", {
-    ordered: false, // do not guarantee order
+  trace('creating data channel...');
+  var dataChannel = this.dataChannel = this.pc_.createDataChannel("datachannel-label", {
+    ordered: true, // do not guarantee order
     maxRetransmitTime: 3000, // in milliseconds
   });
 
-  this.pc_.ondatachannel = this.receiveChannelCallback.bind(this);
 
-  dataChannel.onerror = function (error) {
-    console.log("Data Channel Error:", error);
+  this.dataChannel.onerror = function (error) {
+    trace("Data Channel Error:", error);
   };
 
-  dataChannel.onmessage = function (event) {
-    console.log("Got Data Channel Message:", event.data);
+  this.dataChannel.onmessage = function (event) {
+    trace("Got Data Channel Message:", event.data);
   };
 
-  dataChannel.onopen = function () {
+  this.dataChannel.onopen = function () {
+    trace('onopen');
     dataChannel.send("Hello World!");
   };
 
-  dataChannel.onclose = function () {
-    console.log("The Data Channel is Closed");
+  this.dataChannel.onclose = function () {
+    trace("The Data Channel is Closed");
   };
 
 };
@@ -137,6 +141,10 @@ PeerConnectionClient.prototype.startAsCaller = function(offerOptions) {
     PeerConnectionClient.DEFAULT_SDP_OFFER_OPTIONS_, offerOptions);
   trace('Sending offer to peer, with constraints: \n\'' +
       JSON.stringify(constraints) + '\'.');
+
+  this.initDataChannel();
+
+
   this.pc_.createOffer(constraints)
   .then(this.setLocalSdpAndNotify_.bind(this))
   .catch(this.onError_.bind(this, 'createOffer'));
@@ -145,6 +153,7 @@ PeerConnectionClient.prototype.startAsCaller = function(offerOptions) {
 };
 
 PeerConnectionClient.prototype.startAsCallee = function(initialMessages) {
+  trace('startAsCallee');
   if (!this.pc_) {
     return false;
   }
@@ -170,6 +179,9 @@ PeerConnectionClient.prototype.startAsCallee = function(initialMessages) {
   if (this.messageQueue_.length > 0) {
     this.drainMessageQueue_();
   }
+
+  //this.initDataChannel();
+
   return true;
 };
 

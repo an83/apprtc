@@ -218,6 +218,7 @@ Call.prototype.hangup = function(async) {
 };
 
 Call.prototype.initDataChannel = function() {
+  trace('Call. initDataChannel()')
   this.pcClient_.initDataChannel();
 };
 

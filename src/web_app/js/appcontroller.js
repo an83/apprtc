@@ -249,7 +249,7 @@ AppController.prototype.hangup_ = function() {
 };
 
 AppController.prototype.toggleData_ = function() {
-
+  trace('toggleData_');
   this.call_.initDataChannel();
 };
 
