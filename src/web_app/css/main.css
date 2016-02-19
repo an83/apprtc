@@ -168,16 +168,18 @@ label {
 }
 
 #data-text-div {
-  z-index: 5;
-  position: relative;
-  top: 80%;
-  float: right;
+  border: 1px solid gray;
+  top: 20px;
+  right: 20px;
   width: 300px;
+  opacity: 1;
+  position: absolute;
+  transition: opacity 1s;
 }
 
 #data-text-div > textarea{
-  width: 100%;
-  height: 100px;
+  width: calc(100% - 5px);
+  height: 300px;
   border: 0;
 }
 

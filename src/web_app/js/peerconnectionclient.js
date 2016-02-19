@@ -71,6 +71,8 @@ PeerConnectionClient.DEFAULT_SDP_OFFER_OPTIONS_ = {
 PeerConnectionClient.prototype.sendData = function(text) {
   trace('sendData');
   this.dataChannel.send(text);
+
+  $('#data-text-history').value += 'me: ' + text + '\n';
 };
 
 PeerConnectionClient.prototype.initDataChannel = function() {
@@ -81,28 +83,17 @@ PeerConnectionClient.prototype.initDataChannel = function() {
   }
   trace('creating data channel...');
   var dataChannel = this.dataChannel = this.pc_.createDataChannel("datachannel-label", {
-    ordered: true, // do not guarantee order
+    ordered: true, // guarantee order
     maxRetransmitTime: 3000, // in milliseconds
   });
-
 
   this.dataChannel.onerror = function (error) {
     trace("Data Channel Error:", error);
   };
 
-  this.dataChannel.onmessage = function (event) {
-    trace("Got Data Channel Message:", event.data);
-  };
-
-  this.dataChannel.onopen = function () {
-    trace('onopen');
-    dataChannel.send("Hello World!");
-  };
-
-  this.dataChannel.onclose = function () {
-    trace("The Data Channel is Closed");
-  };
-
+  this.dataChannel.onmessage = this.onReceiveMessageCallback.bind(this);
+  this.dataChannel.onopen = this.onReceiveChannelStateChange.bind(this);
+  this.dataChannel.onclose = this.onReceiveChannelStateChange.bind(this);
 };
 
 
@@ -115,11 +106,11 @@ PeerConnectionClient.prototype.receiveChannelCallback = function(event) {
 };
 
 PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
-  trace('onReceiveMessageCallback: ' + event.data);
-  this.dataChannel.value = event.data;
+  var text = event.data;
+  trace('onReceiveMessageCallback: ' + text);
+  this.dataChannel.value = text;
 
-  var $history = $('#data-text-history');
-  $history.value += '\n' + event.data;
+  $('#data-text-history').value += 'other: ' + event.data + '\n';
 };
 
 PeerConnectionClient.prototype.onReceiveChannelStateChange = function () {
