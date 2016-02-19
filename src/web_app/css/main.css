@@ -167,6 +167,14 @@ label {
   z-index: 1;
 }
 
+#data-text-div {
+  z-index: 5;
+  position: absolute;
+  top: 80%;
+  width: 100%;
+  text-align: center;
+}
+
 #confirm-join-div {
   z-index: 5;
   position: absolute;

@@ -217,8 +217,13 @@ Call.prototype.hangup = function(async) {
   }
 };
 
+Call.prototype.sendData = function(text) {
+  trace('Call. sendData()');
+  this.pcClient_.sendData(text);
+};
+
 Call.prototype.initDataChannel = function() {
-  trace('Call. initDataChannel()')
+  trace('Call. initDataChannel()');
   this.pcClient_.initDataChannel();
 };
 

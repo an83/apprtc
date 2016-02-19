@@ -22,6 +22,7 @@ var remoteVideo = $('#remote-video');
 var UI_CONSTANTS = {
   confirmJoinButton: '#confirm-join-button',
   confirmJoinDiv: '#confirm-join-div',
+  dataTextDiv: '#data-text-div',
   confirmJoinRoomSpan: '#confirm-join-room-span',
   fullscreenSvg: '#fullscreen',
   hangupSvg: '#hangup',
@@ -29,7 +30,6 @@ var UI_CONSTANTS = {
   infoDiv: '#info-div',
   localVideo: '#local-video',
   miniVideo: '#mini-video',
-  toggleDataChannelSvg: '#toggle-datachannel',
   muteAudioSvg: '#mute-audio',
   muteVideoSvg: '#mute-video',
   newRoomButton: '#new-room-button',
@@ -121,8 +121,11 @@ var AppController = function(loadingParams) {
       var confirmJoinDiv = $(UI_CONSTANTS.confirmJoinDiv);
       this.show_(confirmJoinDiv);
 
+      this.hide_($(UI_CONSTANTS.dataTextDiv));
+
       $(UI_CONSTANTS.confirmJoinButton).onclick = function() {
         this.hide_(confirmJoinDiv);
+        this.show_($(UI_CONSTANTS.dataTextDiv));
 
         // Record this room in the recently used list.
         var recentlyUsedList = new RoomSelection.RecentlyUsedList();
@@ -210,7 +213,7 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
   $(UI_CONSTANTS.fullscreenSvg).onclick = this.toggleFullScreen_.bind(this);
   $(UI_CONSTANTS.hangupSvg).onclick = this.hangup_.bind(this);
 
-  $(UI_CONSTANTS.toggleDataChannelSvg).onclick = this.toggleData_.bind(this);
+  $('#data-text-div > button').onclick = this.sendData_.bind(this);
 
   setUpFullScreen();
 
@@ -246,6 +249,12 @@ AppController.prototype.hangup_ = function() {
 
   // Call hangup with async = true.
   this.call_.hangup(true);
+};
+
+AppController.prototype.sendData_ = function() {
+  trace('sendData_');
+  var text = $('#data-text-input').value;
+  this.call_.sendData(text);
 };
 
 AppController.prototype.toggleData_ = function() {

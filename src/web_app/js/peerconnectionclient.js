@@ -57,7 +57,7 @@ var PeerConnectionClient = function(params, startTime) {
   this.onsignalingmessage = null;
   this.onsignalingstatechange = null;
 
-  this.receiveChannel = null;
+  this.dataChannel = null;
 };
 
 // Set up audio and video regardless of what devices are present.
@@ -66,6 +66,11 @@ PeerConnectionClient.DEFAULT_SDP_OFFER_OPTIONS_ = {
   offerToReceiveAudio: 1,
   offerToReceiveVideo: 1,
   voiceActivityDetection: false
+};
+
+PeerConnectionClient.prototype.sendData = function(text) {
+  trace('sendData');
+  this.dataChannel.send(text);
 };
 
 PeerConnectionClient.prototype.initDataChannel = function() {
@@ -103,19 +108,19 @@ PeerConnectionClient.prototype.initDataChannel = function() {
 
 PeerConnectionClient.prototype.receiveChannelCallback = function(event) {
   trace('Receive Channel Callback');
-  this.receiveChannel = event.channel;
-  this.receiveChannel.onmessage = this.onReceiveMessageCallback.bind(this);
-  this.receiveChannel.onopen = this.onReceiveChannelStateChange.bind(this);
-  this.receiveChannel.onclose = this.onReceiveChannelStateChange.bind(this);
+  this.dataChannel = event.channel;
+  this.dataChannel.onmessage = this.onReceiveMessageCallback.bind(this);
+  this.dataChannel.onopen = this.onReceiveChannelStateChange.bind(this);
+  this.dataChannel.onclose = this.onReceiveChannelStateChange.bind(this);
 };
 
 PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
-  trace('Received Message');
-  this.receiveChannel.value = event.data;
+  trace('onReceiveMessageCallback: ' + event.data);
+  this.dataChannel.value = event.data;
 };
 
 PeerConnectionClient.prototype.onReceiveChannelStateChange = function () {
-  var readyState = this.receiveChannel.readyState;
+  var readyState = this.dataChannel.readyState;
   trace('Receive channel state is: ' + readyState);
 };
 
