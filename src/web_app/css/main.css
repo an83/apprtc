@@ -169,10 +169,19 @@ label {
 
 #data-text-div {
   z-index: 5;
-  position: absolute;
+  position: relative;
   top: 80%;
+  float: right;
+  width: 300px;
+}
+
+#data-text-div > textarea{
   width: 100%;
-  text-align: center;
+  height: 100px;
+  border: 0;
+}
+
+#data-text-div > input{
 }
 
 #confirm-join-div {

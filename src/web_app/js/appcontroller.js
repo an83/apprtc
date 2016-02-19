@@ -205,7 +205,7 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
   this.call_.start(roomId);
 
   this.iconEventSetup_();
-  document.onkeypress = this.onKeyPress_.bind(this);
+  //document.onkeypress = this.onKeyPress_.bind(this);
   window.onmousemove = this.showIcons_.bind(this);
 
   $(UI_CONSTANTS.muteAudioSvg).onclick = this.toggleAudioMute_.bind(this);
