@@ -125,7 +125,6 @@ var AppController = function(loadingParams) {
 
       $(UI_CONSTANTS.confirmJoinButton).onclick = function() {
         this.hide_(confirmJoinDiv);
-        this.show_($(UI_CONSTANTS.dataTextDiv));
 
         // Record this room in the recently used list.
         var recentlyUsedList = new RoomSelection.RecentlyUsedList();
@@ -193,6 +192,8 @@ AppController.prototype.showRoomSelection_ = function() {
     this.createCall_();
     this.finishCallSetup_(roomName);
 
+
+
     this.roomSelection_.removeEventListeners();
     this.roomSelection_ = null;
     if (this.localStream_) {
@@ -202,9 +203,10 @@ AppController.prototype.showRoomSelection_ = function() {
 };
 
 AppController.prototype.finishCallSetup_ = function(roomId) {
-  this.toggleAudioMute_();
+
   this.call_.start(roomId);
 
+  this.show_($(UI_CONSTANTS.dataTextDiv));
 
   this.iconEventSetup_();
   //document.onkeypress = this.onKeyPress_.bind(this);
@@ -302,6 +304,8 @@ AppController.prototype.onRemoteStreamAdded_ = function(stream) {
   trace('Remote stream added.');
   attachMediaStream(this.remoteVideo_, stream);
 
+
+
   if (this.remoteVideoResetTimer_) {
     clearTimeout(this.remoteVideoResetTimer_);
     this.remoteVideoResetTimer_ = null;
@@ -311,6 +315,8 @@ AppController.prototype.onRemoteStreamAdded_ = function(stream) {
 AppController.prototype.onLocalStreamAdded_ = function(stream) {
   trace('User has granted access to local media.');
   this.localStream_ = stream;
+
+  this.toggleAudioMute_();
 
   if (!this.roomSelection_) {
     this.attachLocalStream_();
