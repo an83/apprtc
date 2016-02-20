@@ -202,7 +202,9 @@ AppController.prototype.showRoomSelection_ = function() {
 };
 
 AppController.prototype.finishCallSetup_ = function(roomId) {
+  this.toggleAudioMute_();
   this.call_.start(roomId);
+
 
   this.iconEventSetup_();
   //document.onkeypress = this.onKeyPress_.bind(this);

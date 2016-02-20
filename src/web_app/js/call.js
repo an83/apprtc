@@ -276,6 +276,8 @@ Call.prototype.toggleVideoMute = function() {
 };
 
 Call.prototype.toggleAudioMute = function() {
+  trace('toggleAudioMute');
+
   var audioTracks = this.localStream_.getAudioTracks();
   if (audioTracks.length === 0) {
     trace('No local audio available.');
@@ -320,6 +322,7 @@ Call.prototype.connectToRoom_ = function(roomId) {
         //jscs:enable requireCamelCaseOrUpperCaseIdentifiers
         /* jshint ignore:end */
         this.params_.messages = roomParams.messages;
+
       }.bind(this)).catch(function(error) {
         this.onError_('Room server join error: ' + error.message);
         return Promise.reject(error);
