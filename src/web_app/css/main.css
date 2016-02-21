@@ -178,7 +178,7 @@ label {
 
 #data-text-div > textarea{
   width: calc(100% - 5px);
-  height: 250px;
+  height: 180px;
   border: 0;
 }
 

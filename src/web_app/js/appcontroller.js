@@ -219,6 +219,11 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
 
   $('#data-text-div > button').onclick = this.sendData_.bind(this);
 
+  window.addEventListener("deviceorientation", function(event) {
+    // process event.alpha, event.beta and event.gamma
+    trace('alpha: ' + event.alpha + ' beta: ' + event.beta + ' gamma: ' + event.gamma);
+  }, true);
+
   setUpFullScreen();
 
   if (!isChromeApp()) {
