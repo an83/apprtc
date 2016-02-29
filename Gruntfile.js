@@ -127,6 +127,14 @@ module.exports = function(grunt) {
               '!**/*.pem'
             ],
             dest: 'out/chrome_app/'
+          },
+          {
+            expand: true,
+            cwd: 'src/web_app/lib',
+            src: [
+              '**/*.js',
+            ],
+            dest: 'out/chrome_app/lib'
           }
         ],
       }

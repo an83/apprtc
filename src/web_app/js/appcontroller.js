@@ -47,6 +47,7 @@ var UI_CONSTANTS = {
   roomSelectionRecentList: '#recent-rooms-list',
   sharingDiv: '#sharing-div',
   statusDiv: '#status-div',
+  orientationDiv: '#orientation-div',
   videosDiv: '#videos',
 };
 
@@ -61,6 +62,7 @@ var AppController = function(loadingParams) {
   this.miniVideo_ = $(UI_CONSTANTS.miniVideo);
   this.sharingDiv_ = $(UI_CONSTANTS.sharingDiv);
   this.statusDiv_ = $(UI_CONSTANTS.statusDiv);
+  this.orientationDiv = $(UI_CONSTANTS.orientationDiv);
   this.remoteVideo_ = $(UI_CONSTANTS.remoteVideo);
   this.videosDiv_ = $(UI_CONSTANTS.videosDiv);
   this.roomLinkHref_ = $(UI_CONSTANTS.roomLinkHref);
@@ -115,8 +117,8 @@ var AppController = function(loadingParams) {
       // Ask the user to confirm.
       if (!RoomSelection.matchRandomRoomPattern(this.loadingParams_.roomId)) {
         // Show the room name only if it does not match the random room pattern.
-        $(UI_CONSTANTS.confirmJoinRoomSpan).textContent = ' "' +
-            this.loadingParams_.roomId + '"';
+        $(UI_CONSTANTS.confirmJoinRoomSpan).textContent = ' \'' +
+            this.loadingParams_.roomId + '\'';
       }
       var confirmJoinDiv = $(UI_CONSTANTS.confirmJoinDiv);
       this.show_(confirmJoinDiv);
@@ -191,9 +193,6 @@ AppController.prototype.showRoomSelection_ = function() {
     this.hide_(roomSelectionDiv);
     this.createCall_();
     this.finishCallSetup_(roomName);
-
-
-
     this.roomSelection_.removeEventListeners();
     this.roomSelection_ = null;
     if (this.localStream_) {
@@ -219,9 +218,15 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
 
   $('#data-text-div > button').onclick = this.sendData_.bind(this);
 
-  window.addEventListener("deviceorientation", function(event) {
+  var orientationDiv = this.orientationDiv;
+
+  window.addEventListener('deviceorientation', function(event) {
     // process event.alpha, event.beta and event.gamma
-    trace('alpha: ' + event.alpha + ' beta: ' + event.beta + ' gamma: ' + event.gamma);
+    var ori = 'alpha: ' + event.alpha + ' beta: ' + event.beta + ' gamma: ' + event.gamma;
+
+    trace(ori);
+    orientationDiv.textContent = ori;
+
   }, true);
 
   setUpFullScreen();

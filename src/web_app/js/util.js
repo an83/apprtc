@@ -76,8 +76,7 @@ function sendUrlRequest(method, url, async, body) {
 
 function requestTurnServersFake(turnRequestUrl, turnTransports){
   return new Promise(function(resolve, reject) {
-    var turnServerResponse = {"username": "1455009101:617524136", "password": "J9njfbdccuv9k+SjDqqOWUgfyfU=", "uris": ["turn:104.155.231.43:3478?transport=udp", "turn:104.155.231.43:3478?transport=tcp", "turn:104.155.231.43:3479?transport=udp", "turn:104.155.231.43:3479?transport=tcp"]};
-
+    var turnServerResponse = {'username': '1455009101:617524136', 'password': 'J9njfbdccuv9k+SjDqqOWUgfyfU=', 'uris': ['turn:104.155.231.43:3478?transport=udp', 'turn:104.155.231.43:3478?transport=tcp', 'turn:104.155.231.43:3479?transport=udp', 'turn:104.155.231.43:3479?transport=tcp']};
     // Filter the TURN URLs to only use the desired transport, if specified.
     if (turnTransports.length > 0) {
       filterTurnUrls(turnServerResponse.uris, turnTransports);

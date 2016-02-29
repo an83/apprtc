@@ -61,6 +61,8 @@
     </div>
   </div>
 
+  <div id="orientation-div" style="position: absolute;">orientation</div>
+
   <div id="data-text-div" class="hidden">
     <textarea id="data-text-history" disabled="disabled"></textarea>
     <input id="data-text-input" type="text"/>
@@ -77,6 +79,7 @@
       <div id="room-link">Waiting for someone to join this room: <a id="room-link-href" href="{{ room_link }}" target="_blank">{{ room_link }}</a></div>
     </div>
     <div id="info-div">Code for AppRTC is available from <a href="http://github.com/webrtc/apprtc" title="GitHub repo for AppRTC">github.com/webrtc/apprtc</a></div>
+
     <div id="status-div"></div>
     <div id="rejoin-div" class="hidden"><span>You have left the call.</span> <button id="rejoin-button">REJOIN</button><button id="new-room-button">NEW ROOM</button></div>
   </footer>
@@ -121,7 +124,10 @@
   {{ include_loopback_js }}
 {% endif %}
 
+
   <script src="/js/apprtc.debug.js"></script>
+  <script src="/lib/threejs/three.js"></script>
+  <script src="/lib/threejs/DeviceOrientationControls.js"></script>
 
 {% if chromeapp %}
   <script src="/js/appwindow.js"></script>
