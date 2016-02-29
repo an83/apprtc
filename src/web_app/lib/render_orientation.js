@@ -33,7 +33,7 @@ window.addEventListener('load', function () {
 //            } );
 
     var mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    //scene.add(mesh);
 
     var geometry = new THREE.BoxGeometry(100, 100, 100, 4, 4, 4);
     var material = new THREE.MeshBasicMaterial({
@@ -94,7 +94,10 @@ window.addEventListener('load', function () {
 
     });
 
-    renderer = new THREE.WebGLRenderer();
+
+    renderer = new THREE.WebGLRenderer( { alpha: true } );
+    renderer.setClearColor( 0x000000, 0 ); // the default
+
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.domElement.style.position = 'absolute';
     renderer.domElement.style.top = 0;
