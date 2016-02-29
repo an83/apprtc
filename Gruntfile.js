@@ -134,8 +134,8 @@ module.exports = function(grunt) {
             src: [
               '**/*.js',
             ],
-            dest: 'out/chrome_app/lib'
-          }
+            dest: 'out/app_engine/lib'
+          },
         ],
       }
     },
