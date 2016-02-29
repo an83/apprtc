@@ -42,6 +42,8 @@
     <video id="local-video" autoplay muted></video>
   </div>
 
+  <div id="container"></div>
+
   <div id="room-selection" class="hidden">
     <h1>AppRTC</h1>
     <p id="instructions">Please enter a room name.</p>
@@ -128,6 +130,7 @@
   <script src="/js/apprtc.debug.js"></script>
   <script src="/lib/three.js"></script>
   <script src="/lib/DeviceOrientationControls.js"></script>
+  <script src="/lib/render_orientation.js"></script>
 
 {% if chromeapp %}
   <script src="/js/appwindow.js"></script>

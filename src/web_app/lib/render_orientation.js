@@ -49,7 +49,7 @@ window.addEventListener('load', function () {
     // TEXT
 
     var loader = new THREE.FontLoader();
-    loader.load('arial.typeface.js', function (font) {
+    loader.load('/lib/arial.typeface.js', function (font) {
 
         var geometry = new THREE.TextGeometry("Hello", {
 
