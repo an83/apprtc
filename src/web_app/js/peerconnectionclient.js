@@ -117,6 +117,16 @@ PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
   trace('onReceiveMessageCallback: ' + text);
   this.dataChannel.value = text;
 
+  if(event.data.indexOf('orientation:')>-1){
+
+    var trimmed = event.data.replace('orientation:', '');
+    var orientation = JSON.parse(trimmed);
+
+    window.controls.setOrientation(orientation);
+
+    return;
+  }
+
   $('#data-text-history').value += 'other: ' + event.data + '\n';
 };
 

@@ -159,7 +159,7 @@ AppController.prototype.startSendingOrientation = function () {
   clearInterval(this.intervalId);
   this.intervalId = setInterval(function () {
     ctrl.sendOrientation();
-  }, 1000);
+  }, 300);
 };
 
 AppController.prototype.sendOrientation = function () {
@@ -239,7 +239,7 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
   $(UI_CONSTANTS.fullscreenSvg).onclick = this.toggleFullScreen_.bind(this);
   $(UI_CONSTANTS.hangupSvg).onclick = this.hangup_.bind(this);
 
-  $('#data-text-div > button').onclick = this.sendData_.bind(this);
+  //$('#data-text-div > button').onclick = this.sendData_.bind(this);
 
   var orientationDiv = this.orientationDiv;
 
