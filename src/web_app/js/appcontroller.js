@@ -72,6 +72,8 @@ var AppController = function(loadingParams) {
   this.rejoinButton_ = $(UI_CONSTANTS.rejoinButton);
   this.newRoomButton_ = $(UI_CONSTANTS.newRoomButton);
 
+  this.orientation = null;
+
   this.newRoomButton_.addEventListener('click',
       this.onNewRoomClick_.bind(this), false);
   this.rejoinButton_.addEventListener('click',
@@ -144,6 +146,27 @@ var AppController = function(loadingParams) {
   }.bind(this)).catch(function(error) {
     trace('Error initializing: ' + error.message);
   }.bind(this));
+};
+
+
+AppController.prototype.setOrientation = function (orientation) {
+  this.orientation = orientation;
+};
+
+AppController.prototype.startSendingOrientation = function () {
+  var ctrl = this;
+
+  clearInterval(this.intervalId);
+  this.intervalId = setInterval(function () {
+    ctrl.sendOrientation();
+  }, 1000);
+};
+
+AppController.prototype.sendOrientation = function () {
+  if(!this.call_ || !this.orientation)
+    return;
+
+  this.call_.sendOrientation(this.orientation);
 };
 
 AppController.prototype.createCall_ = function() {

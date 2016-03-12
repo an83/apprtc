@@ -68,6 +68,13 @@ PeerConnectionClient.DEFAULT_SDP_OFFER_OPTIONS_ = {
   voiceActivityDetection: false
 };
 
+PeerConnectionClient.prototype.sendOrientation = function (orientation) {
+  if(!this.dataChannel || this.dataChannel.readyState != 'open')
+    return;
+
+  this.dataChannel.send('orientation:' + JSON.stringify(orientation));
+};
+
 PeerConnectionClient.prototype.sendData = function(text) {
   trace('sendData');
   this.dataChannel.send(text);

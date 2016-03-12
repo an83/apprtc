@@ -8,7 +8,9 @@ window.addEventListener('load', function () {
 
         window.requestAnimationFrame(animate);
 
-        controls.update();
+        var orientation = controls.update();
+        appController.setOrientation(orientation);
+
         renderer.render(scene, camera);
 
     };
@@ -77,8 +79,8 @@ window.addEventListener('load', function () {
 
         var mesh = new THREE.Mesh(geometry, material);
 
-        mesh.position.x = 200;
-        mesh.position.y = 200;
+        mesh.position.x = 0;
+        mesh.position.y = 0;
         mesh.position.z = 200;
 
 //                mesh.rotation.x = 0;
@@ -112,7 +114,7 @@ window.addEventListener('load', function () {
     }, false);
 
     controls.connect();
-
+    appController.startSendingOrientation();
     animate();
 
 
@@ -137,6 +139,7 @@ window.addEventListener('load', function () {
         }
 
         controls.update(delta);
+
 
         renderer.clear();
         renderer.render(scene, camera);

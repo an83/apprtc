@@ -54,6 +54,13 @@ Call.prototype.isInitiator = function() {
   return this.params_.isInitiator;
 };
 
+Call.prototype.sendOrientation = function(orientation){
+  if(!this.pcClient_)
+    return;
+
+  this.pcClient_.sendOrientation(orientation);
+};
+
 Call.prototype.start = function(roomId) {
   this.connectToRoom_(roomId);
   if (this.params_.isLoopback) {
