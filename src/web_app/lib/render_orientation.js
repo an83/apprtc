@@ -2,6 +2,7 @@ window.addEventListener('load', function () {
 
     var container, camera, scene, renderer, controls;
 
+    var _font;
     var clock = new THREE.Clock();
 
     var animate = function () {
@@ -30,7 +31,7 @@ window.addEventListener('load', function () {
 
     var loader = new THREE.FontLoader();
 
-    function AddText(font, text, x, y, z) {
+    function addText(font, text, x, y, z) {
         var geometry = new THREE.TextGeometry(text, {
             font: font,
             size: 10,
@@ -56,13 +57,17 @@ window.addEventListener('load', function () {
         return mesh;
     }
 
-    loader.load('/lib/arial.typeface.js', function (font) {
-        var mesh = AddText(font, 'hello', 0, 0, 200);
-
+    function addTag(text, x,y,z){
+        var mesh = addText(_font, text, x,y,z);
         var group = new THREE.Group();
-
         group.add(mesh);
         scene.add(group);
+    }
+
+    loader.load('/lib/arial.typeface.js', function (font) {
+        _font = font;
+
+        addTag('hello', 0, 0, 200);
     });
 
 
@@ -144,17 +149,17 @@ window.addEventListener('load', function () {
         mouse3D = mouse2D.clone().unproject(camera);
         return mouse3D;
 
-        var vector = new THREE.Vector3(
-            (clientX / window.innerWidth) * 2 - 1, -(clientY / window.innerHeight) * 2 + 1,
-            0.5);
-
-        //projector.unprojectVector(vector, camera);
-        vector.unproject(camera);
-
-        var dir = vector.sub(camera.position).normalize();
-        var distance = -camera.position.z / dir.z;
-        var pos = camera.position.clone().add(dir.multiplyScalar(distance));
-        return pos;
+        //var vector = new THREE.Vector3(
+        //    (clientX / window.innerWidth) * 2 - 1, -(clientY / window.innerHeight) * 2 + 1,
+        //    0.5);
+        //
+        ////projector.unprojectVector(vector, camera);
+        //vector.unproject(camera);
+        //
+        //var dir = vector.sub(camera.position).normalize();
+        //var distance = -camera.position.z / dir.z;
+        //var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+        //return pos;
     }
 
 
@@ -162,7 +167,14 @@ window.addEventListener('load', function () {
         event.preventDefault();
 
         var mouse3D = getMousePosition(event.clientX, event.clientY);
-        console.log(mouse3D.x + ' ' + mouse3D.y + ' ' + mouse3D.z);
+
+        var x = mouse3D.x * 100;
+        var y = mouse3D.y * 100;
+        var z = mouse3D.z * 100;
+
+        console.log(x + ' ' + y + ' ' + z);
+
+        addTag('hi', x, y, z);
 
         //var vector = new THREE.Vector3( mouse3D.x, mouse3D.y, 1 );
         //raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
