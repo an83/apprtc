@@ -128,4 +128,51 @@ window.addEventListener('load', function () {
 
     }
 
+
+    function getMousePosition(clientX, clientY) {
+        var mouse2D = new THREE.Vector3();
+        var mouse3D = new THREE.Vector3();
+
+        var projector = new THREE.Projector();
+
+        mouse2D.x = (clientX / window.innerWidth) * 2 - 1;
+        mouse2D.y = -(clientY / window.innerHeight) * 2 + 1;
+        mouse2D.z = 0.5;
+
+        //mouse3D = projector.unprojectVector(mouse2D.clone(), camera);
+
+        mouse3D = mouse2D.clone().unproject(camera);
+        return mouse3D;
+
+        var vector = new THREE.Vector3(
+            (clientX / window.innerWidth) * 2 - 1, -(clientY / window.innerHeight) * 2 + 1,
+            0.5);
+
+        //projector.unprojectVector(vector, camera);
+        vector.unproject(camera);
+
+        var dir = vector.sub(camera.position).normalize();
+        var distance = -camera.position.z / dir.z;
+        var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+        return pos;
+    }
+
+
+    function onDocumentMouseUp(event) {
+        event.preventDefault();
+
+        var mouse3D = getMousePosition(event.clientX, event.clientY);
+        console.log(mouse3D.x + ' ' + mouse3D.y + ' ' + mouse3D.z);
+
+        //var vector = new THREE.Vector3( mouse3D.x, mouse3D.y, 1 );
+        //raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
+        //
+        //var intersects = raycaster.intersectObjects(scene.children );
+        //if(intersects.length > 0){
+        //    console.log(intersects[0].object.position);
+        //}
+    }
+
+    renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
+
 }, false);
