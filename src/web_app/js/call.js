@@ -61,6 +61,15 @@ Call.prototype.sendOrientation = function(orientation){
   this.pcClient_.sendOrientation(orientation);
 };
 
+Call.prototype.sendClientRawData = function(orientation){
+  if(!this.pcClient_){
+    trace('pcClient_ not initialised');
+    return;
+  }
+
+  this.pcClient_.sendRawData(orientation);
+};
+
 Call.prototype.start = function(roomId) {
   this.connectToRoom_(roomId);
   if (this.params_.isLoopback) {

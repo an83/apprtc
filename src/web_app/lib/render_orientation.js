@@ -1,5 +1,4 @@
-window.addEventListener('load', function () {
-
+var SceneController = function () {
     var container, camera, scene, renderer, controls;
 
     var _font;
@@ -13,7 +12,6 @@ window.addEventListener('load', function () {
         appController.setOrientation(orientation);
 
         renderer.render(scene, camera);
-
     };
 
     container = document.getElementById('container');
@@ -57,11 +55,13 @@ window.addEventListener('load', function () {
         return mesh;
     }
 
-    function addTag(text, x,y,z){
-        var mesh = addText(_font, text, x,y,z);
+    function addTag(text, x, y, z) {
+        var mesh = addText(_font, text, x, y, z);
         var group = new THREE.Group();
         group.add(mesh);
         scene.add(group);
+
+        appController.sendNewAnnotation({text: text, x: x, y: y, z: z});
     }
 
     loader.load('/lib/arial.typeface.js', function (font) {
@@ -71,8 +71,8 @@ window.addEventListener('load', function () {
     });
 
 
-    renderer = new THREE.WebGLRenderer( { alpha: true } );
-    renderer.setClearColor( 0x000000, 0 ); // the default
+    renderer = new THREE.WebGLRenderer({alpha: true});
+    renderer.setClearColor(0x000000, 0); // the default
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.domElement.style.position = 'absolute';
@@ -186,5 +186,10 @@ window.addEventListener('load', function () {
     }
 
     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
+};
 
+var sceneController;
+
+window.addEventListener('load', function () {
+    sceneController = new SceneController();
 }, false);

@@ -169,6 +169,15 @@ AppController.prototype.sendOrientation = function () {
   this.call_.sendOrientation(this.orientation);
 };
 
+
+AppController.prototype.sendNewAnnotation = function (annotation) {
+  var data = 'annotation:' + JSON.stringify(annotation);
+
+  this.call_.sendClientRawData(data);
+};
+
+
+
 AppController.prototype.createCall_ = function() {
   this.call_ = new Call(this.loadingParams_);
   this.infoBox_ = new InfoBox($(UI_CONSTANTS.infoDiv),

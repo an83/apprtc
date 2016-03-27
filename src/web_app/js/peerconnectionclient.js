@@ -72,12 +72,21 @@ PeerConnectionClient.prototype.sendOrientation = function (orientation) {
   if(!this.dataChannel || this.dataChannel.readyState != 'open')
     return;
 
-  this.dataChannel.send('orientation:' + JSON.stringify(orientation));
+  this.sendRawData('orientation:' + JSON.stringify(orientation));
+};
+
+PeerConnectionClient.prototype.sendRawData = function (data) {
+  if(!this.dataChannel || this.dataChannel.readyState != 'open'){
+    trace('data channel is not ready');
+    return;
+  }
+
+  this.dataChannel.send(data);
 };
 
 PeerConnectionClient.prototype.sendData = function(text) {
   trace('sendData');
-  this.dataChannel.send(text);
+  this.sendRawData('test-data:' + text);
 
   $('#data-text-history').value += 'me: ' + text + '\n';
 };
@@ -126,6 +135,8 @@ PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
 
     return;
   }
+
+
 
   $('#data-text-history').value += 'other: ' + event.data + '\n';
 };
