@@ -256,6 +256,20 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
 
   var orientationDiv = this.orientationDiv;
 
+  var that = this;
+
+  $('#data-text-start').addEventListener('click', function () {
+
+    reattachMediaStream(that.localVideo_, that.miniVideo_);
+
+    that.deactivate_(that.remoteVideo_);
+    that.deactivate_(that.miniVideo_);
+
+    that.activate_(that.localVideo_);
+
+    that.miniVideo_.src = '';
+  });
+
   window.addEventListener('deviceorientation', function(event) {
     // process event.alpha, event.beta and event.gamma
     var ori = 'alpha: ' + event.alpha + ' beta: ' + event.beta + ' gamma: ' + event.gamma;

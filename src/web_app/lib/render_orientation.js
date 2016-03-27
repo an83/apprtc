@@ -95,10 +95,9 @@ var SceneController = function () {
     //appController.startSendingOrientation();
     animate();
 
-    $('#data-text-start').onclick = function () {
+    $('#data-text-start').addEventListener('click', function () {
         controls.connect();
-        //appController.startSendingOrientation();
-    };
+    });
 
     function render() {
 
