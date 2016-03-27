@@ -169,6 +169,10 @@ AppController.prototype.sendOrientation = function () {
   this.call_.sendOrientation(this.orientation);
 };
 
+AppController.prototype.updateOrientation = function (orientation) {
+  var data = 'orientation:' + JSON.stringify(orientation);
+  this.call_.sendClientRawData(data);
+};
 
 AppController.prototype.sendNewAnnotation = function (annotation) {
   var data = 'annotation:' + JSON.stringify(annotation);

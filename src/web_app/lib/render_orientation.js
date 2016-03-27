@@ -1,6 +1,7 @@
 var SceneController = function () {
     var container, camera, scene, renderer, controls;
 
+    var _lastOrientation = null;
 
     var clock = new THREE.Clock();
 
@@ -11,7 +12,37 @@ var SceneController = function () {
         window.requestAnimationFrame(animate);
 
         var orientation = controls.update();
-        appController.setOrientation(orientation);
+
+        if(orientation){
+
+            var vOrientation = new THREE.Vector3();
+            vOrientation.x = orientation[0];
+            vOrientation.y = orientation[1];
+            vOrientation.z = orientation[2];
+
+            if(!_lastOrientation){
+                //send orientation
+
+                //appController.setOrientation(orientation);
+            }
+            else{
+                var diff = new THREE.Vector3();
+                diff.copy(vOrientation);
+                diff.sub(_lastOrientation);
+
+                if(diff.x || diff.y || diff.z){
+
+                    console.log(orientation);
+                    appController.updateOrientation(orientation);
+                }
+            }
+
+            _lastOrientation = new THREE.Vector3();
+            _lastOrientation.copy(vOrientation);
+
+        }
+
+        //appController.setOrientation(orientation);
 
         renderer.render(scene, camera);
     };
@@ -61,7 +92,7 @@ var SceneController = function () {
 
     $('#data-text-start').onclick = function () {
         controls.connect();
-        appController.startSendingOrientation();
+        //appController.startSendingOrientation();
     };
 
     function render() {
