@@ -197,6 +197,12 @@ label {
   text-align: center;
 }
 
+#annotation-text-container{
+  position: absolute;
+  top: 50px;
+  right: 0;
+}
+
 #confirm-join-div div {
   margin-bottom: 10px;
   font-size: 1.5em;

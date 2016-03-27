@@ -5,7 +5,7 @@ var SceneController = function () {
 
     var clock = new THREE.Clock();
 
-    var controller = this;
+    var _controller = this;
 
     var animate = function () {
 
@@ -15,31 +15,32 @@ var SceneController = function () {
 
         if(orientation){
 
-            var vOrientation = new THREE.Vector3();
-            vOrientation.x = orientation[0];
-            vOrientation.y = orientation[1];
-            vOrientation.z = orientation[2];
+            //var vOrientation = new THREE.Vector3();
+            //vOrientation.x = orientation[0];
+            //vOrientation.y = orientation[1];
+            //vOrientation.z = orientation[2];
+            //
+            //if(!_lastOrientation){
+            //    //send orientation
+            //
+            //    //appController.setOrientation(orientation);
+            //}
+            //else{
+            //    var diff = new THREE.Vector3();
+            //    diff.copy(vOrientation);
+            //    diff.sub(_lastOrientation);
+            //
+            //    if(diff.x || diff.y || diff.z){
+            //
+            //        console.log(orientation);
+            //        appController.updateOrientation(orientation);
+            //    }
+            //}
+            //
+            //_lastOrientation = new THREE.Vector3();
+            //_lastOrientation.copy(vOrientation);
 
-            if(!_lastOrientation){
-                //send orientation
-
-                //appController.setOrientation(orientation);
-            }
-            else{
-                var diff = new THREE.Vector3();
-                diff.copy(vOrientation);
-                diff.sub(_lastOrientation);
-
-                if(diff.x || diff.y || diff.z){
-
-                    console.log(orientation);
-                    appController.updateOrientation(orientation);
-                }
-            }
-
-            _lastOrientation = new THREE.Vector3();
-            _lastOrientation.copy(vOrientation);
-
+            appController.updateOrientation(orientation);
         }
 
         //appController.setOrientation(orientation);
@@ -64,9 +65,9 @@ var SceneController = function () {
 
 
     loader.load('/lib/arial.typeface.js', function (font) {
-        controller.font = _font = font;
+        _controller.font = _font = font;
 
-        controller.addTag('hello', 0, 0, 200);
+        _controller.addTag('hello', 0, 0, 200);
     });
 
 
@@ -148,6 +149,7 @@ var SceneController = function () {
 
 
 
+
     renderer.domElement.addEventListener('mouseup', function (event) {
         event.preventDefault();
 
@@ -161,9 +163,34 @@ var SceneController = function () {
 
         var annotation = {text: 'hi', x: x, y: y, z: z};
 
-        sceneController.addAnnotation(annotation);
-        appController.sendNewAnnotation(annotation);
+        _controller.annotation = annotation;
+
+        //sceneController.addAnnotation(annotation);
+        //appController.sendNewAnnotation(annotation);
+
+
+
+        $('#annotation-text-container').classList.remove('hidden');
+        $('#annotation-text').focus();
+        $('#annotation-text').removeEventListener('keypress', keyPressEvent);
+        $('#annotation-text').addEventListener('keypress', keyPressEvent);
+
+        function keyPressEvent(event){
+            if(event.keyCode == 13){
+
+                _controller.annotation.text = $('#annotation-text').value;
+
+                sceneController.addAnnotation(_controller.annotation);
+                appController.sendNewAnnotation(_controller.annotation);
+
+                $('#annotation-text').value = '';
+                $('#annotation-text-container').classList.add('hidden');
+            }
+        }
+
+        //return true;
     }, false);
+
 };
 
 SceneController.prototype.addText = function (font, text, x, y, z) {

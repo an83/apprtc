@@ -72,6 +72,10 @@
 
   </div>
 
+  <div id="annotation-text-container" class="hidden">
+    <input id="annotation-text" type="text"/>
+  </div>
+
   <div id="confirm-join-div" class="hidden">
     <div>Ready to join<span id="confirm-join-room-span"></span>?</div>
     <button id="confirm-join-button">JOIN</button>
@@ -127,6 +131,7 @@
   {{ include_loopback_js }}
 {% endif %}
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
 
   <script src="/js/apprtc.debug.js"></script>
   <script src="/lib/three.js"></script>
