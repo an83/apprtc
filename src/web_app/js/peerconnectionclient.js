@@ -121,24 +121,39 @@ PeerConnectionClient.prototype.receiveChannelCallback = function(event) {
   this.dataChannel.onclose = this.onReceiveChannelStateChange.bind(this);
 };
 
+PeerConnectionClient.prototype.processMessageType = function(type, message, func) {
+  if(message.indexOf(type)>-1) {
+    var trimmed = message.replace(type, '');
+    var parsed = JSON.parse(trimmed);
+
+    func(parsed);
+
+    return true;
+  }
+
+  return false;
+};
+
 PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
   var text = event.data;
-  trace('onReceiveMessageCallback: ' + text);
+  //trace('onReceiveMessageCallback: ' + text);
   this.dataChannel.value = text;
 
-  if(event.data.indexOf('orientation:')>-1){
+  var message = event.data;
 
-    var trimmed = event.data.replace('orientation:', '');
-    var orientation = JSON.parse(trimmed);
-
-    window.controls.setOrientation(orientation);
-
+  if(this.processMessageType('orientation:', message, function (orientation) {
+        window.controls.setOrientation(orientation);
+      })){
+    return;
+  }
+  else if(this.processMessageType('annotation:', message, function (annotation) {
+        sceneController.addAnnotation(annotation);
+      })){
     return;
   }
 
-
-
   $('#data-text-history').value += 'other: ' + event.data + '\n';
+
 };
 
 PeerConnectionClient.prototype.onReceiveChannelStateChange = function () {

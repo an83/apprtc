@@ -1,8 +1,10 @@
 var SceneController = function () {
     var container, camera, scene, renderer, controls;
 
-    var _font;
+
     var clock = new THREE.Clock();
+
+    var controller = this;
 
     var animate = function () {
 
@@ -16,11 +18,11 @@ var SceneController = function () {
 
     container = document.getElementById('container');
 
-    camera = new THREE.PerspectiveCamera(23, window.innerWidth / window.innerHeight, 1, 1100);
+    this.camera = camera = new THREE.PerspectiveCamera(23, window.innerWidth / window.innerHeight, 1, 1100);
 
     window.controls = controls = new THREE.DeviceOrientationControls(camera);
 
-    scene = new THREE.Scene();
+    this.scene = scene = new THREE.Scene();
 
     var geometry = new THREE.SphereGeometry(500, 16, 8);
     geometry.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
@@ -29,45 +31,11 @@ var SceneController = function () {
 
     var loader = new THREE.FontLoader();
 
-    function addText(font, text, x, y, z) {
-        var geometry = new THREE.TextGeometry(text, {
-            font: font,
-            size: 10,
-            height: 5,
-            curveSegments: 2
-        });
-
-        geometry.computeBoundingBox();
-
-        var material = new THREE.MeshBasicMaterial({
-            color: 0xff00ff,
-            side: THREE.BackSide,
-            wireframe: true
-        });
-
-        var mesh = new THREE.Mesh(geometry, material);
-
-        mesh.position.x = x;
-        mesh.position.y = y;
-        mesh.position.z = z;
-
-        mesh.lookAt(camera.position);
-        return mesh;
-    }
-
-    function addTag(text, x, y, z) {
-        var mesh = addText(_font, text, x, y, z);
-        var group = new THREE.Group();
-        group.add(mesh);
-        scene.add(group);
-
-        appController.sendNewAnnotation({text: text, x: x, y: y, z: z});
-    }
 
     loader.load('/lib/arial.typeface.js', function (font) {
-        _font = font;
+        controller.font = _font = font;
 
-        addTag('hello', 0, 0, 200);
+        controller.addTag('hello', 0, 0, 200);
     });
 
 
@@ -136,34 +104,20 @@ var SceneController = function () {
 
     function getMousePosition(clientX, clientY) {
         var mouse2D = new THREE.Vector3();
-        var mouse3D = new THREE.Vector3();
-
-        var projector = new THREE.Projector();
 
         mouse2D.x = (clientX / window.innerWidth) * 2 - 1;
         mouse2D.y = -(clientY / window.innerHeight) * 2 + 1;
         mouse2D.z = 0.5;
 
-        //mouse3D = projector.unprojectVector(mouse2D.clone(), camera);
 
-        mouse3D = mouse2D.clone().unproject(camera);
+        var mouse3D = mouse2D.clone().unproject(camera);
         return mouse3D;
-
-        //var vector = new THREE.Vector3(
-        //    (clientX / window.innerWidth) * 2 - 1, -(clientY / window.innerHeight) * 2 + 1,
-        //    0.5);
-        //
-        ////projector.unprojectVector(vector, camera);
-        //vector.unproject(camera);
-        //
-        //var dir = vector.sub(camera.position).normalize();
-        //var distance = -camera.position.z / dir.z;
-        //var pos = camera.position.clone().add(dir.multiplyScalar(distance));
-        //return pos;
     }
 
 
-    function onDocumentMouseUp(event) {
+
+
+    renderer.domElement.addEventListener('mouseup', function (event) {
         event.preventDefault();
 
         var mouse3D = getMousePosition(event.clientX, event.clientY);
@@ -174,19 +128,50 @@ var SceneController = function () {
 
         console.log(x + ' ' + y + ' ' + z);
 
-        addTag('hi', x, y, z);
+        var annotation = {text: 'hi', x: x, y: y, z: z};
 
-        //var vector = new THREE.Vector3( mouse3D.x, mouse3D.y, 1 );
-        //raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
-        //
-        //var intersects = raycaster.intersectObjects(scene.children );
-        //if(intersects.length > 0){
-        //    console.log(intersects[0].object.position);
-        //}
-    }
-
-    renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
+        sceneController.addAnnotation(annotation);
+        appController.sendNewAnnotation(annotation);
+    }, false);
 };
+
+SceneController.prototype.addText = function (font, text, x, y, z) {
+    var geometry = new THREE.TextGeometry(text, {
+        font: font,
+        size: 10,
+        height: 5,
+        curveSegments: 2
+    });
+
+    geometry.computeBoundingBox();
+
+    var material = new THREE.MeshBasicMaterial({
+        color: 0xff00ff,
+        side: THREE.BackSide,
+        wireframe: true
+    });
+
+    var mesh = new THREE.Mesh(geometry, material);
+
+    mesh.position.x = x;
+    mesh.position.y = y;
+    mesh.position.z = z;
+
+    mesh.lookAt(this.camera.position);
+    return mesh;
+};
+
+SceneController.prototype.addAnnotation = function (annoation) {
+  this.addTag(annoation.text, annoation.x, annoation.y, annoation.z);
+};
+
+SceneController.prototype.addTag = function (text, x, y, z) {
+    var mesh = this.addText(this.font, text, x, y, z);
+    var group = new THREE.Group();
+    group.add(mesh);
+    this.scene.add(group);
+};
+
 
 var sceneController;
 
