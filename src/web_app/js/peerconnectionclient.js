@@ -141,6 +141,9 @@ PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
 
   var message = event.data;
 
+  trace(message);
+
+
   if(this.processMessageType('orientation:', message, function (orientation) {
         window.controls.setOrientation(orientation);
       })){

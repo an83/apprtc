@@ -7,45 +7,49 @@ var SceneController = function () {
 
     var _controller = this;
 
+    var _lastUpdate = Date.now();
+
+    var updateOrientation = function (vOrientation) {
+        _lastOrientation = new THREE.Vector3();
+        _lastOrientation.copy(vOrientation);
+
+        _lastUpdate = Date.now();
+    };
+
     var animate = function () {
 
         window.requestAnimationFrame(animate);
 
         var orientation = controls.update();
 
-        if(orientation){
-
-            //var vOrientation = new THREE.Vector3();
-            //vOrientation.x = orientation[0];
-            //vOrientation.y = orientation[1];
-            //vOrientation.z = orientation[2];
-            //
-            //if(!_lastOrientation){
-            //    //send orientation
-            //
-            //    //appController.setOrientation(orientation);
-            //}
-            //else{
-            //    var diff = new THREE.Vector3();
-            //    diff.copy(vOrientation);
-            //    diff.sub(_lastOrientation);
-            //
-            //    if(diff.x || diff.y || diff.z){
-            //
-            //        console.log(orientation);
-            //        appController.updateOrientation(orientation);
-            //    }
-            //}
-            //
-            //_lastOrientation = new THREE.Vector3();
-            //_lastOrientation.copy(vOrientation);
-
-            appController.updateOrientation(orientation);
-        }
-
-        //appController.setOrientation(orientation);
-
         renderer.render(scene, camera);
+
+        if(orientation && (Date.now() - _lastUpdate > 300)){
+
+            var vOrientation = new THREE.Vector3();
+            vOrientation.x = orientation[0];
+            vOrientation.y = orientation[1];
+            vOrientation.z = orientation[2];
+
+            if(!_lastOrientation){
+                updateOrientation(vOrientation);
+            }
+            else{
+                var diff = new THREE.Vector3();
+                diff.copy(vOrientation);
+                diff.sub(_lastOrientation);
+
+                if(diff.x || diff.y || diff.z){
+
+                    console.log(orientation);
+                    appController.updateOrientation(orientation);
+
+                    updateOrientation(vOrientation);
+                }
+            }
+
+            //appController.updateOrientation(orientation);
+        }
     };
 
     container = document.getElementById('container');
@@ -167,8 +171,6 @@ var SceneController = function () {
 
         //sceneController.addAnnotation(annotation);
         //appController.sendNewAnnotation(annotation);
-
-
 
         $('#annotation-text-container').classList.remove('hidden');
         $('#annotation-text').focus();
