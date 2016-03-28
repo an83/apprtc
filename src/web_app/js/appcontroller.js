@@ -268,6 +268,8 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
     that.activate_(that.localVideo_);
 
     that.miniVideo_.src = '';
+
+    that.hide_($('#data-text-start'));
   });
 
   window.addEventListener('deviceorientation', function(event) {

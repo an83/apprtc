@@ -93,6 +93,7 @@ THREE.DeviceOrientationControls = function ( object ) {
 
 
     this.setOrientation = function (orientation) {
+        appController.hide_($('#data-text-start'));
         setObjectQuaternion( scope.object.quaternion, orientation[0],orientation[1],orientation[2],orientation[3]);
     }
 
