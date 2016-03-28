@@ -388,12 +388,14 @@ Call.prototype.maybeGetMedia_ = function() {
   var needStream = (this.params_.mediaConstraints.audio !== false ||
                     this.params_.mediaConstraints.video !== false);
   var mediaPromise = null;
+
   if (needStream) {
     var mediaConstraints = this.params_.mediaConstraints;
     trace('mediaConstraints: ' + JSON.stringify(mediaConstraints));
 
+    trace('requesting media devices');
     navigator.mediaDevices.enumerateDevices().then(function (deviceInfos) {
-      trace(JSON.stringify(deviceInfos));
+      trace('devices: ' + JSON.stringify(deviceInfos));
 
       var backCamera = this.getBackCamera(deviceInfos);
       trace('backCamera: ' + JSON.stringify(backCamera));
@@ -407,6 +409,7 @@ Call.prototype.maybeGetMedia_ = function() {
 
       trace('mediaConstraints: ' + JSON.stringify(mediaConstraints));
 
+      trace('requesting user media');
       mediaPromise = requestUserMedia(mediaConstraints).then(function(stream) {
         trace('Got access to local media with mediaConstraints:\n' +
             '  \'' + JSON.stringify(mediaConstraints) + '\'');
@@ -417,7 +420,11 @@ Call.prototype.maybeGetMedia_ = function() {
         this.onUserMediaError_(error);
       }.bind(this));
 
+    }.bind(this)).catch(function(error) {
+      this.onError_('Error getting devices: ' + error.message);
+      this.onUserMediaError_(error);
     }.bind(this));
+
 
   } else {
     mediaPromise = Promise.resolve();

@@ -91,50 +91,11 @@ var SceneController = function () {
 
     }, false);
 
-    //controls.connect();
-    //appController.startSendingOrientation();
     animate();
 
     $('#data-text-start').addEventListener('click', function () {
         controls.connect();
     });
-
-    function render() {
-
-        var delta = clock.getDelta();
-
-        mixer.update(delta);
-
-        for (var i = 0; i < morphs.length; i++) {
-
-            morph = morphs[i];
-
-            morph.position.x += morph.speed * delta;
-
-            if (morph.position.x > 2000) {
-
-                morph.position.x = -1000 - Math.random() * 500;
-
-            }
-
-        }
-
-        controls.update(delta);
-
-
-        renderer.clear();
-        renderer.render(scene, camera);
-
-        // Render debug HUD with shadow map
-
-        if (showHUD) {
-
-            renderer.clearDepth();
-            renderer.render(sceneHUD, cameraOrtho);
-
-        }
-
-    }
 
 
     function getMousePosition(clientX, clientY) {
@@ -148,10 +109,6 @@ var SceneController = function () {
         var mouse3D = mouse2D.clone().unproject(camera);
         return mouse3D;
     }
-
-
-
-
 
     renderer.domElement.addEventListener('mouseup', function (event) {
         event.preventDefault();
@@ -168,28 +125,26 @@ var SceneController = function () {
 
         _controller.annotation = annotation;
 
-        //sceneController.addAnnotation(annotation);
-        //appController.sendNewAnnotation(annotation);
-
         $('#annotation-text-container').classList.remove('hidden');
-        $('#annotation-text').focus();
-        $('#annotation-text').removeEventListener('keypress', keyPressEvent);
-        $('#annotation-text').addEventListener('keypress', keyPressEvent);
+
+        var $annotationText = $('#annotation-text');
+        $annotationText.focus();
+        $annotationText.removeEventListener('keypress', keyPressEvent);
+        $annotationText.addEventListener('keypress', keyPressEvent);
 
         function keyPressEvent(event){
             if(event.keyCode == 13){
 
-                _controller.annotation.text = $('#annotation-text').value;
+                _controller.annotation.text = $annotationText.value;
 
                 sceneController.addAnnotation(_controller.annotation);
                 appController.sendNewAnnotation(_controller.annotation);
 
-                $('#annotation-text').value = '';
+                $annotationText.value = '';
                 $('#annotation-text-container').classList.add('hidden');
             }
         }
 
-        //return true;
     }, false);
 
 };

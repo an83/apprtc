@@ -145,6 +145,7 @@ PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
 
 
   if(this.processMessageType('orientation:', message, function (orientation) {
+        appController.hide_($('#data-text-start'));
         window.controls.setOrientation(orientation);
       })){
     return;

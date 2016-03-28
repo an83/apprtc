@@ -77,6 +77,8 @@ THREE.DeviceOrientationControls = function ( object ) {
 
     };
 
+    var history = [];
+
     this.update = function () {
 
         if ( scope.freeze ) return;
@@ -86,6 +88,35 @@ THREE.DeviceOrientationControls = function ( object ) {
         var gamma  = scope.deviceOrientation.gamma ? THREE.Math.degToRad( scope.deviceOrientation.gamma ) : 0; // Y''
         var orient = scope.screenOrientation       ? THREE.Math.degToRad( scope.screenOrientation       ) : 0; // O
 
+        if(history.length > 50){
+
+            history.splice(0,1);  //remove the first item in the array
+            history.push([alpha, beta + 180, gamma + 90]);   //adjust to start from 0
+
+            var sum = [0,0,0];
+            for(var i=0; i<history.length; i++){
+                var o = history[i];
+                sum[0] += o[0];
+                sum[1] += o[1];
+                sum[2] += o[2];
+            }
+
+            var avg = [
+                sum[0]/history.length,
+                sum[1]/history.length -180,
+                sum[2]/history.length - 90
+            ];
+
+            console.log('avg: ' + JSON.stringify(avg));
+
+            alpha = avg[0];
+            beta = avg[1];
+            gamma = avg[2];
+        }
+        else{
+            history.push([alpha, beta + 180, gamma + 90]);   //adjust to start from 0
+        }
+
         setObjectQuaternion( scope.object.quaternion, alpha, beta, gamma, orient );
 
         return [alpha, beta, gamma, orient];
@@ -93,7 +124,7 @@ THREE.DeviceOrientationControls = function ( object ) {
 
 
     this.setOrientation = function (orientation) {
-        appController.hide_($('#data-text-start'));
+
         setObjectQuaternion( scope.object.quaternion, orientation[0],orientation[1],orientation[2],orientation[3]);
     }
 
