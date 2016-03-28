@@ -371,6 +371,16 @@ Call.prototype.connectToRoom_ = function(roomId) {
   }.bind(this));
 };
 
+Call.prototype.getBackCamera = function (deviceInfos) {
+  for (var i = 0; i !== deviceInfos.length; ++i) {
+    var deviceInfo = deviceInfos[i];
+
+    if (deviceInfo.kind === 'videoinput' && deviceInfo.label.indexOf('back') > -1) {
+      return deviceInfo;
+    }
+  }
+};
+
 // Asynchronously request user media if needed.
 Call.prototype.maybeGetMedia_ = function() {
   // mediaConstraints.audio and mediaConstraints.video could be objects, so
@@ -380,16 +390,35 @@ Call.prototype.maybeGetMedia_ = function() {
   var mediaPromise = null;
   if (needStream) {
     var mediaConstraints = this.params_.mediaConstraints;
+    trace('mediaConstraints: ' + JSON.stringify(mediaConstraints));
 
-    mediaPromise = requestUserMedia(mediaConstraints).then(function(stream) {
-      trace('Got access to local media with mediaConstraints:\n' +
-          '  \'' + JSON.stringify(mediaConstraints) + '\'');
+    navigator.mediaDevices.enumerateDevices().then(function (deviceInfos) {
+      trace(JSON.stringify(deviceInfos));
 
-      this.onUserMediaSuccess_(stream);
-    }.bind(this)).catch(function(error) {
-      this.onError_('Error getting user media: ' + error.message);
-      this.onUserMediaError_(error);
+      var backCamera = this.getBackCamera(deviceInfos);
+      trace('backCamera: ' + JSON.stringify(backCamera));
+
+      if(backCamera){
+        var backCameraId = backCamera.deviceId;
+        mediaConstraints.video = {
+          deviceId: backCameraId
+        };
+      }
+
+      trace('mediaConstraints: ' + JSON.stringify(mediaConstraints));
+
+      mediaPromise = requestUserMedia(mediaConstraints).then(function(stream) {
+        trace('Got access to local media with mediaConstraints:\n' +
+            '  \'' + JSON.stringify(mediaConstraints) + '\'');
+
+        this.onUserMediaSuccess_(stream);
+      }.bind(this)).catch(function(error) {
+        this.onError_('Error getting user media: ' + error.message);
+        this.onUserMediaError_(error);
+      }.bind(this));
+
     }.bind(this));
+
   } else {
     mediaPromise = Promise.resolve();
   }
