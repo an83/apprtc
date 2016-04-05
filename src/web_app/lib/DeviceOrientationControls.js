@@ -88,7 +88,7 @@ THREE.DeviceOrientationControls = function ( object ) {
         var gamma  = scope.deviceOrientation.gamma ? THREE.Math.degToRad( scope.deviceOrientation.gamma ) : 0; // Y''
         var orient = scope.screenOrientation       ? THREE.Math.degToRad( scope.screenOrientation       ) : 0; // O
 
-        if(history.length > 50){
+        if(history.length > 25){
 
             history.splice(0,1);  //remove the first item in the array
             history.push([alpha, beta + 180, gamma + 90]);   //adjust to start from 0
