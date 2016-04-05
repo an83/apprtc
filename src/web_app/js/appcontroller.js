@@ -258,6 +258,12 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
 
   var that = this;
 
+
+  setTimeout(function () {
+    that.toggleFullScreen_();
+  }, 500);
+
+
   $('#data-text-start').addEventListener('click', function () {
 
     reattachMediaStream(that.localVideo_, that.miniVideo_);
