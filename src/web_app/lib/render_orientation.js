@@ -110,43 +110,54 @@ var SceneController = function () {
         return mouse3D;
     }
 
-    renderer.domElement.addEventListener('mouseup', function (event) {
-        event.preventDefault();
+    var h = jQuery('body').height();
+    var t = jQuery('#annotation-history').offset().top;
+    jQuery('#annotation-history').css('max-height', h - t -1);
 
-        var mouse3D = getMousePosition(event.clientX, event.clientY);
 
-        var x = mouse3D.x * 100;
-        var y = mouse3D.y * 100;
-        var z = mouse3D.z * 100;
+    _controller.annotation = {x: 0, y: 0, z: 0};
 
-        console.log(x + ' ' + y + ' ' + z);
+    var $annotationText = $('#annotation-text');
+    $annotationText.focus();
+    $annotationText.removeEventListener('keypress', keyPressEvent);
+    $annotationText.addEventListener('keypress', keyPressEvent);
 
-        var annotation = {text: 'hi', x: x, y: y, z: z};
+    function keyPressEvent(event){
+        if(event.keyCode == 13){
 
-        _controller.annotation = annotation;
+            if($annotationText.value === '') return;
 
-        $('#annotation-text-container').classList.remove('hidden');
+            _controller.annotation.text = $annotationText.value;
+            _controller.annotation.color = randomColor();
 
-        var $annotationText = $('#annotation-text');
-        $annotationText.focus();
-        $annotationText.removeEventListener('keypress', keyPressEvent);
-        $annotationText.addEventListener('keypress', keyPressEvent);
+            sceneController.addAnnotation(_controller.annotation);
+            appController.sendNewAnnotation(_controller.annotation);
 
-        function keyPressEvent(event){
-            if(event.keyCode == 13){
-
-                _controller.annotation.text = $annotationText.value;
-                _controller.annotation.color = randomColor();
-
-                sceneController.addAnnotation(_controller.annotation);
-                appController.sendNewAnnotation(_controller.annotation);
-
-                $annotationText.value = '';
-                $('#annotation-text-container').classList.add('hidden');
-            }
+            $annotationText.value = '';
+            //jQuery('#annotation-text').hide();
         }
+    }
 
-    }, false);
+    //renderer.domElement.addEventListener('mouseup', function (event) {
+    //    event.preventDefault();
+    //
+    //    var mouse3D = getMousePosition(event.clientX, event.clientY);
+    //
+    //    var x = mouse3D.x * 100;
+    //    var y = mouse3D.y * 100;
+    //    var z = mouse3D.z * 100;
+    //
+    //    console.log(x + ' ' + y + ' ' + z);
+    //
+    //    var annotation = {text: 'hi', x: x, y: y, z: z};
+    //
+    //    _controller.annotation = annotation;
+    //
+    //    //jQuery('#annotation-text').show();
+    //
+    //
+    //
+    //}, false);
 
 };
 
@@ -176,8 +187,9 @@ SceneController.prototype.addText = function (font, text, x, y, z, color) {
     return mesh;
 };
 
-SceneController.prototype.addAnnotation = function (annoation) {
-  this.addTag(annoation.text, annoation.x, annoation.y, annoation.z, annoation.color);
+SceneController.prototype.addAnnotation = function (annotation) {
+    var $history = jQuery('#annotation-history');
+    jQuery('<div />', {'class': 'history-item', 'style': 'color: ' + annotation.color}).text(annotation.text).appendTo($history);
 };
 
 SceneController.prototype.addTag = function (text, x, y, z, color) {
