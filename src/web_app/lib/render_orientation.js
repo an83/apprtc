@@ -71,7 +71,7 @@ var SceneController = function () {
     loader.load('/lib/arial.typeface.js', function (font) {
         _controller.font = _font = font;
 
-        //_controller.addTag('hello', 0, 0, 200);
+        console.log('font loaded');
     });
 
 
@@ -136,6 +136,7 @@ var SceneController = function () {
             if(event.keyCode == 13){
 
                 _controller.annotation.text = $annotationText.value;
+                _controller.annotation.color = randomColor();
 
                 sceneController.addAnnotation(_controller.annotation);
                 appController.sendNewAnnotation(_controller.annotation);
@@ -149,7 +150,7 @@ var SceneController = function () {
 
 };
 
-SceneController.prototype.addText = function (font, text, x, y, z) {
+SceneController.prototype.addText = function (font, text, x, y, z, color) {
     var geometry = new THREE.TextGeometry(text, {
         font: font,
         size: 10,
@@ -159,12 +160,9 @@ SceneController.prototype.addText = function (font, text, x, y, z) {
 
     geometry.computeBoundingBox();
 
-    var color = randomColor();
-
     var material = new THREE.MeshBasicMaterial({
         color: color,
-        side: THREE.BackSide,
-        //wireframe: true
+        side: THREE.BackSide
     });
 
     var mesh = new THREE.Mesh(geometry, material);
@@ -178,11 +176,11 @@ SceneController.prototype.addText = function (font, text, x, y, z) {
 };
 
 SceneController.prototype.addAnnotation = function (annoation) {
-  this.addTag(annoation.text, annoation.x, annoation.y, annoation.z);
+  this.addTag(annoation.text, annoation.x, annoation.y, annoation.z, annoation.color);
 };
 
-SceneController.prototype.addTag = function (text, x, y, z) {
-    var mesh = this.addText(this.font, text, x, y, z);
+SceneController.prototype.addTag = function (text, x, y, z, color) {
+    var mesh = this.addText(this.font, text, x, y, z, color);
     var group = new THREE.Group();
     group.add(mesh);
     this.scene.add(group);
