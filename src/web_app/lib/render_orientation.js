@@ -112,7 +112,7 @@ var SceneController = function () {
 
     var h = jQuery('body').height();
     var t = jQuery('#annotation-history').offset().top;
-    jQuery('#annotation-history').css('max-height', h - t -1);
+    jQuery('#annotation-history').css('max-height', h);
 
 
     _controller.annotation = {x: 0, y: 0, z: 0};
