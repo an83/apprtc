@@ -71,7 +71,7 @@ var SceneController = function () {
     loader.load('/lib/arial.typeface.js', function (font) {
         _controller.font = _font = font;
 
-        _controller.addTag('hello', 0, 0, 200);
+        //_controller.addTag('hello', 0, 0, 200);
     });
 
 
@@ -159,10 +159,12 @@ SceneController.prototype.addText = function (font, text, x, y, z) {
 
     geometry.computeBoundingBox();
 
+    var color = randomColor();
+
     var material = new THREE.MeshBasicMaterial({
-        color: 0xff00ff,
+        color: color,
         side: THREE.BackSide,
-        wireframe: true
+        //wireframe: true
     });
 
     var mesh = new THREE.Mesh(geometry, material);
