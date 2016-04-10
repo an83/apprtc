@@ -189,7 +189,7 @@ label {
 #confirm-join-div {
   z-index: 5;
   position: absolute;
-  top: 80%;
+  bottom: 0;
   width: 100%;
   text-align: center;
 }
@@ -198,6 +198,25 @@ label {
   position: absolute;
   top: 50px;
   right: 0;
+  text-align: right;
+
+}
+
+#annotation-text-container input{
+  text-shadow: 2px 2px 1px rgba(0, 0, 0, 1);
+  text-align: right;
+  padding-right: 15px;
+}
+
+
+
+#annotation-text-container #annotation-history{
+  overflow-y: scroll;
+}
+
+#annotation-text-container #annotation-history .history-item{
+  padding: 15px;
+  text-shadow: 2px 2px 1px rgba(0, 0, 0, 1);
 }
 
 #confirm-join-div div {
