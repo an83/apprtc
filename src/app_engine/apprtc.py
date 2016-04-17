@@ -541,6 +541,7 @@ class MainPage(webapp2.RequestHandler):
     # room_id/room_link will not be included in the returned parameters
     # so the client will show the landing page for room selection.
     self.write_response('index_template.html', params)
+    self.response.headers['Access-Control-Allow-Origin'] = '*'
 
 class RoomPage(webapp2.RequestHandler):
   def write_response(self, target_page, params={}):
@@ -564,6 +565,7 @@ class RoomPage(webapp2.RequestHandler):
     # room_id/room_link will be included in the returned parameters
     # so the client will launch the requested room.
     self.write_response('index_template.html', params)
+    self.response.headers['Access-Control-Allow-Origin'] = '*'
 
 class ParamsPage(webapp2.RequestHandler):
   def get(self):
