@@ -111,16 +111,12 @@ var SceneController = function () {
     }
 
     var h = jQuery('body').height();
-    var t = jQuery('#annotation-history').offset().top;
     jQuery('#annotation-history').css('max-height', h);
 
 
-    _controller.annotation = {x: 0, y: 0, z: 0};
+    // _controller.annotation = {x: 0, y: 0, z: 0};
 
     var $annotationText = $('#annotation-text');
-    $annotationText.focus();
-    $annotationText.removeEventListener('keypress', keyPressEvent);
-    $annotationText.addEventListener('keypress', keyPressEvent);
 
     function keyPressEvent(event){
         if(event.keyCode == 13){
@@ -134,30 +130,33 @@ var SceneController = function () {
             appController.sendNewAnnotation(_controller.annotation);
 
             $annotationText.value = '';
-            //jQuery('#annotation-text').hide();
+
         }
     }
 
-    //renderer.domElement.addEventListener('mouseup', function (event) {
-    //    event.preventDefault();
-    //
-    //    var mouse3D = getMousePosition(event.clientX, event.clientY);
-    //
-    //    var x = mouse3D.x * 100;
-    //    var y = mouse3D.y * 100;
-    //    var z = mouse3D.z * 100;
-    //
-    //    console.log(x + ' ' + y + ' ' + z);
-    //
-    //    var annotation = {text: 'hi', x: x, y: y, z: z};
-    //
-    //    _controller.annotation = annotation;
-    //
-    //    //jQuery('#annotation-text').show();
-    //
-    //
-    //
-    //}, false);
+    renderer.domElement.addEventListener('mouseup', function (event) {
+       event.preventDefault();
+
+       var mouse3D = getMousePosition(event.clientX, event.clientY);
+
+       var x = mouse3D.x * 100;
+       var y = mouse3D.y * 100;
+       var z = mouse3D.z * 100;
+
+       console.log(x + ' ' + y + ' ' + z);
+
+       var annotation = {text: '<text>', x: x, y: y, z: z};
+
+       _controller.annotation = annotation;
+
+        $annotationText.classList.remove('hidden');
+        $annotationText.focus();
+
+        $annotationText.removeEventListener('keypress', keyPressEvent);
+        $annotationText.addEventListener('keypress', keyPressEvent);
+
+
+    }, false);
 
 };
 
@@ -187,6 +186,8 @@ SceneController.prototype.addText = function (font, text, x, y, z, color) {
 };
 
 SceneController.prototype.addAnnotation = function (annotation) {
+    this.addTag(annotation.text, annotation.x, annotation.y, annotation.z, annotation.color);
+
     var $history = jQuery('#annotation-history');
     jQuery('<div />', {'class': 'history-item', 'style': 'color: ' + annotation.color}).text(annotation.text)
         .appendTo($history);
