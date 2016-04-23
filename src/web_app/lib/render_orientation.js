@@ -1,5 +1,5 @@
 var SceneController = function () {
-    var container, camera, scene, renderer, controls;
+    var container, camera, scene, renderer, controls, effect;
 
     var _lastOrientation = null;
 
@@ -22,7 +22,8 @@ var SceneController = function () {
 
         var orientation = controls.update();
 
-        renderer.render(scene, camera);
+        //renderer.render(scene, camera);
+        effect.render(scene, camera);
 
         if(orientation && (Date.now() - _lastUpdate > 300)){
 
@@ -82,6 +83,8 @@ var SceneController = function () {
     renderer.domElement.style.position = 'absolute';
     renderer.domElement.style.top = 0;
     container.appendChild(renderer.domElement);
+
+    effect = new THREE.StereoEffect(renderer);
 
     window.addEventListener('resize', function () {
 
