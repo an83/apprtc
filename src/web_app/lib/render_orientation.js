@@ -190,10 +190,16 @@ SceneController.prototype.addAnnotation = function (annotation) {
     this.addTag(annotation.text, annotation.x, annotation.y, annotation.z, annotation.color);
 
     var $history = jQuery('#annotation-history');
-    jQuery('<div />', {'class': 'history-item', 'style': 'color: ' + annotation.color}).text(annotation.text)
+    var $item = jQuery('<div />', {'class': 'history-item', 'style': 'color: ' + annotation.color}).text(annotation.text)
         .appendTo($history);
 
     $history.scrollTop($history.prop("scrollHeight"));
+
+    $item.fadeTo(6000, 0, function () {
+        console.log('fading complete');
+        $item.remove();
+    });
+
 };
 
 SceneController.prototype.addTag = function (text, x, y, z, color) {
