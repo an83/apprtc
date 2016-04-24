@@ -171,6 +171,7 @@ SceneController.prototype.addText = function (font, text, x, y, z, color) {
     geometry.computeBoundingBox();
 
     var material = new THREE.MeshBasicMaterial({
+        transparent: true,
         color: color,
         side: THREE.BackSide
     });
@@ -200,6 +201,21 @@ SceneController.prototype.addTag = function (text, x, y, z, color) {
     var group = new THREE.Group();
     group.add(mesh);
     this.scene.add(group);
+
+    var scene = this.scene;
+
+    var intervalId = setInterval(function () {
+        if(mesh.material.opacity >0){
+            mesh.material.opacity  = mesh.material.opacity - 0.05;
+            console.log('opacity: ' + mesh.material.opacity);
+        }
+        else{
+            scene.remove(group);
+            console.log('removed: ');
+            clearInterval(intervalId);
+        }
+    }, 300);
+
 };
 
 
