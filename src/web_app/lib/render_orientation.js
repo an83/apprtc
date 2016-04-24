@@ -207,11 +207,11 @@ SceneController.prototype.addTag = function (text, x, y, z, color) {
     var intervalId = setInterval(function () {
         if(mesh.material.opacity >0){
             mesh.material.opacity  = mesh.material.opacity - 0.05;
-            console.log('opacity: ' + mesh.material.opacity);
+            console.log('opacity: ' + mesh.material.opacity + ' for: ' + text);
         }
         else{
             scene.remove(group);
-            console.log('removed: ');
+            console.log('removed' + text);
             clearInterval(intervalId);
         }
     }, 300);
