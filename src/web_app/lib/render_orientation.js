@@ -118,6 +118,9 @@ var SceneController = function () {
 
     var $annotationText = $('#annotation-text');
 
+    //default hidden
+    $annotationText.classList.add('hidden');
+
     function keyPressEvent(event){
         if(event.keyCode == 13){
 
@@ -131,6 +134,7 @@ var SceneController = function () {
 
             $annotationText.value = '';
 
+            $annotationText.classList.add('hidden');
         }
     }
 
