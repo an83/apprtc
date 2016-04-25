@@ -115,49 +115,43 @@ var SceneController = function () {
     jQuery('#annotation-history').css('max-height', h - t -1);
 
 
-    _controller.annotation = {x: 0, y: 0, z: 0};
+    renderer.domElement.addEventListener('mouseup', function (event) {
+       event.preventDefault();
 
-    var $annotationText = $('#annotation-text');
-    $annotationText.focus();
-    $annotationText.removeEventListener('keypress', keyPressEvent);
-    $annotationText.addEventListener('keypress', keyPressEvent);
+       var mouse3D = getMousePosition(event.clientX, event.clientY);
 
-    function keyPressEvent(event){
-        if(event.keyCode == 13){
+       var x = mouse3D.x * 100;
+       var y = mouse3D.y * 100;
+       var z = mouse3D.z * 100;
 
-            if($annotationText.value === '') return;
+       console.log(x + ' ' + y + ' ' + z);
 
-            _controller.annotation.text = $annotationText.value;
-            _controller.annotation.color = randomColor();
+       var annotation = {text: 'hi', x: x, y: y, z: z};
 
-            sceneController.addAnnotation(_controller.annotation);
-            appController.sendNewAnnotation(_controller.annotation);
+       _controller.annotation = annotation;
 
-            $annotationText.value = '';
-            //jQuery('#annotation-text').hide();
+        var $annotationText = $('#annotation-text');
+        $annotationText.focus();
+        $annotationText.removeEventListener('keypress', keyPressEvent);
+        $annotationText.addEventListener('keypress', keyPressEvent);
+
+        function keyPressEvent(event){
+            if(event.keyCode == 13){
+
+                if($annotationText.value === '') return;
+
+                _controller.annotation.text = $annotationText.value;
+                _controller.annotation.color = randomColor();
+
+                sceneController.addAnnotation(_controller.annotation);
+                appController.sendNewAnnotation(_controller.annotation);
+
+                $annotationText.value = '';
+                //jQuery('#annotation-text').hide();
+            }
         }
-    }
 
-    //renderer.domElement.addEventListener('mouseup', function (event) {
-    //    event.preventDefault();
-    //
-    //    var mouse3D = getMousePosition(event.clientX, event.clientY);
-    //
-    //    var x = mouse3D.x * 100;
-    //    var y = mouse3D.y * 100;
-    //    var z = mouse3D.z * 100;
-    //
-    //    console.log(x + ' ' + y + ' ' + z);
-    //
-    //    var annotation = {text: 'hi', x: x, y: y, z: z};
-    //
-    //    _controller.annotation = annotation;
-    //
-    //    //jQuery('#annotation-text').show();
-    //
-    //
-    //
-    //}, false);
+    }, false);
 
 };
 
@@ -188,8 +182,10 @@ SceneController.prototype.addText = function (font, text, x, y, z, color) {
 };
 
 SceneController.prototype.addAnnotation = function (annotation) {
-    var $history = jQuery('#annotation-history');
-    jQuery('<div />', {'class': 'history-item', 'style': 'color: ' + annotation.color}).text(annotation.text).appendTo($history);
+    this.addTag(annotation.text, annotation.x, annotation.y, annotation.z, annotation.color);
+
+    // var $history = jQuery('#annotation-history');
+    // jQuery('<div />', {'class': 'history-item', 'style': 'color: ' + annotation.color}).text(annotation.text).appendTo($history);
 };
 
 SceneController.prototype.addTag = function (text, x, y, z, color) {
