@@ -107,7 +107,7 @@ THREE.DeviceOrientationControls = function ( object ) {
                 sum[2]/history.length - 90
             ];
 
-            console.log('avg: ' + JSON.stringify(avg));
+            // console.log('avg: ' + JSON.stringify(avg));
 
             alpha = avg[0];
             beta = avg[1];
