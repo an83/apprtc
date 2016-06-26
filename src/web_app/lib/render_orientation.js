@@ -143,7 +143,7 @@ var SceneController = function () {
        var y = mouse3D.y * 100;
        var z = mouse3D.z * 100;
 
-       console.log(x + ' ' + y + ' ' + z);
+       console.log('touch:' + x + ' ' + y + ' ' + z);
 
        var annotation = {text: '<text>', x: x, y: y, z: z};
 
@@ -163,11 +163,11 @@ var SceneController = function () {
 SceneController.prototype.generateAnnotations = function () {
 
     var list = [
-        {text: 'test 1', x:85.04845782244072, y:38.66351689017879, z:-398.9119879212803},
-        {text: 'test 2', x:-64.75856728826004, y:43.51054670439945, z:-398.9119879212803},
-        {text: 'test 3', x:-4.565225370190652, y:-14.879254313421574, z:-398.9119879212803},
-        {text: 'test 4', x:93.38985726427055, y:-56.24809016967702, z:-398.9119879212803},
-        {text: 'test 5', x:-83.24491199718021, y:-43.17238183363988, z:-398.9119879212803},
+        {text: 'test 1', delay: 1000, x:85.04845782244072, y:38.66351689017879, z:-398.9119879212803},
+        {text: 'test 2', delay: 2000, x:-64.75856728826004, y:43.51054670439945, z:-398.9119879212803},
+        {text: 'test 3', delay: 3000, x:-4.565225370190652, y:-14.879254313421574, z:-398.9119879212803},
+        {text: 'test 4', delay: 4000, x:93.38985726427055, y:-56.24809016967702, z:-398.9119879212803},
+        {text: 'test 5', delay: 5000, x:-83.24491199718021, y:-43.17238183363988, z:-398.9119879212803},
     ];
 
     var _ctrl = this;
@@ -177,7 +177,7 @@ SceneController.prototype.generateAnnotations = function () {
         function execute(item, delay) {
             setTimeout(function () {
                 _ctrl.addAnnotation(item);
-            }, delay);
+            }, item.delay);
         }
 
         execute(list[i], 1000* i);
