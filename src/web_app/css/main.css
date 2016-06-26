@@ -211,7 +211,7 @@ label {
 
 
 #annotation-text-container #annotation-history{
-  overflow-y: scroll;
+  overflow: hidden;
 }
 
 #annotation-text-container #annotation-history .history-item{
