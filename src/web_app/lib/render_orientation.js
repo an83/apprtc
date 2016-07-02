@@ -257,4 +257,9 @@ var sceneController;
 
 window.addEventListener('load', function () {
     sceneController = new SceneController();
+
+    jQuery.getJSON('/data/scenario.json', function (json) {
+        console.log('json loaded');
+        console.log(json);
+    })
 }, false);
