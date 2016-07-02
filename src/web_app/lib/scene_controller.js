@@ -39,7 +39,7 @@ var SceneController = function () {
 
                 if(diff.x || diff.y || diff.z){
 
-                    console.log(orientation);
+                    // console.log(orientation);
                     appController.updateOrientation(orientation);
 
                     updateOrientation(vOrientation);
@@ -66,7 +66,6 @@ var SceneController = function () {
     var loader = new THREE.FontLoader();
     loader.load('/lib/arial.typeface.js', function (font) {
         _controller.font = _font = font;
-
         console.log('font loaded');
     });
 
@@ -107,16 +106,15 @@ var SceneController = function () {
     }
 
     var h = jQuery('body').height();
-    var t = jQuery('#annotation-history').offset().top;
     jQuery('#annotation-history').css('max-height', h);
 
 
-    _controller.annotation = {x: 0, y: 0, z: 0};
+    // _controller.annotation = {x: 0, y: 0, z: 0};
 
     var $annotationText = $('#annotation-text');
-    $annotationText.focus();
-    $annotationText.removeEventListener('keypress', keyPressEvent);
-    $annotationText.addEventListener('keypress', keyPressEvent);
+
+    //default hidden
+    $annotationText.classList.add('hidden');
 
     function keyPressEvent(event){
         if(event.keyCode == 13){
@@ -130,31 +128,59 @@ var SceneController = function () {
             appController.sendNewAnnotation(_controller.annotation);
 
             $annotationText.value = '';
-            //jQuery('#annotation-text').hide();
+
+            $annotationText.classList.add('hidden');
         }
     }
 
-    //renderer.domElement.addEventListener('mouseup', function (event) {
-    //    event.preventDefault();
-    //
-    //    var mouse3D = getMousePosition(event.clientX, event.clientY);
-    //
-    //    var x = mouse3D.x * 100;
-    //    var y = mouse3D.y * 100;
-    //    var z = mouse3D.z * 100;
-    //
-    //    console.log(x + ' ' + y + ' ' + z);
-    //
-    //    var annotation = {text: 'hi', x: x, y: y, z: z};
-    //
-    //    _controller.annotation = annotation;
-    //
-    //    //jQuery('#annotation-text').show();
-    //
-    //
-    //
-    //}, false);
+    renderer.domElement.addEventListener('mouseup', function (event) {
+       event.preventDefault();
 
+       var mouse3D = getMousePosition(event.clientX, event.clientY);
+
+       var x = mouse3D.x * 100;
+       var y = mouse3D.y * 100;
+       var z = mouse3D.z * 100;
+
+       console.log('touch:' + x + ' ' + y + ' ' + z);
+
+       var annotation = {text: '<text>', x: x, y: y, z: z};
+
+       _controller.annotation = annotation;
+
+        $annotationText.classList.remove('hidden');
+        $annotationText.focus();
+
+        $annotationText.removeEventListener('keypress', keyPressEvent);
+        $annotationText.addEventListener('keypress', keyPressEvent);
+
+
+    }, false);
+
+};
+
+SceneController.prototype.generateAnnotations = function (condition) {
+    if(!this.scenariosJSON){
+        throw 'unable to find scenarios';
+    }
+
+    var list = this.scenariosJSON['sample-messages'];
+    if(condition){
+        list = this.scenariosJSON.conditions[condition];
+    }
+
+    var _ctrl = this;
+
+    for(var i=0; i< list.length; i++){
+
+        function execute(item, delay) {
+            setTimeout(function () {
+                _ctrl.addAnnotation(item);
+            }, item.delay);
+        }
+
+        execute(list[i], 1000* i);
+    }
 };
 
 SceneController.prototype.generateAnnotations = function () {
@@ -192,6 +218,7 @@ SceneController.prototype.addText = function (font, text, x, y, z, color) {
     geometry.computeBoundingBox();
 
     var material = new THREE.MeshBasicMaterial({
+        transparent: true,
         color: color,
         side: THREE.BackSide
     });
@@ -207,6 +234,8 @@ SceneController.prototype.addText = function (font, text, x, y, z, color) {
 };
 
 SceneController.prototype.addAnnotation = function (annotation) {
+    this.addTag(annotation.text, annotation.x, annotation.y, annotation.z, annotation.color);
+
     var $history = jQuery('#annotation-history');
     var $item = jQuery('<div />', {'class': 'history-item', 'style': 'color: ' + annotation.color}).text(annotation.text)
         .appendTo($history);
@@ -225,11 +254,36 @@ SceneController.prototype.addTag = function (text, x, y, z, color) {
     var group = new THREE.Group();
     group.add(mesh);
     this.scene.add(group);
+
+    var scene = this.scene;
+
+    var intervalId = setInterval(function () {
+        if(mesh.material.opacity >0){
+            mesh.material.opacity  = mesh.material.opacity - 0.05;
+            // console.log('opacity: ' + mesh.material.opacity + ' for: ' + text);
+        }
+        else{
+            scene.remove(group);
+            // console.log('removed: ' + text);
+            clearInterval(intervalId);
+        }
+    }, 300);
+
 };
 
+SceneController.prototype.setScenarios = function (scenariosJson) {
+    this.scenariosJSON= scenariosJson;
+};
 
 var sceneController;
 
 window.addEventListener('load', function () {
     sceneController = new SceneController();
+
+    jQuery.getJSON('/data/scenario.json', function (json) {
+        console.log('json loaded');
+        console.log(json);
+
+        sceneController.setScenarios(json);
+    });
 }, false);

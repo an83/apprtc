@@ -136,6 +136,14 @@ module.exports = function(grunt) {
             ],
             dest: 'out/app_engine/lib'
           },
+          {
+            expand: true,
+            cwd: 'src/web_app/data',
+            src: [
+              '**/*.json',
+            ],
+            dest: 'out/app_engine/data'
+          },
         ],
       }
     },
@@ -152,9 +160,9 @@ module.exports = function(grunt) {
     closurecompiler: {
       debug: {
         files: {
-          // Destination: [source files]
-          'out/app_engine/js/apprtc.debug.js': [
-	    'src/web_app/js/analytics.js',
+            // Destination: [source files]
+            'out/app_engine/js/apprtc.debug.js': [
+	        'src/web_app/js/analytics.js',
             'src/web_app/js/enums.js',
             'src/web_app/js/adapter.js',
             'src/web_app/js/appcontroller.js',
