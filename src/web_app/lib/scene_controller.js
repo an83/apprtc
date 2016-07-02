@@ -39,7 +39,7 @@ var SceneController = function () {
 
                 if(diff.x || diff.y || diff.z){
 
-                    console.log(orientation);
+                    // console.log(orientation);
                     appController.updateOrientation(orientation);
 
                     updateOrientation(vOrientation);
@@ -66,7 +66,6 @@ var SceneController = function () {
     var loader = new THREE.FontLoader();
     loader.load('/lib/arial.typeface.js', function (font) {
         _controller.font = _font = font;
-
         console.log('font loaded');
     });
 
@@ -160,19 +159,15 @@ var SceneController = function () {
 
 };
 
-SceneController.prototype.generateAnnotations = function () {
+SceneController.prototype.generateAnnotations = function (condition) {
+    if(!this.scenariosJSON){
+        throw 'unable to find scenarios';
+    }
 
-    var list = [
-        {text: 'test 1', delay: 1000, x:85.04845782244072, y:38.66351689017879, z:-398.9119879212803},
-        {text: 'test 2', delay: 2000, x:-64.75856728826004, y:43.51054670439945, z:-398.9119879212803},
-        {text: 'test 3', delay: 3000, x:-4.565225370190652, y:-14.879254313421574, z:-398.9119879212803},
-        {text: 'test 4', delay: 4000, x:93.38985726427055, y:-56.24809016967702, z:-398.9119879212803},
-        {text: 'test 5', delay: 5000, x:-83.24491199718021, y:-43.17238183363988, z:-398.9119879212803},
-        {text: 'cool', delay: 1000, x: 397.48351499467645, y:47.62953420138392, z:34.42908576030258},
-        {text: 'cool', delay: 1000, x: 302.832346750142, y:34.78628479279475, z:-264.4798536133644},
-        {text: 'cool', delay: 1000, x: 188.26708428207743, y:13.944937279204634, z:-351.4633696380169},
-        {text: 'cool', delay: 1000, x: -110.07976224393816, y:35.136819475293876, z:-381.8697202059068},
-    ];
+    var list = this.scenariosJSON['sample-messages'];
+    if(condition){
+        list = this.scenariosJSON.conditions[condition];
+    }
 
     var _ctrl = this;
 
@@ -241,17 +236,20 @@ SceneController.prototype.addTag = function (text, x, y, z, color) {
     var intervalId = setInterval(function () {
         if(mesh.material.opacity >0){
             mesh.material.opacity  = mesh.material.opacity - 0.05;
-            console.log('opacity: ' + mesh.material.opacity + ' for: ' + text);
+            // console.log('opacity: ' + mesh.material.opacity + ' for: ' + text);
         }
         else{
             scene.remove(group);
-            console.log('removed' + text);
+            // console.log('removed: ' + text);
             clearInterval(intervalId);
         }
     }, 300);
 
 };
 
+SceneController.prototype.setScenarios = function (scenariosJson) {
+    this.scenariosJSON= scenariosJson;
+};
 
 var sceneController;
 
@@ -261,5 +259,7 @@ window.addEventListener('load', function () {
     jQuery.getJSON('/data/scenario.json', function (json) {
         console.log('json loaded');
         console.log(json);
-    })
+
+        sceneController.setScenarios(json);
+    });
 }, false);
