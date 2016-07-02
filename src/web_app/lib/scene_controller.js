@@ -39,7 +39,7 @@ var SceneController = function () {
 
                 if(diff.x || diff.y || diff.z){
 
-                    console.log(orientation);
+                    // console.log(orientation);
                     appController.updateOrientation(orientation);
 
                     updateOrientation(vOrientation);
@@ -66,7 +66,6 @@ var SceneController = function () {
     var loader = new THREE.FontLoader();
     loader.load('/lib/arial.typeface.js', function (font) {
         _controller.font = _font = font;
-
         console.log('font loaded');
     });
 
@@ -143,7 +142,7 @@ var SceneController = function () {
        var y = mouse3D.y * 100;
        var z = mouse3D.z * 100;
 
-       console.log(x + ' ' + y + ' ' + z);
+       console.log('touch:' + x + ' ' + y + ' ' + z);
 
        var annotation = {text: '<text>', x: x, y: y, z: z};
 
@@ -160,15 +159,15 @@ var SceneController = function () {
 
 };
 
-SceneController.prototype.generateAnnotations = function () {
+SceneController.prototype.generateAnnotations = function (condition) {
+    if(!this.scenariosJSON){
+        throw 'unable to find scenarios';
+    }
 
-    var list = [
-        {text: 'test 1', x:85.04845782244072, y:38.66351689017879, z:-398.9119879212803},
-        {text: 'test 2', x:-64.75856728826004, y:43.51054670439945, z:-398.9119879212803},
-        {text: 'test 3', x:-4.565225370190652, y:-14.879254313421574, z:-398.9119879212803},
-        {text: 'test 4', x:93.38985726427055, y:-56.24809016967702, z:-398.9119879212803},
-        {text: 'test 5', x:-83.24491199718021, y:-43.17238183363988, z:-398.9119879212803},
-    ];
+    var list = this.scenariosJSON['sample-messages'];
+    if(condition){
+        list = this.scenariosJSON.conditions[condition];
+    }
 
     var _ctrl = this;
 
@@ -177,7 +176,7 @@ SceneController.prototype.generateAnnotations = function () {
         function execute(item, delay) {
             setTimeout(function () {
                 _ctrl.addAnnotation(item);
-            }, delay);
+            }, item.delay);
         }
 
         execute(list[i], 1000* i);
@@ -237,20 +236,30 @@ SceneController.prototype.addTag = function (text, x, y, z, color) {
     var intervalId = setInterval(function () {
         if(mesh.material.opacity >0){
             mesh.material.opacity  = mesh.material.opacity - 0.05;
-            console.log('opacity: ' + mesh.material.opacity + ' for: ' + text);
+            // console.log('opacity: ' + mesh.material.opacity + ' for: ' + text);
         }
         else{
             scene.remove(group);
-            console.log('removed' + text);
+            // console.log('removed: ' + text);
             clearInterval(intervalId);
         }
     }, 300);
 
 };
 
+SceneController.prototype.setScenarios = function (scenariosJson) {
+    this.scenariosJSON= scenariosJson;
+};
 
 var sceneController;
 
 window.addEventListener('load', function () {
     sceneController = new SceneController();
+
+    jQuery.getJSON('/data/scenario.json', function (json) {
+        console.log('json loaded');
+        console.log(json);
+
+        sceneController.setScenarios(json);
+    });
 }, false);
