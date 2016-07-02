@@ -284,8 +284,8 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
   window.addEventListener('deviceorientation', function(event) {
     // process event.alpha, event.beta and event.gamma
     var ori = 'alpha: ' + event.alpha + ' beta: ' + event.beta + ' gamma: ' + event.gamma;
+    // trace(ori);
 
-    trace(ori);
     orientationDiv.textContent = ori;
 
   }, true);
