@@ -197,21 +197,10 @@ SceneController.prototype.addText = function (font, text, x, y, z, color) {
 
 SceneController.prototype.addAnnotation = function (annotation) {
     this.addVideoTag(annotation.text, annotation.x, annotation.y, annotation.z, annotation.color);
-    this.addListTag(annotation.text, annotation.color);
+    // this.addListTag(annotation.text, annotation.color);
 };
 
 SceneController.prototype.addListTag = function (text, color) {
-
-    // var $history = jQuery('#annotation-history');
-    // var $item = jQuery('<div />', {'class': 'history-item', 'style': 'color: ' + annotation.color}).text(annotation.text)
-    //     .appendTo($history);
-    //
-    // $history.scrollTop($history.prop("scrollHeight"));
-    //
-    // $item.fadeTo(6000, 0, function () {
-    //     console.log('fading complete');
-    //     $item.remove();
-    // });
 
     var $history = jQuery('#annotation-history');
     var $item = jQuery('<div />', {'class': 'history-item', 'style': 'color: ' + color}).text(text)
