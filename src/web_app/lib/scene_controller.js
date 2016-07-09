@@ -7,6 +7,11 @@ var SceneController = function () {
 
     var _lastUpdate = Date.now();
 
+    this._fadeOutMs = 15000;
+    this._fadeOutFactor = 0.05;
+    this._fadeOutInterval = this._fadeOutMs * this._fadeOutFactor;
+
+
     var updateOrientation = function (vOrientation) {
         _lastOrientation = new THREE.Vector3();
         _lastOrientation.copy(vOrientation);
@@ -198,7 +203,7 @@ SceneController.prototype.addAnnotation = function (annotation) {
 
     $history.scrollTop($history.prop("scrollHeight"));
 
-    $item.fadeTo(6000, 0, function () {
+    $item.fadeTo(this._fadeOutMs, 0, function () {
         // console.log('fading complete');
         $item.remove();
     });
@@ -211,11 +216,12 @@ SceneController.prototype.addTag = function (text, x, y, z, color) {
     group.add(mesh);
     this.scene.add(group);
 
+    var ctrl = this;
     var scene = this.scene;
 
     var intervalId = setInterval(function () {
         if(mesh.material.opacity >0){
-            mesh.material.opacity  = mesh.material.opacity - 0.05;
+            mesh.material.opacity  = mesh.material.opacity - ctrl._fadeOutFactor;
             // console.log('opacity: ' + mesh.material.opacity + ' for: ' + text);
         }
         else{
@@ -223,7 +229,7 @@ SceneController.prototype.addTag = function (text, x, y, z, color) {
             // console.log('removed: ' + text);
             clearInterval(intervalId);
         }
-    }, 300);
+    }, ctrl._fadeOutInterval);
 
 };
 
