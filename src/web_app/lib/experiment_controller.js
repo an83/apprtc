@@ -52,7 +52,7 @@ ExperimentController.prototype.generate = function (condition) {
 var ctrl;
 
 window.addEventListener('load', function () {
-	ctrl = new ExperimentController(sceneController, appController);
+	window.ctrl = ctrl = new ExperimentController(sceneController, appController);
 
 	jQuery.getJSON('/data/scenario.json', function (json) {
 		console.log('json loaded');
