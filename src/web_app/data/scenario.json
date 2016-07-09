@@ -1,47 +1,53 @@
 {
+  /*
+	 #bfff00 green
+	 #00bfff BLUE
+  	 #ff0080 pink
+  	 #ff8000 orange
+  */
   "conditions": {
 	"park": [
-	  {"delay": 1000, "text":"let's climb this tree","x":239.68565158560523,"y":138.05594007529749,"z":-308.9396542701665,"color":"#94efab"},
-	  {"delay": 1049, "text":"picnic area","x":168.82222423182014,"y":101.10165221218017,"z":-350.3194949763762,"color":"#d626c4"},
-	  {"delay": 2035, "text":"love to play here","x":150.2919291734212,"y":84.05013545169875,"z":-383.5666810764172,"color":"#ed87a9"},
-	  {"delay": 3467, "text":"nice lake","x":385.42957680161317,"y":85.99478518856581,"z":67.52877392702005,"color":"#71e060"},
-	  {"delay": 4566, "text":"nice fountains","x":346.04311131765957,"y":117.54839285436849,"z":161.91839348764609,"color":"#d1bcf4"},
-	  {"delay": 5824, "text":"good place to relax","x":11.355167247542397,"y":86.4368261926131,"z":389.28748255166283,"color":"#dd865a"},
-	  {"delay": 9805, "text":"I go running here","x":-84.17581828072835,"y":88.55500478939491,"z":383.3467911825411,"color":"#9aed36"}
+	  {"delay": 1000, "text":"let's climb this tree","x":239.68565158560523,"y":138.05594007529749,"z":-308.9396542701665,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 1049, "text":"picnic area","x":168.82222423182014,"y":101.10165221218017,"z":-350.3194949763762,"color":"#00bfff", "colorText": "blue"},
+	  {"delay": 2035, "text":"love to play here","x":150.2919291734212,"y":84.05013545169875,"z":-383.5666810764172,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 3467, "text":"nice lake","x":385.42957680161317,"y":85.99478518856581,"z":67.52877392702005,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 4566, "text":"nice fountains","x":346.04311131765957,"y":117.54839285436849,"z":161.91839348764609,"color":"#ff0080", "colorText": "pink"},
+	  {"delay": 5824, "text":"good place to relax","x":11.355167247542397,"y":86.4368261926131,"z":389.28748255166283,"color":"#ff8000", "colorText": "orange"},
+	  {"delay": 9805, "text":"I go running here","x":-84.17581828072835,"y":88.55500478939491,"z":383.3467911825411,"color":"#00bfff", "colorText": "blue"}
 	],
 	"city": [
-	  {"delay": 2197, "text":"too many people ","x":-265.33595271888794,"y":23.83623268176079,"z":297.69491697625165,"color":"#77e4ea"},
-	  {"delay": 2307, "text":"looks exciting","x":-376.3846918838682,"y":49.6373719264336,"z":132.88558727891234,"color":"#d18849"},
-	  {"delay": 2404, "text":"what's the name of this restaurent ","x":-322.71646161323883,"y":90.57966983603228,"z":-228.19856631073293,"color":"#bf16dd"},
-	  {"delay": 2525, "text":"I always wanted to go there ","x":-253.16119457866404,"y":41.07460797109416,"z":312.10339233631584,"color":"#8ec9e2"},
-	  {"delay": 2660, "text":"shopping!!!","x":84.55096562982246,"y":37.477231666930635,"z":390.9584234143634,"color":"#e827a7"},
-	  {"delay": 2956, "text":"is it a nice cafe?","x":-380.4546079992351,"y":49.84470427392174,"z":-148.6466527754752,"color":"#bed4f7"},
-	  {"delay": 3123, "text":"cool ads","x":-328.3805402334998,"y":101.12848046755165,"z":208.79879186099174,"color":"#f276b8"},
-	  {"delay": 3226, "text":"people dressed up","x":-219.0859829066129,"y":-48.78409768553962,"z":335.1233262146938,"color":"#e806dc"},
-	  {"delay": 3709, "text":"traffic jam","x":-178.46512311339944,"y":31.711310763276757,"z":358.09941067913763,"color":"#f7ba96"}
+	  {"delay": 2197, "text":"too many people ","x":-265.33595271888794,"y":23.83623268176079,"z":297.69491697625165,"color":"#ff0080", "colorText": "pink"},
+	  {"delay": 2307, "text":"looks exciting","x":-376.3846918838682,"y":49.6373719264336,"z":132.88558727891234,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 2404, "text":"what's the name of this restaurent ","x":-322.71646161323883,"y":90.57966983603228,"z":-228.19856631073293,"color":"#ff8000", "colorText": "orange"},
+	  {"delay": 2525, "text":"I always wanted to go there ","x":-253.16119457866404,"y":41.07460797109416,"z":312.10339233631584,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 2660, "text":"shopping!!!","x":84.55096562982246,"y":37.477231666930635,"z":390.9584234143634,"color":"#ff0080", "colorText": "pink"},
+	  {"delay": 2956, "text":"is it a nice cafe?","x":-380.4546079992351,"y":49.84470427392174,"z":-148.6466527754752,"color":"#00bfff", "colorText": "blue"},
+	  {"delay": 3123, "text":"cool ads","x":-328.3805402334998,"y":101.12848046755165,"z":208.79879186099174,"color":"#00bfff", "colorText": "blue"},
+	  {"delay": 3226, "text":"people dressed up","x":-219.0859829066129,"y":-48.78409768553962,"z":335.1233262146938,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 3709, "text":"traffic jam","x":-178.46512311339944,"y":31.711310763276757,"z":358.09941067913763,"color":"#bfff00", "colorText": "green"}
 	],
 	"gallery": [
-	  {"delay": 2040, "text":"can you look to the right","x":-225.02961310284434,"y":46.6475109782762,"z":330.93739091538504,"color":"#e07fb9"},
-	  {"delay": 2143, "text":"interesting","x":-368.08369320805684,"y":56.910395567570724,"z":-147.42521159620688,"color":"#28fcb2"},
-	  {"delay": 2359, "text":"beautiful","x":-213.09779405002794,"y":68.1056935182799,"z":333.60352347686234,"color":"#1c81af"},
-	  {"delay": 2510, "text":"too many things to see","x":289.91233510253466,"y":33.64597089532454,"z":274.08824511602484,"color":"#f4eb42"},
-	  {"delay": 2667, "text":"this is weird","x":-197.1101724017934,"y":83.52423621109428,"z":337.52042278233733,"color":"#db100d"},
-	  {"delay": 3204, "text":"what are these pictures","x":-226.7790205322092,"y":55.969768540690445,"z":338.14533345892437,"color":"#80f7b0"},
-	  {"delay": 3317, "text":"how much is this one","x":-379.4703924087994,"y":102.91961957611827,"z":-73.81210679700438,"color":"#fac9ff"},
-	  {"delay": 3550, "text":"why there is a chair there","x":-403.6305572044804,"y":37.35346890548714,"z":-103.59423306999125,"color":"#515cdb"},
-	  {"delay": 4145, "text":"confusing","x":-0.949423181993677,"y":48.62373220863538,"z":402.1196742085665,"color":"#243796"},
-	  {"delay": 4305, "text":"nice composition","x":11.904803092598803,"y":-4.128927936557073,"z":403.1664255495576,"color":"#9eb712"}
+	  {"delay": 2040, "text":"can you look to the right","x":-225.02961310284434,"y":46.6475109782762,"z":330.93739091538504,"color":"#00bfff", "colorText": "blue"},
+	  {"delay": 2143, "text":"interesting","x":-368.08369320805684,"y":56.910395567570724,"z":-147.42521159620688,"color":"#ff0080", "colorText": "pink"},
+	  {"delay": 2359, "text":"beautiful","x":-213.09779405002794,"y":68.1056935182799,"z":333.60352347686234,"color":"#ff8000", "colorText": "orange"},
+	  {"delay": 2510, "text":"too many things to see","x":289.91233510253466,"y":33.64597089532454,"z":274.08824511602484,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 2667, "text":"this is weird","x":-197.1101724017934,"y":83.52423621109428,"z":337.52042278233733,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 3204, "text":"what are these pictures","x":-226.7790205322092,"y":55.969768540690445,"z":338.14533345892437,"color":"#00bfff", "colorText": "blue"},
+	  {"delay": 3317, "text":"how much is this one","x":-379.4703924087994,"y":102.91961957611827,"z":-73.81210679700438,"color":"#ff8000", "colorText": "orange"},
+	  {"delay": 3550, "text":"why there is a chair there","x":-403.6305572044804,"y":37.35346890548714,"z":-103.59423306999125,"color":"#ff8000", "colorText": "orange"},
+	  {"delay": 4145, "text":"confusing","x":-0.949423181993677,"y":48.62373220863538,"z":402.1196742085665,"color":"#ff0080", "colorText": "pink"},
+	  {"delay": 4305, "text":"nice composition","x":11.904803092598803,"y":-4.128927936557073,"z":403.1664255495576,"color":"#00bfff", "colorText": "blue"}
 	],
 	"school": [
-	  {"delay": 1464, "text":"what are they making ","x":-15.184047608148893,"y":28.027498100722685,"z":398.92218846159506,"color":"#b8e25d"},
-	  {"delay": 1641, "text":"interesting","x":-390.42651086191086,"y":-44.50962204886842,"z":77.87015882650596,"color":"#df2bff"},
-	  {"delay": 1777, "text":"very busy class","x":-377.3746546490686,"y":27.106188154943467,"z":-135.99140571994838,"color":"#dddb5a"},
-	  {"delay": 1981, "text":"what does the teacher ","x":-216.63334891531258,"y":57.43546678616768,"z":-333.0408062849942,"color":"#58e0e2"},
-	  {"delay": 2126, "text":"is it a plane?","x":-253.58611747597536,"y":57.602680408953965,"z":-304.695731974101,"color":"#3b3496"},
-	  {"delay": 2329, "text":"what are they talking about","x":-45.478914717428786,"y":72.30781671589969,"z":391.29627160390964,"color":"#ad0d3b"},
-	  {"delay": 2411, "text":"this looks boring ","x":10.857875846431119,"y":34.557312293578036,"z":406.2166791114012,"color":"#89f99c"},
-	  {"delay": 2685, "text":"this person is alone","x":-307.9701243708622,"y":72.5601007742435,"z":254.47435144967633,"color":"#caf29d"},
-	  {"delay": 3070, "text":"what time is it there","x":-377.09144165595893,"y":125.15815380448076,"z":91.8748070924703,"color":"#856cd8"}
+	  {"delay": 1464, "text":"what are they making ","x":-15.184047608148893,"y":28.027498100722685,"z":398.92218846159506,"color":"#ff0080", "colorText": "pink"},
+	  {"delay": 1641, "text":"interesting","x":-390.42651086191086,"y":-44.50962204886842,"z":77.87015882650596,"color":"#ff0080", "colorText": "pink"},
+	  {"delay": 1777, "text":"very busy class","x":-377.3746546490686,"y":27.106188154943467,"z":-135.99140571994838,"color":"#ff8000", "colorText": "orange"},
+	  {"delay": 1981, "text":"what does the teacher ","x":-216.63334891531258,"y":57.43546678616768,"z":-333.0408062849942,"color":"#ff8000", "colorText": "orange"},
+	  {"delay": 2126, "text":"is it a plane?","x":-253.58611747597536,"y":57.602680408953965,"z":-304.695731974101,"color":"#ff8000", "colorText": "orange"},
+	  {"delay": 2329, "text":"what are they talking about","x":-45.478914717428786,"y":72.30781671589969,"z":391.29627160390964,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 2411, "text":"this looks boring ","x":10.857875846431119,"y":34.557312293578036,"z":406.2166791114012,"color":"#ff0080", "colorText": "pink"},
+	  {"delay": 2685, "text":"this person is alone","x":-307.9701243708622,"y":72.5601007742435,"z":254.47435144967633,"color":"#00bfff", "colorText": "blue"},
+	  {"delay": 3070, "text":"what time is it there","x":-377.09144165595893,"y":125.15815380448076,"z":91.8748070924703,"color":"#00bfff", "colorText": "blue"}
 	]
   },
   "sample-messages" : [
