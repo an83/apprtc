@@ -1,10 +1,5 @@
 {
-  /*
-	 #bfff00 green
-	 #00bfff BLUE
-  	 #ff0080 pink
-  	 #ff8000 orange
-  */
+  "_colors": "#bfff00 green #00bfff BLUE #ff0080 pink #ff8000 orange",
   "conditions": {
 	"park": [
 	  {"delay": 1000, "text":"let's climb this tree","x":239.68565158560523,"y":138.05594007529749,"z":-308.9396542701665,"color":"#bfff00", "colorText": "green"},
