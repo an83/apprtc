@@ -159,30 +159,6 @@ var SceneController = function () {
 
 };
 
-SceneController.prototype.generateAnnotations = function (condition) {
-    if(!this.scenariosJSON){
-        throw 'unable to find scenarios';
-    }
-
-    var list = this.scenariosJSON['sample-messages'];
-    if(condition){
-        list = this.scenariosJSON.conditions[condition];
-    }
-
-    var _ctrl = this;
-
-    for(var i=0; i< list.length; i++){
-
-        function execute(item, delay) {
-            setTimeout(function () {
-                _ctrl.addAnnotation(item);
-            }, item.delay);
-        }
-
-        execute(list[i], 1000* i);
-    }
-};
-
 SceneController.prototype.addText = function (font, text, x, y, z, color) {
     var geometry = new THREE.TextGeometry(text, {
         font: font,
@@ -247,19 +223,9 @@ SceneController.prototype.addTag = function (text, x, y, z, color) {
 
 };
 
-SceneController.prototype.setScenarios = function (scenariosJson) {
-    this.scenariosJSON= scenariosJson;
-};
-
 var sceneController;
 
 window.addEventListener('load', function () {
     sceneController = new SceneController();
 
-    jQuery.getJSON('/data/scenario.json', function (json) {
-        console.log('json loaded');
-        console.log(json);
-
-        sceneController.setScenarios(json);
-    });
 }, false);
