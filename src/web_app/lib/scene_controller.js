@@ -27,32 +27,32 @@ var SceneController = function () {
 
         renderer.render(scene, camera);
 
-        if(orientation && (Date.now() - _lastUpdate > 300)){
+        // if(orientation && (Date.now() - _lastUpdate > 300)){
 
             var vOrientation = new THREE.Vector3();
             vOrientation.x = orientation[0];
             vOrientation.y = orientation[1];
             vOrientation.z = orientation[2];
 
-            if(!_lastOrientation){
+            // if(!_lastOrientation){
                 updateOrientation(vOrientation);
-            }
-            else{
-                var diff = new THREE.Vector3();
-                diff.copy(vOrientation);
-                diff.sub(_lastOrientation);
-
-                if(diff.x || diff.y || diff.z){
-
-                    // console.log(orientation);
-                    appController.updateOrientation(orientation);
-
-                    updateOrientation(vOrientation);
-                }
-            }
+            // }
+            // else{
+            //     var diff = new THREE.Vector3();
+            //     diff.copy(vOrientation);
+            //     diff.sub(_lastOrientation);
+            //
+            //     if(diff.x || diff.y || diff.z){
+            //
+            //         // console.log(orientation);
+            //         appController.updateOrientation(orientation);
+            //
+            //         updateOrientation(vOrientation);
+            //     }
+            // }
 
             //appController.updateOrientation(orientation);
-        }
+        // }
     };
 
     container = document.getElementById('container');
@@ -159,6 +159,7 @@ var SceneController = function () {
 
     }, false);
 
+    this.renderGuide();
 };
 
 SceneController.prototype.renderGuide = function () {
