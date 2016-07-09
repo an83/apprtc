@@ -273,22 +273,25 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
 
     that.activate_(that.localVideo_);
 
+    that.remoteVideo_.src = '';
     that.miniVideo_.src = '';
 
     that.hide_($('#data-text-div'));
 
     jQuery('#annotation-text-container').css({top: 0});
-    jQuery('#annotation-text').css({display: 'none'});
+    jQuery('#annotation-text').addClass('hidden');
+
+    sceneController.start();
   });
 
-  window.addEventListener('deviceorientation', function(event) {
-    // process event.alpha, event.beta and event.gamma
-    var ori = 'alpha: ' + event.alpha + ' beta: ' + event.beta + ' gamma: ' + event.gamma;
-    // trace(ori);
-
-    orientationDiv.textContent = ori;
-
-  }, true);
+  // window.addEventListener('deviceorientation', function(event) {
+  //   // process event.alpha, event.beta and event.gamma
+  //   var ori = 'alpha: ' + event.alpha + ' beta: ' + event.beta + ' gamma: ' + event.gamma;
+  //   // trace(ori);
+  //
+  //   orientationDiv.textContent = ori;
+  //
+  // }, true);
 
   setUpFullScreen();
 

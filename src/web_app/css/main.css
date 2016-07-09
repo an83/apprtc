@@ -199,7 +199,10 @@ label {
   top: 50px;
   right: 0;
   text-align: right;
+}
 
+#annotation-text-container.hidden{
+  display: none;
 }
 
 #annotation-text-container input{
@@ -208,7 +211,9 @@ label {
   padding-right: 15px;
 }
 
-
+#container.hidden{
+  display: none;
+}
 
 #annotation-text-container #annotation-history{
   overflow: hidden;
