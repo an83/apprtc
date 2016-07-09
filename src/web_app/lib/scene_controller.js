@@ -56,19 +56,16 @@ var SceneController = function () {
 
     window.controls = controls = new THREE.DeviceOrientationControls(camera);
 
-    this.scene = scene = new THREE.Scene();
-
-    var geometry = new THREE.SphereGeometry(500, 16, 8);
-    geometry.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
-
-    // TEXT
-
     var loader = new THREE.FontLoader();
     loader.load('/lib/arial.typeface.js', function (font) {
         _controller.font = _font = font;
         console.log('font loaded');
     });
 
+    this.scene = scene = new THREE.Scene();
+
+    var geometry = new THREE.SphereGeometry(500, 16, 8);
+    geometry.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
 
     renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setClearColor(0x000000, 0); // the default
@@ -159,6 +156,13 @@ var SceneController = function () {
 
 };
 
+SceneController.prototype.renderGuide = function () {
+    var geometry = new THREE.BoxGeometry( 100, 100, 100, 4, 4, 4 );
+    var material = new THREE.MeshBasicMaterial( { color: 0xff00ff, side: THREE.BackSide, wireframe: true } );
+    var mesh = new THREE.Mesh( geometry, material );
+    this.scene.add( mesh );
+};
+
 SceneController.prototype.addText = function (font, text, x, y, z, color) {
     var geometry = new THREE.TextGeometry(text, {
         font: font,
@@ -198,7 +202,6 @@ SceneController.prototype.addAnnotation = function (annotation) {
     //     console.log('fading complete');
     //     $item.remove();
     // });
-
 };
 
 SceneController.prototype.addTag = function (text, x, y, z, color) {

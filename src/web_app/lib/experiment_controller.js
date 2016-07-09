@@ -24,15 +24,28 @@ ExperimentController.prototype.generate = function (condition) {
 
 	var _ctrl = this;
 
+	/**
+	 * Returns a random integer between min (inclusive) and max (inclusive)
+	 * Using Math.round() will give you a non-uniform distribution!
+	 */
+	function getRandomInt(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	function execute(item, i) {
+		var j = i;
+		var generatedDelay = getRandomInt(0,6);
+		var delay = item.delay + generatedDelay * 1000;
+		console.log('item ' + j + ' delay: ' + delay + ' = item.delay: ' + item.delay + ' + ' + generatedDelay + ' x 1000');
+
+		setTimeout(function () {
+			console.log('showing item ' + j);
+			_ctrl.send(item);
+		}, delay);
+	}
+
 	for(var i=0; i< list.length; i++){
-
-		function execute(item) {
-			setTimeout(function () {
-				_ctrl.send(item);
-			}, item.delay);
-		}
-
-		execute(list[i]);
+		execute(list[i], i);
 	}
 };
 
