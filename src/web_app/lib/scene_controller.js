@@ -196,10 +196,14 @@ SceneController.prototype.addText = function (font, text, x, y, z, color) {
 };
 
 SceneController.prototype.addAnnotation = function (annotation) {
-    this.addTag(annotation.text, annotation.x, annotation.y, annotation.z, annotation.color);
+    this.addVideoTag(annotation.text, annotation.x, annotation.y, annotation.z, annotation.color);
+    this.addListTag(annotation.text, annotation.color);
+};
+
+SceneController.prototype.addListTag = function (text, color) {
 
     var $history = jQuery('#annotation-history');
-    var $item = jQuery('<div />', {'class': 'history-item', 'style': 'color: ' + annotation.color}).text(annotation.text)
+    var $item = jQuery('<div />', {'class': 'history-item', 'style': 'color: ' + color}).text(text)
         .appendTo($history);
 
     $history.scrollTop($history.prop("scrollHeight"));
@@ -211,7 +215,8 @@ SceneController.prototype.addAnnotation = function (annotation) {
 
 };
 
-SceneController.prototype.addTag = function (text, x, y, z, color) {
+
+SceneController.prototype.addVideoTag = function (text, x, y, z, color) {
     var mesh = this.addText(this.font, text, x, y, z, color);
     var group = new THREE.Group();
     group.add(mesh);
