@@ -173,37 +173,13 @@ SceneController.prototype.generateAnnotations = function (condition) {
 
     for(var i=0; i< list.length; i++){
 
-        function execute(item, delay) {
+        function execute(item) {
             setTimeout(function () {
                 _ctrl.addAnnotation(item);
             }, item.delay);
         }
 
-        execute(list[i], 1000* i);
-    }
-};
-
-SceneController.prototype.generateAnnotations = function () {
-
-    var list = [
-        {text: 'test 1', x:85.04845782244072, y:38.66351689017879, z:-398.9119879212803},
-        {text: 'test 2', x:-64.75856728826004, y:43.51054670439945, z:-398.9119879212803},
-        {text: 'test 3', x:-4.565225370190652, y:-14.879254313421574, z:-398.9119879212803},
-        {text: 'test 4', x:93.38985726427055, y:-56.24809016967702, z:-398.9119879212803},
-        {text: 'test 5', x:-83.24491199718021, y:-43.17238183363988, z:-398.9119879212803},
-    ];
-
-    var _ctrl = this;
-
-    for(var i=0; i< list.length; i++){
-
-        function execute(item, delay) {
-            setTimeout(function () {
-                _ctrl.addAnnotation(item);
-            }, delay);
-        }
-
-        execute(list[i], 1000* i);
+        execute(list[i]);
     }
 };
 
