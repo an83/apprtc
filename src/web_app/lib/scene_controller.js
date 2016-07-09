@@ -56,19 +56,16 @@ var SceneController = function () {
 
     window.controls = controls = new THREE.DeviceOrientationControls(camera);
 
-    this.scene = scene = new THREE.Scene();
-
-    var geometry = new THREE.SphereGeometry(500, 16, 8);
-    geometry.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
-
-    // TEXT
-
     var loader = new THREE.FontLoader();
     loader.load('/lib/arial.typeface.js', function (font) {
         _controller.font = _font = font;
         console.log('font loaded');
     });
 
+    this.scene = scene = new THREE.Scene();
+
+    var geometry = new THREE.SphereGeometry(500, 16, 8);
+    geometry.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
 
     renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setClearColor(0x000000, 0); // the default
@@ -160,18 +157,18 @@ var SceneController = function () {
 };
 
 SceneController.prototype.generateAnnotations = function (condition) {
-    if(!this.scenariosJSON){
+    if (!this.scenariosJSON) {
         throw 'unable to find scenarios';
     }
 
     var list = this.scenariosJSON['sample-messages'];
-    if(condition){
+    if (condition) {
         list = this.scenariosJSON.conditions[condition];
     }
 
     var _ctrl = this;
 
-    for(var i=0; i< list.length; i++){
+    for (var i = 0; i < list.length; i++) {
 
         function execute(item) {
             setTimeout(function () {
@@ -181,6 +178,13 @@ SceneController.prototype.generateAnnotations = function (condition) {
 
         execute(list[i]);
     }
+};
+
+SceneController.prototype.renderGuide = function () {
+    var geometry = new THREE.BoxGeometry( 100, 100, 100, 4, 4, 4 );
+    var material = new THREE.MeshBasicMaterial( { color: 0xff00ff, side: THREE.BackSide, wireframe: true } );
+    var mesh = new THREE.Mesh( geometry, material );
+    this.scene.add( mesh );
 };
 
 SceneController.prototype.addText = function (font, text, x, y, z, color) {
@@ -219,7 +223,7 @@ SceneController.prototype.addAnnotation = function (annotation) {
     $history.scrollTop($history.prop("scrollHeight"));
 
     $item.fadeTo(6000, 0, function () {
-        console.log('fading complete');
+        // console.log('fading complete');
         $item.remove();
     });
 
