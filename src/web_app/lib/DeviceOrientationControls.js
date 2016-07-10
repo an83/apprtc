@@ -12,7 +12,7 @@ THREE.DeviceOrientationControls = function( object ) {
     this.object = object;
     this.object.rotation.reorder( "YXZ" );
 
-    this.enabled = true;
+    this.enabled = false;
 
     this.deviceOrientation = {};
     this.screenOrientation = 0;
@@ -83,7 +83,7 @@ THREE.DeviceOrientationControls = function( object ) {
 
     this.update = function() {
 
-        if ( scope.enabled === false ) return;
+        if ( scope.enabled === false ) return null;
 
         var alpha = scope.deviceOrientation.alpha ? THREE.Math.degToRad( scope.deviceOrientation.alpha ) + this.alphaOffsetAngle : 0; // Z
         var beta = scope.deviceOrientation.beta ? THREE.Math.degToRad( scope.deviceOrientation.beta ) : 0; // X'
@@ -112,8 +112,7 @@ THREE.DeviceOrientationControls = function( object ) {
 
     };
 
-    this.connect();
-
+    // this.connect();
 
     this.setOrientation = function (orientation) {
         setObjectQuaternion( scope.object.quaternion, orientation[0],orientation[1],orientation[2],orientation[3]);
