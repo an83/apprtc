@@ -190,7 +190,9 @@ SceneController.prototype.initReadyToStart = function () {
 
 
 SceneController.prototype.startSharing = function () {
-    // this.removeGuide();
+    this.removeGuide();
+    this.removeCorners();
+
     this.isSharingOrientation = true;
 };
 
