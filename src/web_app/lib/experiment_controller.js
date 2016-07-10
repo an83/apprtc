@@ -20,6 +20,16 @@ ExperimentController.prototype.generate = function (condition) {
 	var list = this.scenariosJSON['sample-messages'];
 	if(condition){
 		list = this.scenariosJSON.conditions[condition];
+
+		if(!list){
+			list = _.find(this.scenariosJSON.conditions, function (c, k) {
+				return k.indexOf(condition)>-1;
+			});
+		}
+
+		if(!list){
+			throw 'unable to find condition ' + condition;
+		}
 	}
 
 	var _ctrl = this;
