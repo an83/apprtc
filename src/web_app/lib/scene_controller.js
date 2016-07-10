@@ -207,6 +207,11 @@ SceneController.prototype.removeGuide = function () {
     this.guideMesh = null;
 };
 
+SceneController.prototype.removeCorners = function () {
+    this.scene.remove(this.cornersGroup);
+    this.cornersGroup = null;
+};
+
 SceneController.prototype.addText = function (font, text, x, y, z, color) {
     var geometry = new THREE.TextGeometry(text, {
         font: font,
