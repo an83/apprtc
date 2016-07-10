@@ -23,36 +23,34 @@ var SceneController = function () {
 
         window.requestAnimationFrame(animate);
 
-        var orientation = controls.update();
-
         renderer.render(scene, camera);
 
-        // if(orientation && (Date.now() - _lastUpdate > 300)){
-
+        var orientation = controls.update();
+        if(orientation && (Date.now() - _lastUpdate > 300)){
             var vOrientation = new THREE.Vector3();
             vOrientation.x = orientation[0];
             vOrientation.y = orientation[1];
             vOrientation.z = orientation[2];
 
-            // if(!_lastOrientation){
+            if(!_lastOrientation){
                 updateOrientation(vOrientation);
-            // }
-            // else{
-            //     var diff = new THREE.Vector3();
-            //     diff.copy(vOrientation);
-            //     diff.sub(_lastOrientation);
-            //
-            //     if(diff.x || diff.y || diff.z){
-            //
-            //         // console.log(orientation);
-            //         appController.updateOrientation(orientation);
-            //
-            //         updateOrientation(vOrientation);
-            //     }
-            // }
+            }
+            else{
+                var diff = new THREE.Vector3();
+                diff.copy(vOrientation);
+                diff.sub(_lastOrientation);
 
-            //appController.updateOrientation(orientation);
-        // }
+                if(diff.x || diff.y || diff.z){
+
+                    // console.log(orientation);
+                    appController.updateOrientation(orientation);
+
+                    updateOrientation(vOrientation);
+                }
+            }
+
+            appController.updateOrientation(orientation);
+        }
     };
 
     container = document.getElementById('container');
@@ -102,10 +100,17 @@ var SceneController = function () {
     this.renderGuide();
 };
 
+SceneController.prototype.init = function () {
+    jQuery('#container').removeClass('hidden');
+
+
+};
+
+
 SceneController.prototype.start = function () {
     var _controller = this;
 
-    jQuery('#container').removeClass('hidden');
+    this.removeGuide();
     jQuery('#annotation-text-container').removeClass('hidden');
 
     // _controller.annotation = {x: 0, y: 0, z: 0};
@@ -178,7 +183,7 @@ SceneController.prototype.renderGuide = function () {
 };
 
 SceneController.prototype.removeGuide = function () {
-    this.scene.remove(mesh);
+    this.scene.remove(this.guideMesh);
     this.guideMesh = null;
 };
 
