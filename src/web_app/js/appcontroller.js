@@ -252,6 +252,8 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
   $(UI_CONSTANTS.fullscreenSvg).onclick = this.toggleFullScreen_.bind(this);
   $(UI_CONSTANTS.hangupSvg).onclick = this.hangup_.bind(this);
 
+  sceneController.initReadyToStart();
+  
   //$('#data-text-div > button').onclick = this.sendData_.bind(this);
 
   var orientationDiv = this.orientationDiv;
@@ -264,7 +266,7 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
   }, 500);
 
 
-  $('#data-text-start').addEventListener('click', function () {
+  $('#data-text-share').addEventListener('click', function () {
 
     reattachMediaStream(that.localVideo_, that.miniVideo_);
 
@@ -273,22 +275,25 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
 
     that.activate_(that.localVideo_);
 
-    that.miniVideo_.src = '';
+    // that.remoteVideo_.src = '';
+    // that.miniVideo_.src = '';
 
     that.hide_($('#data-text-div'));
 
     jQuery('#annotation-text-container').css({top: 0});
-    jQuery('#annotation-text').css({display: 'none'});
+    jQuery('#annotation-text').addClass('hidden');
+
+    sceneController.startSharing();
   });
 
-  window.addEventListener('deviceorientation', function(event) {
-    // process event.alpha, event.beta and event.gamma
-    var ori = 'alpha: ' + event.alpha + ' beta: ' + event.beta + ' gamma: ' + event.gamma;
-    // trace(ori);
-
-    orientationDiv.textContent = ori;
-
-  }, true);
+  // window.addEventListener('deviceorientation', function(event) {
+  //   // process event.alpha, event.beta and event.gamma
+  //   var ori = 'alpha: ' + event.alpha + ' beta: ' + event.beta + ' gamma: ' + event.gamma;
+  //   // trace(ori);
+  //
+  //   orientationDiv.textContent = ori;
+  //
+  // }, true);
 
   setUpFullScreen();
 
@@ -578,7 +583,9 @@ AppController.prototype.toggleFullScreen_ = function() {
 };
 
 AppController.prototype.hide_ = function(element) {
-  element.classList.add('hidden');
+  if(!element.classList.contains('hidden')){
+    element.classList.add('hidden');
+  }
 };
 
 AppController.prototype.show_ = function(element) {

@@ -58,6 +58,8 @@ var PeerConnectionClient = function(params, startTime) {
   this.onsignalingstatechange = null;
 
   this.dataChannel = null;
+
+  this.$shareButton_ = $('#data-text-share');
 };
 
 // Set up audio and video regardless of what devices are present.
@@ -143,9 +145,10 @@ PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
 
   trace(message);
 
+  var that = this;
 
   if(this.processMessageType('orientation:', message, function (orientation) {
-        appController.hide_($('#data-text-start'));
+        appController.hide_(that.$shareButton_);
         window.controls.setOrientation(orientation);
       })){
     return;
@@ -255,6 +258,12 @@ PeerConnectionClient.prototype.close = function() {
   if (!this.pc_) {
     return;
   }
+
+  // if(this.dataChannel){
+  //   this.dataChannel.close();
+  //   this.dataChannel = null;
+  // }
+
   this.pc_.close();
   this.pc_ = null;
 };
