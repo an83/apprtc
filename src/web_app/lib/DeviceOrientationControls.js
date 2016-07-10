@@ -74,6 +74,10 @@ THREE.DeviceOrientationControls = function( object ) {
 
     this.disconnect = function() {
 
+        if(!scope.enabled ){
+            return;
+        }
+
         window.removeEventListener( 'orientationchange', onScreenOrientationChangeEvent, false );
         window.removeEventListener( 'deviceorientation', onDeviceOrientationChangeEvent, false );
 
@@ -97,9 +101,11 @@ THREE.DeviceOrientationControls = function( object ) {
 
         var orientation = [alpha, beta, gamma, orient];
 
-        var smoothed = this.smoothOrientation(orientation);
+        console.log(JSON.stringify(orientation));
 
-        return smoothed;
+        return orientation;
+        // var smoothed = this.smoothOrientation(orientation);
+        // return smoothed;
     };
 
     this.smoothOrientation = function (orientation) {
@@ -154,7 +160,8 @@ THREE.DeviceOrientationControls = function( object ) {
 
     };
 
-    // this.connect();
+    //todo: comment this out
+    this.connect();
 
     this.setOrientation = function (orientation) {
         setObjectQuaternion( scope.object.quaternion, orientation[0],orientation[1],orientation[2],orientation[3]);

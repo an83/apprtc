@@ -5,6 +5,8 @@ var SceneController = function () {
 
     var _controller = this;
 
+    _controller.isSharingOrientation = false;
+
     var _lastUpdate = Date.now();
 
     this._fadeOutMs = 15000;
@@ -15,7 +17,7 @@ var SceneController = function () {
 
     this.camera = camera = new THREE.PerspectiveCamera(23, window.innerWidth / window.innerHeight, 1, 1100);
 
-    window.controls = controls = new THREE.DeviceOrientationControls(camera);
+    this.controls = controls = new THREE.DeviceOrientationControls(camera);
 
     var loader = new THREE.FontLoader();
     loader.load('/lib/arial.typeface.js', function (font) {
@@ -53,8 +55,6 @@ var SceneController = function () {
     var h = jQuery('body').height();
     jQuery('#annotation-history').css('max-height', h);
 
-    this.renderGuide();
-
     function animate() {
         window.requestAnimationFrame(animate);
         renderer.render(scene, camera);
@@ -67,6 +67,14 @@ var SceneController = function () {
         if(!orientation){
             return;
         }
+
+        if(!_controller.isSharingOrientation){
+            return;
+        }
+
+        appController.updateOrientation(orientation);
+        return;
+
 
         var diffTime = Date.now() - _lastUpdate;
         // console.debug('diffTime: ' + diffTime);
@@ -112,6 +120,8 @@ var SceneController = function () {
 SceneController.prototype.initReadyToStart = function () {
     jQuery('#container').removeClass('hidden');
     jQuery('#annotation-text-container').removeClass('hidden');
+
+    this.renderGuide();
 
     var _controller = this;
 
@@ -178,8 +188,8 @@ SceneController.prototype.initReadyToStart = function () {
 
 
 SceneController.prototype.startSharing = function () {
-
-    this.removeGuide();
+    // this.removeGuide();
+    this.isSharingOrientation = true;
 };
 
 SceneController.prototype.renderGuide = function () {

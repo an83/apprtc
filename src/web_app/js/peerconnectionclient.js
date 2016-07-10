@@ -149,7 +149,8 @@ PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
 
   if(this.processMessageType('orientation:', message, function (orientation) {
         appController.hide_(that.$shareButton_);
-        window.controls.setOrientation(orientation);
+        sceneController.controls.disconnect();
+        sceneController.controls.setOrientation(orientation);
       })){
     return;
   }
