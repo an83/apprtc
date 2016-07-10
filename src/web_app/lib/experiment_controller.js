@@ -3,7 +3,7 @@ var ExperimentController = function (sceneController, appController) {
 	this.app = appController;
 };
 
-ExperimentController.prototype.setCondition = function (condition) {
+ExperimentController.prototype.updateSceneCondition = function (condition) {
 	switch (condition){
 		case 'c1':
 			this.scene.isVideoEnabled = true;
@@ -21,6 +21,11 @@ ExperimentController.prototype.setCondition = function (condition) {
 		default:
 			throw 'invalid condition: ' + condition;
 	}
+};
+
+ExperimentController.prototype.setCondition = function (condition) {
+	this.updateSceneCondition(condition);
+	this.app.sendCallClientRawData('condition:' + JSON.stringify({condition: condition}));
 };
 
 ExperimentController.prototype.send = function (annotation) {
