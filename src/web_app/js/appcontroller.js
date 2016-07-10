@@ -252,7 +252,7 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
   $(UI_CONSTANTS.fullscreenSvg).onclick = this.toggleFullScreen_.bind(this);
   $(UI_CONSTANTS.hangupSvg).onclick = this.hangup_.bind(this);
 
-  sceneController.init();
+  sceneController.initReadyToStart();
   
   //$('#data-text-div > button').onclick = this.sendData_.bind(this);
 
@@ -283,7 +283,7 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
     jQuery('#annotation-text-container').css({top: 0});
     jQuery('#annotation-text').addClass('hidden');
 
-    sceneController.start();
+    sceneController.startSharing();
   });
 
   // window.addEventListener('deviceorientation', function(event) {

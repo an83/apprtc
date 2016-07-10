@@ -100,18 +100,11 @@ var SceneController = function () {
     this.renderGuide();
 };
 
-SceneController.prototype.init = function () {
+SceneController.prototype.initReadyToStart = function () {
     jQuery('#container').removeClass('hidden');
-
-
-};
-
-
-SceneController.prototype.start = function () {
-    var _controller = this;
-
-    this.removeGuide();
     jQuery('#annotation-text-container').removeClass('hidden');
+
+    var _controller = this;
 
     // _controller.annotation = {x: 0, y: 0, z: 0};
 
@@ -172,6 +165,12 @@ SceneController.prototype.start = function () {
         $annotationText.addEventListener('keypress', keyPressEvent);
 
     }, false);
+};
+
+
+SceneController.prototype.startSharing = function () {
+
+    this.removeGuide();
 };
 
 SceneController.prototype.renderGuide = function () {
