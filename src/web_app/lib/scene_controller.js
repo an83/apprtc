@@ -23,6 +23,8 @@ var SceneController = function () {
     loader.load('/lib/arial.typeface.js', function (font) {
         _controller.font = _font = font;
         console.log('font loaded');
+
+        _controller.addCorners();
     });
 
     this.scene = scene = new THREE.Scene();
@@ -235,6 +237,26 @@ SceneController.prototype.addAnnotation = function (annotation) {
     this.addVideoTag(annotation.text, annotation.x, annotation.y, annotation.z, annotation.color);
     this.addListTag(annotation.text, annotation.color);
 };
+
+SceneController.prototype.addCorners = function () {
+    this.cornersGroup = new THREE.Group();
+
+    var corners = [
+        {"x": -399.80592126580785 	,"y": 135.56151896989346 	,"z":9.996038694659928},
+        {"x": -421.60113221761765 	,"y": -51.433631176966664 	,"z":-1.2337488749180532},
+        {"x": 381.9170058246843 	,"y": 142.8421423431942 	,"z":125.77672660930543},
+        {"x": 394.2499678869994 	,"y": -71.65688176722026 	,"z":134.7154999615671}
+    ];
+
+    var ctrl = this;
+    _.each(corners, function (corner) {
+        var mesh = ctrl.addText(ctrl.font, 'x', corner.x, corner.y, corner.z, '#ff0000');
+        ctrl.cornersGroup.add(mesh);
+    });
+
+    this.scene.add(this.cornersGroup);
+};
+
 
 SceneController.prototype.addListTag = function (text, color) {
 
