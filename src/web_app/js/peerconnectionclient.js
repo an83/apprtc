@@ -145,8 +145,10 @@ PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
 
   trace(message);
 
+  var that = this;
+
   if(this.processMessageType('orientation:', message, function (orientation) {
-        appController.hide_(this.$shareButton_);
+        appController.hide_(that.$shareButton_);
         window.controls.setOrientation(orientation);
       })){
     return;
@@ -257,10 +259,10 @@ PeerConnectionClient.prototype.close = function() {
     return;
   }
 
-  if(this.dataChannel){
-    this.dataChannel.close();
-    this.dataChannel = null;
-  }
+  // if(this.dataChannel){
+  //   this.dataChannel.close();
+  //   this.dataChannel = null;
+  // }
 
   this.pc_.close();
   this.pc_ = null;

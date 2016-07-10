@@ -88,7 +88,7 @@ var SceneController = function () {
 
     animate();
 
-    $('#data-text-start').addEventListener('click', function () {
+    $('#data-text-share').addEventListener('click', function () {
         controls.connect();
     });
 
