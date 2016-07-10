@@ -81,7 +81,7 @@ THREE.DeviceOrientationControls = function( object ) {
 
     };
 
-    this.update = function() {
+    this.calculateOrienation = this.update = function() {
 
         if ( scope.enabled === false ) return null;
 
@@ -97,7 +97,6 @@ THREE.DeviceOrientationControls = function( object ) {
 
         return [alpha, beta, gamma, orient];
     };
-
 
     this.updateAlphaOffsetAngle = function( angle ) {
 

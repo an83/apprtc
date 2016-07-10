@@ -11,48 +11,6 @@ var SceneController = function () {
     this._fadeOutFactor = 0.05;
     this._fadeOutInterval = this._fadeOutMs * this._fadeOutFactor;
 
-
-    var updateOrientation = function (vOrientation) {
-        _lastOrientation = new THREE.Vector3();
-        _lastOrientation.copy(vOrientation);
-
-        _lastUpdate = Date.now();
-    };
-
-    var animate = function () {
-
-        window.requestAnimationFrame(animate);
-
-        renderer.render(scene, camera);
-
-        var orientation = controls.update();
-        if(orientation && (Date.now() - _lastUpdate > 300)){
-            var vOrientation = new THREE.Vector3();
-            vOrientation.x = orientation[0];
-            vOrientation.y = orientation[1];
-            vOrientation.z = orientation[2];
-
-            if(!_lastOrientation){
-                updateOrientation(vOrientation);
-            }
-            else{
-                var diff = new THREE.Vector3();
-                diff.copy(vOrientation);
-                diff.sub(_lastOrientation);
-
-                if(diff.x || diff.y || diff.z){
-
-                    // console.log(orientation);
-                    appController.updateOrientation(orientation);
-
-                    updateOrientation(vOrientation);
-                }
-            }
-
-            appController.updateOrientation(orientation);
-        }
-    };
-
     container = document.getElementById('container');
 
     this.camera = camera = new THREE.PerspectiveCamera(23, window.innerWidth / window.innerHeight, 1, 1100);
@@ -92,12 +50,63 @@ var SceneController = function () {
         controls.connect();
     });
 
-
-
     var h = jQuery('body').height();
     jQuery('#annotation-history').css('max-height', h);
 
     this.renderGuide();
+
+    function animate() {
+        window.requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+
+        var orientation = controls.calculateOrienation();
+        processOrientation(orientation);
+    }
+
+    function processOrientation(orientation) {
+        if(!orientation){
+            return;
+        }
+
+        var diffTime = Date.now() - _lastUpdate;
+        // console.debug('diffTime: ' + diffTime);
+
+        //update every 300 ms
+        if(diffTime <= 300){
+            return;
+        }
+
+        //copy vector
+        var vOrientation = new THREE.Vector3();
+        vOrientation.x = orientation[0];
+        vOrientation.y = orientation[1];
+        vOrientation.z = orientation[2];
+
+        if(!_lastOrientation){
+            updateOrientation(vOrientation);
+        }
+        else{
+            var diff = new THREE.Vector3();
+            diff.copy(vOrientation);
+            diff.sub(_lastOrientation);
+
+            if(diff.x || diff.y || diff.z){
+
+                appController.updateOrientation(orientation);
+
+                updateOrientation(vOrientation);
+            }
+        }
+    }
+
+    function updateOrientation(vOrientation) {
+        console.log('updateOrientation ' + JSON.stringify(vOrientation));
+
+        _lastOrientation = new THREE.Vector3();
+        _lastOrientation.copy(vOrientation);
+
+        _lastUpdate = Date.now();
+    }
 };
 
 SceneController.prototype.initReadyToStart = function () {
