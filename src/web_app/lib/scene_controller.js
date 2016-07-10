@@ -11,50 +11,6 @@ var SceneController = function () {
     this._fadeOutFactor = 0.05;
     this._fadeOutInterval = this._fadeOutMs * this._fadeOutFactor;
 
-
-    var updateOrientation = function (vOrientation) {
-        _lastOrientation = new THREE.Vector3();
-        _lastOrientation.copy(vOrientation);
-
-        _lastUpdate = Date.now();
-    };
-
-    var animate = function () {
-
-        window.requestAnimationFrame(animate);
-
-        var orientation = controls.update();
-
-        renderer.render(scene, camera);
-
-        // if(orientation && (Date.now() - _lastUpdate > 300)){
-
-            var vOrientation = new THREE.Vector3();
-            vOrientation.x = orientation[0];
-            vOrientation.y = orientation[1];
-            vOrientation.z = orientation[2];
-
-            // if(!_lastOrientation){
-                updateOrientation(vOrientation);
-            // }
-            // else{
-            //     var diff = new THREE.Vector3();
-            //     diff.copy(vOrientation);
-            //     diff.sub(_lastOrientation);
-            //
-            //     if(diff.x || diff.y || diff.z){
-            //
-            //         // console.log(orientation);
-            //         appController.updateOrientation(orientation);
-            //
-            //         updateOrientation(vOrientation);
-            //     }
-            // }
-
-            //appController.updateOrientation(orientation);
-        // }
-    };
-
     container = document.getElementById('container');
 
     this.camera = camera = new THREE.PerspectiveCamera(23, window.innerWidth / window.innerHeight, 1, 1100);
@@ -72,7 +28,7 @@ var SceneController = function () {
     var geometry = new THREE.SphereGeometry(500, 16, 8);
     geometry.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
 
-    renderer = new THREE.WebGLRenderer({alpha: true});
+    this.renderer = renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setClearColor(0x000000, 0); // the default
 
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -90,10 +46,81 @@ var SceneController = function () {
 
     animate();
 
-    $('#data-text-start').addEventListener('click', function () {
+    $('#data-text-share').addEventListener('click', function () {
         controls.connect();
     });
 
+    var h = jQuery('body').height();
+    jQuery('#annotation-history').css('max-height', h);
+
+    this.renderGuide();
+
+    function animate() {
+        window.requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+
+        var orientation = controls.calculateOrienation();
+        processOrientation(orientation);
+    }
+
+    function processOrientation(orientation) {
+        if(!orientation){
+            return;
+        }
+
+        var diffTime = Date.now() - _lastUpdate;
+        // console.debug('diffTime: ' + diffTime);
+
+        //update every 300 ms
+        if(diffTime <= 300){
+            return;
+        }
+
+        //copy vector
+        var vOrientation = new THREE.Vector3();
+        vOrientation.x = orientation[0];
+        vOrientation.y = orientation[1];
+        vOrientation.z = orientation[2];
+
+        if(!_lastOrientation){
+            updateOrientation(vOrientation);
+        }
+        else{
+            var diff = new THREE.Vector3();
+            diff.copy(vOrientation);
+            diff.sub(_lastOrientation);
+
+            if(diff.x || diff.y || diff.z){
+
+                appController.updateOrientation(orientation);
+
+                updateOrientation(vOrientation);
+            }
+        }
+    }
+
+    function updateOrientation(vOrientation) {
+        console.log('updateOrientation ' + JSON.stringify(vOrientation));
+
+        _lastOrientation = new THREE.Vector3();
+        _lastOrientation.copy(vOrientation);
+
+        _lastUpdate = Date.now();
+    }
+};
+
+SceneController.prototype.initReadyToStart = function () {
+    jQuery('#container').removeClass('hidden');
+    jQuery('#annotation-text-container').removeClass('hidden');
+
+    var _controller = this;
+
+    // _controller.annotation = {x: 0, y: 0, z: 0};
+
+    var $annotationText = $('#annotation-text');
+
+    //default hidden
+    $annotationText.classList.add('hidden');
 
     function getMousePosition(clientX, clientY) {
         var mouse2D = new THREE.Vector3();
@@ -103,20 +130,9 @@ var SceneController = function () {
         mouse2D.z = 0.5;
 
 
-        var mouse3D = mouse2D.clone().unproject(camera);
+        var mouse3D = mouse2D.clone().unproject(_controller.camera);
         return mouse3D;
     }
-
-    var h = jQuery('body').height();
-    jQuery('#annotation-history').css('max-height', h);
-
-
-    // _controller.annotation = {x: 0, y: 0, z: 0};
-
-    var $annotationText = $('#annotation-text');
-
-    //default hidden
-    $annotationText.classList.add('hidden');
 
     function keyPressEvent(event){
         if(event.keyCode == 13){
@@ -135,20 +151,21 @@ var SceneController = function () {
         }
     }
 
-    renderer.domElement.addEventListener('mouseup', function (event) {
-       event.preventDefault();
+    this.renderer.domElement.addEventListener('mouseup', function (event) {
+        event.preventDefault();
 
-       var mouse3D = getMousePosition(event.clientX, event.clientY);
 
-       var x = mouse3D.x * 100;
-       var y = mouse3D.y * 100;
-       var z = mouse3D.z * 100;
+        var mouse3D = getMousePosition(event.clientX, event.clientY);
 
-       console.log('touch:' + x + ' ' + y + ' ' + z);
+        var x = mouse3D.x * 100;
+        var y = mouse3D.y * 100;
+        var z = mouse3D.z * 100;
 
-       var annotation = {text: '<text>', x: x, y: y, z: z};
+        console.log('touch:' + x + ' ' + y + ' ' + z);
 
-       _controller.annotation = annotation;
+        var annotation = {text: '<text>', x: x, y: y, z: z};
+
+        _controller.annotation = annotation;
 
         $annotationText.classList.remove('hidden');
         $annotationText.focus();
@@ -156,10 +173,13 @@ var SceneController = function () {
         $annotationText.removeEventListener('keypress', keyPressEvent);
         $annotationText.addEventListener('keypress', keyPressEvent);
 
-
     }, false);
+};
 
-    this.renderGuide();
+
+SceneController.prototype.startSharing = function () {
+
+    this.removeGuide();
 };
 
 SceneController.prototype.generateAnnotations = function (condition) {
@@ -190,7 +210,13 @@ SceneController.prototype.renderGuide = function () {
     var geometry = new THREE.BoxGeometry( 100, 100, 100, 4, 4, 4 );
     var material = new THREE.MeshBasicMaterial( { color: 0xff00ff, side: THREE.BackSide, wireframe: true } );
     var mesh = new THREE.Mesh( geometry, material );
+    this.guideMesh = mesh;
     this.scene.add( mesh );
+};
+
+SceneController.prototype.removeGuide = function () {
+    this.scene.remove(this.guideMesh);
+    this.guideMesh = null;
 };
 
 SceneController.prototype.addText = function (font, text, x, y, z, color) {
