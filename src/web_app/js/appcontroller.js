@@ -170,14 +170,14 @@ AppController.prototype.sendOrientation = function () {
 };
 
 
-AppController.prototype.sendAdjust = function (adjust) {
+AppController.prototype.sendAdjust = function (adjustAngle) {
   if(!this.call_ )
     return;
 
   if(!this.call_.pcClient_)
     return;
 
-  var data = 'adjust:' + JSON.stringify(adjust);
+  var data = 'adjust:' + JSON.stringify({angle: adjustAngle});
   this.call_.pcClient_.sendRawData(data);
 };
 
