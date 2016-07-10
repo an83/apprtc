@@ -132,6 +132,18 @@
   {{ include_loopback_js }}
 {% endif %}
 
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBbDlhpz13rcvzLT9CTnGoxypEq_vr_RMA",
+      authDomain: "socialar-8ffe7.firebaseapp.com",
+      databaseURL: "https://socialar-8ffe7.firebaseio.com",
+      storageBucket: "socialar-8ffe7.appspot.com",
+    };
+    firebase.initializeApp(config);
+  </script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
 
@@ -142,6 +154,7 @@
   <script src="/lib/DeviceOrientationControls.js"></script>
   <script src="/lib/scene_controller.js"></script>
   <script src="/lib/experiment_controller.js"></script>
+  <script src="/lib/firebase-script.js"></script>
 
 {% if chromeapp %}
   <script src="/js/appwindow.js"></script>

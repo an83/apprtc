@@ -540,6 +540,7 @@ class MainPage(webapp2.RequestHandler):
     params = get_room_parameters(self.request, None, None, None)
     # room_id/room_link will not be included in the returned parameters
     # so the client will show the landing page for room selection.
+    self.response.headers.add_header("Access-Control-Allow-Origin", "*")
     self.write_response('index_template.html', params)
 
 class RoomPage(webapp2.RequestHandler):
@@ -563,6 +564,7 @@ class RoomPage(webapp2.RequestHandler):
     params = get_room_parameters(self.request, room_id, None, None)
     # room_id/room_link will be included in the returned parameters
     # so the client will launch the requested room.
+    self.response.headers.add_header("Access-Control-Allow-Origin", "*")
     self.write_response('index_template.html', params)
 
 class ParamsPage(webapp2.RequestHandler):

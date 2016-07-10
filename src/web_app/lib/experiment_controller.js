@@ -8,6 +8,16 @@ ExperimentController.prototype.send = function (annotation) {
 	this.app.sendNewAnnotation(annotation);
 };
 
+ExperimentController.prototype.setScenariosUrl = function (scenarioUrl) {
+	console.log('setScenariosUrl: ' + scenarioUrl);
+	jQuery.getJSON(scenarioUrl, function (json) {
+		console.log('json loaded');
+		console.log(json);
+
+		ctrl.setScenarios(json);
+	});
+};
+
 ExperimentController.prototype.setScenarios = function (scenariosJson) {
 	this.scenariosJSON= scenariosJson;
 };
@@ -54,10 +64,5 @@ var ctrl;
 window.addEventListener('load', function () {
 	window.ctrl = ctrl = new ExperimentController(sceneController, appController);
 
-	jQuery.getJSON('/data/scenario.json', function (json) {
-		console.log('json loaded');
-		console.log(json);
-
-		ctrl.setScenarios(json);
-	});
+	ctrl.setScenariosUrl('/data/scenario.json');
 });
