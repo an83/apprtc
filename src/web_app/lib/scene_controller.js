@@ -5,7 +5,10 @@ var SceneController = function () {
 
     var _controller = this;
 
-    _controller.isSharingOrientation = false;
+    this.isVideoEnabled = true;
+    this.isListEnabled = true;
+
+    this.isSharingOrientation = false;
 
     var _lastUpdate = Date.now();
 
@@ -241,8 +244,14 @@ SceneController.prototype.addText = function (font, text, x, y, z, color, size) 
 };
 
 SceneController.prototype.addAnnotation = function (annotation) {
-    this.addVideoTag(annotation.text, annotation.x, annotation.y, annotation.z, annotation.color);
-    this.addListTag(annotation.text, annotation.color);
+
+    if(this.isVideoEnabled){
+        this.addVideoTag(annotation.text, annotation.x, annotation.y, annotation.z, annotation.color);
+    }
+
+    if(this.isListEnabled){
+        this.addListTag(annotation.text, annotation.color);
+    }
 };
 
 SceneController.prototype.addCorners = function () {

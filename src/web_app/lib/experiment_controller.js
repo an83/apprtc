@@ -3,6 +3,26 @@ var ExperimentController = function (sceneController, appController) {
 	this.app = appController;
 };
 
+ExperimentController.prototype.setCondition = function (condition) {
+	switch (condition){
+		case 'c1':
+			this.scene.isVideoEnabled = true;
+			this.scene.isListEnabled = true;
+			break;
+		case 'c2':
+			this.scene.isVideoEnabled = true;
+			this.scene.isListEnabled = false;
+			break;
+		case 'c3':
+			this.scene.isVideoEnabled = false;
+			this.scene.isListEnabled = true;
+			break;
+
+		default:
+			throw 'invalid condition: ' + condition;
+	}
+};
+
 ExperimentController.prototype.send = function (annotation) {
 	this.scene.addAnnotation(annotation);
 	this.app.sendNewAnnotation(annotation);
