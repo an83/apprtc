@@ -266,7 +266,7 @@ AppController.prototype.finishCallSetup_ = function(roomId) {
   }, 500);
 
 
-  $('#data-text-start').addEventListener('click', function () {
+  $('#data-text-share').addEventListener('click', function () {
 
     reattachMediaStream(that.localVideo_, that.miniVideo_);
 
@@ -583,7 +583,9 @@ AppController.prototype.toggleFullScreen_ = function() {
 };
 
 AppController.prototype.hide_ = function(element) {
-  element.classList.add('hidden');
+  if(!element.classList.contains('hidden')){
+    element.classList.add('hidden');
+  }
 };
 
 AppController.prototype.show_ = function(element) {

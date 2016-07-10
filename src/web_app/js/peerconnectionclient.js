@@ -58,6 +58,8 @@ var PeerConnectionClient = function(params, startTime) {
   this.onsignalingstatechange = null;
 
   this.dataChannel = null;
+
+  this.$shareButton_ = $('#data-text-share');
 };
 
 // Set up audio and video regardless of what devices are present.
@@ -144,7 +146,7 @@ PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
   trace(message);
 
   if(this.processMessageType('orientation:', message, function (orientation) {
-        appController.hide_($('#data-text-start'));
+        appController.hide_(this.$shareButton_);
         window.controls.setOrientation(orientation);
       })){
     return;
