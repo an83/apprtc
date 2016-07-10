@@ -258,10 +258,10 @@ SceneController.prototype.addListTag = function (text, color) {
 
     $history.scrollTop($history.prop("scrollHeight"));
 
-    $item.fadeTo(this._fadeOutMs, 0, function () {
-        // console.log('fading complete');
-        $item.remove();
-    });
+    // $item.fadeTo(this._fadeOutMs, 0, function () {
+    //     // console.log('fading complete');
+    //     $item.remove();
+    // });
 
 };
 
@@ -275,17 +275,17 @@ SceneController.prototype.addVideoTag = function (text, x, y, z, color) {
     var ctrl = this;
     var scene = this.scene;
 
-    var intervalId = setInterval(function () {
-        if(mesh.material.opacity >0){
-            mesh.material.opacity  = mesh.material.opacity - ctrl._fadeOutFactor;
-            // console.log('opacity: ' + mesh.material.opacity + ' for: ' + text);
-        }
-        else{
-            scene.remove(group);
-            // console.log('removed: ' + text);
-            clearInterval(intervalId);
-        }
-    }, ctrl._fadeOutInterval);
+    // var intervalId = setInterval(function () {
+    //     if(mesh.material.opacity >0){
+    //         mesh.material.opacity  = mesh.material.opacity - ctrl._fadeOutFactor;
+    //         // console.log('opacity: ' + mesh.material.opacity + ' for: ' + text);
+    //     }
+    //     else{
+    //         scene.remove(group);
+    //         // console.log('removed: ' + text);
+    //         clearInterval(intervalId);
+    //     }
+    // }, ctrl._fadeOutInterval);
 
 };
 
