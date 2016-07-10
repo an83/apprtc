@@ -147,9 +147,15 @@ PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
 
   var that = this;
 
-  if(this.processMessageType('orientation:', message, function (orientation) {
+  if(this.processMessageType('adjust:', message, function (adjust) {
+        sceneController.controls.updateAlphaOffsetAngle(adjust.angle);
+      })){
+    return;
+  }
+  else if(this.processMessageType('orientation:', message, function (orientation) {
         appController.hide_(that.$shareButton_);
-        window.controls.setOrientation(orientation);
+        sceneController.controls.disconnect();
+        sceneController.controls.setOrientation(orientation);
       })){
     return;
   }

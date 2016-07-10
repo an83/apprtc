@@ -21,7 +21,7 @@ THREE.DeviceOrientationControls = function( object ) {
     this.alphaOffsetAngle = 0;
 
     var s = 0.25;
-
+    var history = [];
 
     var onDeviceOrientationChangeEvent = function( event ) {
 
@@ -74,6 +74,10 @@ THREE.DeviceOrientationControls = function( object ) {
 
     this.disconnect = function() {
 
+        if(!scope.enabled ){
+            return;
+        }
+
         window.removeEventListener( 'orientationchange', onScreenOrientationChangeEvent, false );
         window.removeEventListener( 'deviceorientation', onDeviceOrientationChangeEvent, false );
 
@@ -95,6 +99,51 @@ THREE.DeviceOrientationControls = function( object ) {
         setObjectQuaternion( scope.object.quaternion, alpha, beta, gamma, orient );
         this.alpha = alpha;
 
+        var orientation = [alpha, beta, gamma, orient];
+
+        console.log(JSON.stringify(orientation));
+
+        return orientation;
+        // var smoothed = this.smoothOrientation(orientation);
+        // return smoothed;
+    };
+
+    this.smoothOrientation = function (orientation) {
+        var alpha = orientation[0];
+        var beta = orientation[1];
+        var gamma = orientation[2];
+        var orient = orientation[3];
+
+
+        if(history.length > 25){
+
+            history.splice(0,1);  //remove the first item in the array
+            history.push([alpha, beta + 180, gamma + 90]);   //adjust to start from 0
+
+            var sum = [0,0,0];
+            for(var i=0; i<history.length; i++){
+                var o = history[i];
+                sum[0] += o[0];
+                sum[1] += o[1];
+                sum[2] += o[2];
+            }
+
+            var avg = [
+                sum[0]/history.length,
+                sum[1]/history.length -180,
+                sum[2]/history.length - 90
+            ];
+
+            // console.log('avg: ' + JSON.stringify(avg));
+
+            alpha = avg[0];
+            beta = avg[1];
+            gamma = avg[2];
+        }
+        else{
+            history.push([alpha, beta + 180, gamma + 90]);   //adjust to start from 0
+        }
+
         return [alpha, beta, gamma, orient];
     };
 
@@ -111,7 +160,8 @@ THREE.DeviceOrientationControls = function( object ) {
 
     };
 
-    // this.connect();
+    //todo: comment this out
+    this.connect();
 
     this.setOrientation = function (orientation) {
         setObjectQuaternion( scope.object.quaternion, orientation[0],orientation[1],orientation[2],orientation[3]);
