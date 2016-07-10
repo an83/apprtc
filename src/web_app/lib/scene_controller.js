@@ -5,6 +5,8 @@ var SceneController = function () {
 
     var _controller = this;
 
+    _controller.isSharingOrientation = false;
+
     var _lastUpdate = Date.now();
 
     this._fadeOutMs = 15000;
@@ -15,12 +17,14 @@ var SceneController = function () {
 
     this.camera = camera = new THREE.PerspectiveCamera(23, window.innerWidth / window.innerHeight, 1, 1100);
 
-    window.controls = controls = new THREE.DeviceOrientationControls(camera);
+    this.controls = controls = new THREE.DeviceOrientationControls(camera);
 
     var loader = new THREE.FontLoader();
     loader.load('/lib/arial.typeface.js', function (font) {
         _controller.font = _font = font;
         console.log('font loaded');
+
+        _controller.addCorners();
     });
 
     this.scene = scene = new THREE.Scene();
@@ -53,8 +57,6 @@ var SceneController = function () {
     var h = jQuery('body').height();
     jQuery('#annotation-history').css('max-height', h);
 
-    this.renderGuide();
-
     function animate() {
         window.requestAnimationFrame(animate);
         renderer.render(scene, camera);
@@ -67,6 +69,14 @@ var SceneController = function () {
         if(!orientation){
             return;
         }
+
+        if(!_controller.isSharingOrientation){
+            return;
+        }
+
+        appController.updateOrientation(orientation);
+        return;
+
 
         var diffTime = Date.now() - _lastUpdate;
         // console.debug('diffTime: ' + diffTime);
@@ -112,6 +122,8 @@ var SceneController = function () {
 SceneController.prototype.initReadyToStart = function () {
     jQuery('#container').removeClass('hidden');
     jQuery('#annotation-text-container').removeClass('hidden');
+
+    this.renderGuide();
 
     var _controller = this;
 
@@ -178,8 +190,10 @@ SceneController.prototype.initReadyToStart = function () {
 
 
 SceneController.prototype.startSharing = function () {
-
     this.removeGuide();
+    this.removeCorners();
+
+    this.isSharingOrientation = true;
 };
 
 SceneController.prototype.generateAnnotations = function (condition) {
@@ -219,10 +233,15 @@ SceneController.prototype.removeGuide = function () {
     this.guideMesh = null;
 };
 
-SceneController.prototype.addText = function (font, text, x, y, z, color) {
+SceneController.prototype.removeCorners = function () {
+    this.scene.remove(this.cornersGroup);
+    this.cornersGroup = null;
+};
+
+SceneController.prototype.addText = function (font, text, x, y, z, color, size) {
     var geometry = new THREE.TextGeometry(text, {
         font: font,
-        size: 10,
+        size: size || 10,
         height: 5,
         curveSegments: 2
     });
@@ -250,6 +269,26 @@ SceneController.prototype.addAnnotation = function (annotation) {
     this.addListTag(annotation.text, annotation.color);
 };
 
+SceneController.prototype.addCorners = function () {
+    this.cornersGroup = new THREE.Group();
+
+    var corners = [
+        {"text":"R", "x": -399.80592126580785 	,"y": 135.56151896989346 	,"z":9.996038694659928},
+        {"text":"R", "x": -421.60113221761765 	,"y": -51.433631176966664 	,"z":-1.2337488749180532},
+        {"text":"L", "x": 381.9170058246843 	,"y": 142.8421423431942 	,"z":125.77672660930543},
+        {"text":"L", "x": 394.2499678869994 	,"y": -71.65688176722026 	,"z":134.7154999615671}
+    ];
+
+    var ctrl = this;
+    _.each(corners, function (corner) {
+        var mesh = ctrl.addText(ctrl.font, corner.text, corner.x, corner.y, corner.z, '#cccccc', 5);
+        ctrl.cornersGroup.add(mesh);
+    });
+
+    this.scene.add(this.cornersGroup);
+};
+
+
 SceneController.prototype.addListTag = function (text, color) {
 
     var $history = jQuery('#annotation-history');
@@ -258,10 +297,10 @@ SceneController.prototype.addListTag = function (text, color) {
 
     $history.scrollTop($history.prop("scrollHeight"));
 
-    // $item.fadeTo(this._fadeOutMs, 0, function () {
-    //     // console.log('fading complete');
-    //     $item.remove();
-    // });
+    $item.fadeTo(this._fadeOutMs, 0, function () {
+        // console.log('fading complete');
+        $item.remove();
+    });
 
 };
 
@@ -275,17 +314,17 @@ SceneController.prototype.addVideoTag = function (text, x, y, z, color) {
     var ctrl = this;
     var scene = this.scene;
 
-    // var intervalId = setInterval(function () {
-    //     if(mesh.material.opacity >0){
-    //         mesh.material.opacity  = mesh.material.opacity - ctrl._fadeOutFactor;
-    //         // console.log('opacity: ' + mesh.material.opacity + ' for: ' + text);
-    //     }
-    //     else{
-    //         scene.remove(group);
-    //         // console.log('removed: ' + text);
-    //         clearInterval(intervalId);
-    //     }
-    // }, ctrl._fadeOutInterval);
+    var intervalId = setInterval(function () {
+        if(mesh.material.opacity >0){
+            mesh.material.opacity  = mesh.material.opacity - ctrl._fadeOutFactor;
+            // console.log('opacity: ' + mesh.material.opacity + ' for: ' + text);
+        }
+        else{
+            scene.remove(group);
+            // console.log('removed: ' + text);
+            clearInterval(intervalId);
+        }
+    }, ctrl._fadeOutInterval);
 
 };
 
