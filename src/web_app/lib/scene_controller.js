@@ -195,6 +195,7 @@ SceneController.prototype.initReadyToStart = function () {
 SceneController.prototype.startSharing = function () {
     this.removeGuide();
     this.removeCorners();
+    this.removeCircle();
 
     this.isSharingOrientation = true;
 };
@@ -278,6 +279,11 @@ SceneController.prototype.addCircle = function () {
 
     this.circleGroup.add(new THREE.Line(geometry, material));
     this.scene.add(this.circleGroup);
+};
+
+SceneController.prototype.removeCircle = function () {
+    this.scene.renive(this.circleGroup);
+    this.circleGroup = null;
 };
 
 SceneController.prototype.addCorners = function () {
