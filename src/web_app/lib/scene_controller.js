@@ -282,7 +282,7 @@ SceneController.prototype.addCircle = function () {
 };
 
 SceneController.prototype.removeCircle = function () {
-    this.scene.renive(this.circleGroup);
+    this.scene.remove(this.circleGroup);
     this.circleGroup = null;
 };
 
