@@ -1,6 +1,8 @@
 var ExperimentController = function (sceneController, appController) {
 	this.scene = sceneController;
 	this.app = appController;
+
+	this.angleFactor = 32;
 };
 
 ExperimentController.prototype.updateSceneCondition = function (condition) {
@@ -36,6 +38,12 @@ ExperimentController.prototype.send = function (annotation) {
 ExperimentController.prototype.setScenarios = function (scenariosJson) {
 	this.scenariosJSON= scenariosJson;
 };
+
+
+ExperimentController.prototype.adjust = function (angle) {
+	this.app.sendAdjust(angle/this.angleFactor);
+};
+
 
 ExperimentController.prototype.generate = function (condition) {
 	if(!this.scenariosJSON){

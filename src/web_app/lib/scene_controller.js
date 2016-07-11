@@ -271,7 +271,7 @@ SceneController.prototype.addCircle = function () {
             Math.sin(theta) * radius);
         geometry.vertices.push(position);
 
-        var n = (i - 90) + '/32';
+        var n = (i - 90);
 
         var mesh = this.addText(this.font, n, position.x, position.y, position.z, '#00FF00', 1);
         this.circleGroup.add(mesh);
@@ -306,7 +306,6 @@ SceneController.prototype.addCorners = function () {
 
     this.addCircle();
 };
-
 
 SceneController.prototype.addListTag = function (text, color) {
 
