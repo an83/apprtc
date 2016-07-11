@@ -84,15 +84,15 @@ ExperimentController.prototype.generate = function (condition) {
 	}
 };
 
-var ctrl;
+var experiment;
 
 window.addEventListener('load', function () {
-	window.ctrl = ctrl = new ExperimentController(sceneController, appController);
+	experiment = new ExperimentController(sceneController, appController);
 
 	jQuery.getJSON('/data/scenario.json', function (json) {
 		console.log('json loaded');
 		console.log(json);
 
-		ctrl.setScenarios(json);
+		experiment.setScenarios(json);
 	});
 });

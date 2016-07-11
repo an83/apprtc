@@ -12,7 +12,7 @@ var SceneController = function () {
 
     var _lastUpdate = Date.now();
 
-    this._fadeOutMs = 15000;
+    this._fadeOutMs = 60000;
     this._fadeOutFactor = 0.05;
     this._fadeOutInterval = this._fadeOutMs * this._fadeOutFactor;
 
@@ -254,6 +254,32 @@ SceneController.prototype.addAnnotation = function (annotation) {
     }
 };
 
+SceneController.prototype.addCircle = function () {
+    this.circleGroup = new THREE.Group();
+
+    var segmentCount = 180,
+        radius = 100,
+        geometry = new THREE.Geometry(),
+        material = new THREE.LineBasicMaterial({ color: 0x00FF00 });
+
+    for (var i = 0; i <= segmentCount; i++) {
+        var theta = (i / segmentCount) * Math.PI * 2;
+        var position = new THREE.Vector3(
+            Math.cos(theta) * radius,
+            0,
+            Math.sin(theta) * radius);
+        geometry.vertices.push(position);
+
+        var n = i - 90;
+
+        var mesh = this.addText(this.font, n, position.x, position.y, position.z, '#00FF00', 1);
+        this.circleGroup.add(mesh);
+    }
+
+    this.circleGroup.add(new THREE.Line(geometry, material));
+    this.scene.add(this.circleGroup);
+};
+
 SceneController.prototype.addCorners = function () {
     this.cornersGroup = new THREE.Group();
 
@@ -271,6 +297,8 @@ SceneController.prototype.addCorners = function () {
     });
 
     this.scene.add(this.cornersGroup);
+
+    this.addCircle();
 };
 
 
