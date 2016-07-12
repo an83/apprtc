@@ -178,15 +178,15 @@ SceneController.prototype.initReadyToStart = function () {
 
         console.log('touch:' + x + ' ' + y + ' ' + z);
 
-        var annotation = {text: '<text>', x: x, y: y, z: z};
-
-        _controller.annotation = annotation;
-
-        $annotationText.classList.remove('hidden');
-        $annotationText.focus();
-
-        $annotationText.removeEventListener('keypress', keyPressEvent);
-        $annotationText.addEventListener('keypress', keyPressEvent);
+        // var annotation = {text: '<text>', x: x, y: y, z: z};
+        //
+        // _controller.annotation = annotation;
+        //
+        // $annotationText.classList.remove('hidden');
+        // $annotationText.focus();
+        //
+        // $annotationText.removeEventListener('keypress', keyPressEvent);
+        // $annotationText.addEventListener('keypress', keyPressEvent);
 
     }, false);
 };
