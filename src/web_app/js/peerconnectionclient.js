@@ -157,6 +157,8 @@ PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
         appController.hide_(that.$shareButton_);
         sceneController.controls.disconnect();
         sceneController.controls.setOrientation(orientation);
+
+        experiment.setReceiving();
       })){
     return;
   }

@@ -3,6 +3,21 @@ var ExperimentController = function (sceneController, appController) {
 	this.app = appController;
 
 	this.angleFactor = 32;
+	this.currentAdjustment = 0;
+	this.isReceiving = false;
+};
+
+ExperimentController.prototype.setReceiving = function () {
+	if(this.isReceiving) return;
+
+	this.isReceiving = true;
+
+	jQuery(document).keypress(function(e) {
+		switch (e.keyCode){
+			case 93: experiment.adjustMore(); break;
+			case 91: experiment.adjustLess(); break;
+		}
+	});
 };
 
 ExperimentController.prototype.updateSceneCondition = function (condition) {
@@ -39,9 +54,19 @@ ExperimentController.prototype.setScenarios = function (scenariosJson) {
 	this.scenariosJSON= scenariosJson;
 };
 
+ExperimentController.prototype.adjustMore = function () {
+	this.currentAdjustment += 1/this.angleFactor;
+	this.app.sendAdjust(this.currentAdjustment);
+};
+
+ExperimentController.prototype.adjustLess = function () {
+	this.currentAdjustment -= 1/this.angleFactor;
+	this.app.sendAdjust(this.currentAdjustment);
+};
 
 ExperimentController.prototype.adjust = function (angle) {
-	this.app.sendAdjust(angle/this.angleFactor);
+	this.currentAdjustment = angle/this.angleFactor;
+	this.app.sendAdjust(this.currentAdjustment);
 };
 
 
