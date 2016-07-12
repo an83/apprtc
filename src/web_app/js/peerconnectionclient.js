@@ -161,7 +161,7 @@ PeerConnectionClient.prototype.onReceiveMessageCallback = function(event) {
     return;
   }
   else if(this.processMessageType('condition:', message, function (condition) {
-        ctrl.updateSceneCondition(condition.condition);
+        experiment.updateSceneCondition(condition.condition);
       })){
     return;
   }
