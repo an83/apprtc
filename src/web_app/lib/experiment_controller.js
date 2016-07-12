@@ -5,6 +5,9 @@ var ExperimentController = function (sceneController, appController) {
 	this.angleFactor = 32;
 	this.currentAdjustment = 0;
 	this.isReceiving = false;
+
+	this.background = null;
+	this.backgroundComments = [];
 };
 
 ExperimentController.prototype.setReceiving = function () {
@@ -40,6 +43,11 @@ ExperimentController.prototype.updateSceneCondition = function (condition) {
 	}
 };
 
+ExperimentController.prototype.set = function (condition, background) {
+	this.setCondition(condition);
+	this.setBackground(background);
+};
+
 ExperimentController.prototype.setCondition = function (condition) {
 	this.updateSceneCondition(condition);
 	this.app.sendCallClientRawData('condition:' + JSON.stringify({condition: condition}));
@@ -70,25 +78,35 @@ ExperimentController.prototype.adjust = function (angle) {
 };
 
 
-ExperimentController.prototype.generate = function (condition) {
+
+ExperimentController.prototype.setBackground = function (background) {
 	if(!this.scenariosJSON){
 		throw 'unable to find scenarios';
 	}
 
 	var list = this.scenariosJSON['sample-messages'];
-	if(condition){
-		list = this.scenariosJSON.conditions[condition];
+	if(background){
+		list = this.scenariosJSON.conditions[background];
 
 		if(!list){
 			list = _.find(this.scenariosJSON.conditions, function (c, k) {
-				return k.indexOf(condition)>-1;
+				return k.indexOf(background)>-1;
 			});
 		}
 
 		if(!list){
-			throw 'unable to find condition ' + condition;
+			throw 'unable to find background ' + background;
 		}
 	}
+
+	this.background = background;
+	this.backgroundComments = list;
+};
+
+ExperimentController.prototype.start = function () {
+
+	if(!this.background)
+		throw 'no background was set';
 
 	var _ctrl = this;
 
@@ -112,15 +130,16 @@ ExperimentController.prototype.generate = function (condition) {
 		}, delay);
 	}
 
-	for(var i=0; i< list.length; i++){
-		execute(list[i], i);
+	for(var i=0; i< this.backgroundComments.length; i++){
+		execute(this.backgroundComments[i], i);
 	}
 };
 
 var experiment;
+var e;
 
 window.addEventListener('load', function () {
-	experiment = new ExperimentController(sceneController, appController);
+	e = experiment = new ExperimentController(sceneController, appController);
 
 	jQuery.getJSON('/data/scenario.json', function (json) {
 		console.log('json loaded');
