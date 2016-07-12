@@ -5,12 +5,12 @@
 	  {"delay": 4566, "text":"nice fountains","x":346.04311131765957,"y":117.54839285436849,"z":161.91839348764609,"color":"#ff0080", "colorText": "pink"}
 	],
 	"b4_park": [
-	  {"delay": 1000, "text":"nice place","x":239.68565158560523,"y":138.05594007529749,"z":-308.9396542701665,"color":"#bfff00", "colorText": "green"},
-	  {"delay": 1049, "text":"picnic area","x":168.82222423182014,"y":101.10165221218017,"z":-350.3194949763762,"color":"#00bfff", "colorText": "blue"},
-	  {"delay": 2035, "text":"play area","x":150.2919291734212,"y":84.05013545169875,"z":-383.5666810764172,"color":"#bfff00", "colorText": "green"},
-	  {"delay": 3467, "text":"nice lake","x":385.42957680161317,"y":85.99478518856581,"z":67.52877392702005,"color":"#bfff00", "colorText": "green"},
-	  {"delay": 5824, "text":"relaxing","x":11.355167247542397,"y":86.4368261926131,"z":389.28748255166283,"color":"#ff8000", "colorText": "orange"},
-	  {"delay": 9805, "text":"good for running","x":-84.17581828072835,"y":88.55500478939491,"z":383.3467911825411,"color":"#00bfff", "colorText": "blue"}
+	  {"delay": 1000, "text":"nice place", "x": -377.68447499617264, "y": 57.72639137726564, "z": 118.55491062832955 ,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 1049, "text":"picnic area", "x": -304.7874867299508, "y": -13.233081360059945, "z": 260.2898527803728 ,"color":"#00bfff", "colorText": "blue"},
+	  {"delay": 2035, "text":"play area", "x": -141.85323329992244, "y": 80.67897019283922, "z": 368.8981949723148 ,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 3467, "text":"nice lake", "x": 122.29585187890703, "y": 107.31945853191102, "z": 373.43360744314384, "color":"#bfff00", "colorText": "green"},
+	  {"delay": 5824, "text":"relaxing", "x": 289.33083517390315, "y": 23.845850444794085, "z": 278.0315621997471, "color":"#ff8000", "colorText": "orange"},
+	  {"delay": 9805, "text":"good for running", "x": 344.3565918771109, "y": 86.8251403218914, "z": 194.33106980412987 ,"color":"#00bfff", "colorText": "blue"}
 	],
 	"_city": [
 	  {"delay": 2956, "text":"is it a nice cafe?","x":-380.4546079992351,"y":49.84470427392174,"z":-148.6466527754752,"color":"#00bfff", "colorText": "blue"},
@@ -18,12 +18,12 @@
 	  {"delay": 2404, "text":"what's the name of this restaurent ","x":-322.71646161323883,"y":90.57966983603228,"z":-228.19856631073293,"color":"#ff8000", "colorText": "orange"}
 	],
 	"b2_city": [
-	  {"delay": 2197, "text":"too many people ","x":-265.33595271888794,"y":23.83623268176079,"z":297.69491697625165,"color":"#ff0080", "colorText": "pink"},
-	  {"delay": 2307, "text":"looks exciting","x":-376.3846918838682,"y":49.6373719264336,"z":132.88558727891234,"color":"#bfff00", "colorText": "green"},
-	  {"delay": 2660, "text":"shopping!!!","x":84.55096562982246,"y":37.477231666930635,"z":390.9584234143634,"color":"#ff0080", "colorText": "pink"},
-	  {"delay": 3123, "text":"cool ads","x":-328.3805402334998,"y":101.12848046755165,"z":208.79879186099174,"color":"#00bfff", "colorText": "blue"},
-	  {"delay": 3226, "text":"people dressed up","x":-219.0859829066129,"y":-48.78409768553962,"z":335.1233262146938,"color":"#bfff00", "colorText": "green"},
-	  {"delay": 3709, "text":"traffic jam","x":-178.46512311339944,"y":31.711310763276757,"z":358.09941067913763,"color":"#bfff00", "colorText": "green"}
+	  {"delay": 2197, "text":"too many people ", "x": -373.5818006755262, "y": 61.948874517076504, "z": 132.67661984399098,  "color":"#ff0080", "colorText": "pink"},
+	  {"delay": 2307, "text":"looks exciting", "x": -287.36339225853584, "y": -7.690420314465821, "z": 277.8966623087027,  "color":"#bfff00", "colorText": "green"},
+	  {"delay": 2660, "text":"shopping!!!", "x": -140.16118746305554, "y": 59.00621536607464, "z": 371.976170940452,  "color":"#ff0080", "colorText": "pink"},
+	  {"delay": 3123, "text":"cool ads", "x": -70.20474684977383, "y": -8.152765978332592, "z": 393.0798663682662,  "color":"#00bfff", "colorText": "blue"},
+	  {"delay": 3226, "text":"people dressed up", "x": 27.031775321801536, "y": 85.5336581440916, "z": 391.8635590964546  ,"color":"#bfff00", "colorText": "green"},
+	  {"delay": 3709, "text":"traffic jam", "x": 281.15708185361063, "y": 60.272325942123594, "z": 277.82755310876956,  "color":"#bfff00", "colorText": "green"}
 	],
 	"_gallery": [
 	  {"delay": 3204, "text":"what are these pictures","x":-226.7790205322092,"y":55.969768540690445,"z":338.14533345892437,"color":"#00bfff", "colorText": "blue"},
@@ -32,12 +32,12 @@
 	  {"delay": 2040, "text":"can you look to the right","x":-225.02961310284434,"y":46.6475109782762,"z":330.93739091538504,"color":"#00bfff", "colorText": "blue"}
 	],
 	"b3_gallery": [
-	  {"delay": 2143, "text":"interesting","x":-368.08369320805684,"y":56.910395567570724,"z":-147.42521159620688,"color":"#ff0080", "colorText": "pink"},
-	  {"delay": 2359, "text":"beautiful","x":-213.09779405002794,"y":68.1056935182799,"z":333.60352347686234,"color":"#ff8000", "colorText": "orange"},
-	  {"delay": 2667, "text":"this is weird","x":-197.1101724017934,"y":83.52423621109428,"z":337.52042278233733,"color":"#bfff00", "colorText": "green"},
-	  {"delay": 3317, "text":"how much is this one","x":-379.4703924087994,"y":102.91961957611827,"z":-73.81210679700438,"color":"#ff8000", "colorText": "orange"},
-	  {"delay": 4145, "text":"confusing","x":-0.949423181993677,"y":48.62373220863538,"z":402.1196742085665,"color":"#ff0080", "colorText": "pink"},
-	  {"delay": 4305, "text":"nice composition","x":11.904803092598803,"y":-4.128927936557073,"z":403.1664255495576,"color":"#00bfff", "colorText": "blue"}
+	  {"delay": 2143, "text":"interesting", "x": -387.0448384316986, "y": 40.624306590516035, "z": 91.14473186443306 ,"color":"#ff0080", "colorText": "pink"},
+	  {"delay": 2359, "text":"beautiful", "x": -357.2439083628383, "y": 38.9418336677892, "z": 179.3056143206164, "color":"#ff8000", "colorText": "orange"},
+	  {"delay": 2667, "text":"this is weird", "x": -262.4737161185727, "y": 0.45782079755784383, "z": 302.4433206715282, "color":"#bfff00", "colorText": "green"},
+	  {"delay": 3317, "text":"how much is this one", "x": -108.89030230090661, "y": 48.00500548446494, "z": 387.8204778793322 ,"color":"#ff8000", "colorText": "orange"},
+	  {"delay": 4145, "text":"confusing", "x": 25.591228975242537, "y": 6.247769602537382, "z": 399.35374711948816, "color":"#ff0080", "colorText": "pink"},
+	  {"delay": 4305, "text":"nice composition", "x": 200.67076530109583, "y": 35.123660905178504, "z": 347.25792716072004, "color":"#00bfff", "colorText": "blue"}
 	],
 	"_school": [
 	  {"delay": 1464, "text":"what are they making ","x":-15.184047608148893,"y":28.027498100722685,"z":398.92218846159506,"color":"#ff0080", "colorText": "pink"},
@@ -45,12 +45,12 @@
 	  {"delay": 2126, "text":"is it a plane?","x":-253.58611747597536,"y":57.602680408953965,"z":-304.695731974101,"color":"#ff8000", "colorText": "orange"}
 	],
 	"b1_school": [
-	  {"delay": 1641, "text":"interesting","x":-390.42651086191086,"y":-44.50962204886842,"z":77.87015882650596,"color":"#ff0080", "colorText": "pink"},
-	  {"delay": 1777, "text":"very busy class","x":-377.3746546490686,"y":27.106188154943467,"z":-135.99140571994838,"color":"#ff8000", "colorText": "orange"},
-	  {"delay": 1981, "text":"what does the teacher ","x":-216.63334891531258,"y":57.43546678616768,"z":-333.0408062849942,"color":"#ff8000", "colorText": "orange"},
-	  {"delay": 2411, "text":"this looks boring ","x":10.857875846431119,"y":34.557312293578036,"z":406.2166791114012,"color":"#ff0080", "colorText": "pink"},
-	  {"delay": 2685, "text":"this person is alone","x":-307.9701243708622,"y":72.5601007742435,"z":254.47435144967633,"color":"#00bfff", "colorText": "blue"},
-	  {"delay": 3070, "text":"what time is it there","x":-377.09144165595893,"y":125.15815380448076,"z":91.8748070924703,"color":"#00bfff", "colorText": "blue"}
+	  {"delay": 1641, "text":"interesting", "x": -355.61544072184455, "y": 22.724130173015805, "z": 182.2279913196038,  "color":"#ff0080", "colorText": "pink"},
+	  {"delay": 1777, "text":"very busy class", "x": -177.03714996937111, "y": 133.3623988414473, "z": 338.3895723062489,  "color":"#ff8000", "colorText": "orange"},
+	  {"delay": 1981, "text":"what does the teacher ", "x": -113.04359921820493, "y": 0.35940180548459516, "z": 383.40522103031947,  ,"color":"#ff8000", "colorText": "orange"},
+	  {"delay": 2411, "text":"this looks boring ", "x": 76.00893673755607, "y": 51.97040681235233, "z": 388.41275421142393,  "color":"#ff0080", "colorText": "pink"},
+	  {"delay": 2685, "text":"this person is alone", "x": 184.96428589068938, "y": 71.55584516739968, "z": 354.08771293642036,  "color":"#00bfff", "colorText": "blue"},
+	  {"delay": 3070, "text":"what time is it there", "x": 336.4931693952224, "y": 35.048256632297694, "z": 216.40333187627778,  "color":"#00bfff", "colorText": "blue"}
 	]
   },
   "sample-messages" : [
