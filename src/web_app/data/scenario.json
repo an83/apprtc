@@ -47,7 +47,7 @@
 	"b1_school": [
 	  {"delay": 1641, "text":"interesting", "x": -355.61544072184455, "y": 22.724130173015805, "z": 182.2279913196038,  "color":"#ff0080", "colorText": "pink"},
 	  {"delay": 1777, "text":"very busy class", "x": -177.03714996937111, "y": 133.3623988414473, "z": 338.3895723062489,  "color":"#ff8000", "colorText": "orange"},
-	  {"delay": 1981, "text":"what does the teacher ", "x": -113.04359921820493, "y": 0.35940180548459516, "z": 383.40522103031947,  ,"color":"#ff8000", "colorText": "orange"},
+	  {"delay": 1981, "text":"what does the teacher ", "x": -113.04359921820493, "y": 0.35940180548459516, "z": 383.40522103031947 ,"color":"#ff8000", "colorText": "orange"},
 	  {"delay": 2411, "text":"this looks boring ", "x": 76.00893673755607, "y": 51.97040681235233, "z": 388.41275421142393,  "color":"#ff0080", "colorText": "pink"},
 	  {"delay": 2685, "text":"this person is alone", "x": 184.96428589068938, "y": 71.55584516739968, "z": 354.08771293642036,  "color":"#00bfff", "colorText": "blue"},
 	  {"delay": 3070, "text":"what time is it there", "x": 336.4931693952224, "y": 35.048256632297694, "z": 216.40333187627778,  "color":"#00bfff", "colorText": "blue"}
